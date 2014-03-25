@@ -1,0 +1,72 @@
+﻿<UserControl x:Class="Common.UI.Views.MappingUpdateView" 
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+             xmlns:Triggers="clr-namespace:Common.UI.Triggers"
+             xmlns:Controls="clr-namespace:VIBlend.WPF.Controls;assembly=VIBlend.WPF.Editors"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" 
+             d:DesignWidth="300">
+    <UserControl.Resources>
+    </UserControl.Resources>
+    <Grid x:Name="Dialog" VerticalAlignment="Center" HorizontalAlignment="Center" MaxWidth="500" MinHeight="150" MinWidth="250">
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition Height="50" />
+        </Grid.RowDefinitions>
+        <Border Grid.Row="0" Grid.RowSpan="2" Grid.ColumnSpan="1" CornerRadius="8" BorderThickness="1" BorderBrush="{DynamicResource GenericLineGeometryBrush}" Background="White" />
+        <Border Grid.Row="1" Grid.ColumnSpan="1"  VerticalAlignment="Stretch" Height="Auto" Margin="0" CornerRadius="0,0,8,8" BorderThickness="1" BorderBrush="Transparent" Background="#FFE2E2E2">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.Column="1" HorizontalAlignment="Right" Orientation="Horizontal" Margin="5,5,5,5">
+                    <Button Content="OK" HorizontalAlignment="Stretch" Width="73.507" Margin="5" Height="25">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="Click">
+                                <Triggers:CallDataMethod Method="OnOk" />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </Button>
+                    <Button Content="Cancel" HorizontalAlignment="Stretch" Width="73.507" Margin="5" Height="25" IsCancel="True">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="Click">
+                                <Triggers:CallDataMethod Method="OnCancel" />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </Button>
+                </StackPanel>
+            </Grid>
+        </Border>
+        <Grid Margin="25,20,25,5">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Row="0" Grid.ColumnSpan="2" Text="Update Mapping" FontSize="15" Foreground="#FF0F3F6E" />
+            <Rectangle Grid.Row="1" Grid.ColumnSpan="2" Margin="0,5,0,0" Height="1" Fill="#FF0F3F6E" />
+            <Grid Grid.Row="2" Grid.ColumnSpan="2" Margin="0,10,0,15">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Row="0" Grid.Column="0" Margin="5,5,20,5" Text="Start Date" Foreground="#FF0F3F6E" />
+                <Controls:DateTimePicker Grid.Row="0" Grid.Column="1" Margin="5" Width="150" Height="20" HorizontalAlignment="Left" VerticalAlignment="Top" FormatValue="dd MMM yyyy HH:mm:ss" Culture="en-GB" SelectedDate="{Binding StartDate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+                <TextBlock Grid.Row="1" Grid.Column="0" Margin="5,5,20,5" Text="New Value" Foreground="#FF0F3F6E" />
+                <TextBox Grid.Row="1" Grid.Column="1" Margin="5" Width="245" Text="{Binding NewValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+            </Grid>
+        </Grid>
+    </Grid>
+</UserControl>

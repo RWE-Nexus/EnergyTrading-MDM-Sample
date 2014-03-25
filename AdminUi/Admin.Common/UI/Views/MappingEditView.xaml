@@ -1,0 +1,140 @@
+﻿<UserControl x:Class="Common.UI.Views.MappingEditView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:Controls="clr-namespace:VIBlend.WPF.Controls;assembly=VIBlend.WPF.Editors" xmlns:prism="clr-namespace:Microsoft.Practices.Prism.Interactivity.InteractionRequest;assembly=Microsoft.Practices.Prism.Interactivity" xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity" xmlns:InteractionRequest="clr-namespace:Common.InteractionRequest" xmlns:Triggers="clr-namespace:Common.UI.Triggers" mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <Grid x:Name="LayoutRoot">
+        <i:Interaction.Triggers>
+            <prism:InteractionRequestTrigger SourceObject="{Binding ConfirmationFromViewModelInteractionRequest}">
+                <InteractionRequest:InteractionDialogAction>
+                    <InteractionRequest:InteractionDialogAction.Dialog>
+                        <InteractionRequest:ConfirmationLocalModalInteractionDialog />
+                    </InteractionRequest:InteractionDialogAction.Dialog>
+                    <InteractionRequest:InteractionDialogAction.ContentTemplate>
+                        <DataTemplate>
+                                  <TextBlock HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Text="{Binding}" TextWrapping="Wrap" Foreground="Black" FontSize="13.333" Margin="0,0,0,30"/>
+                        </DataTemplate>
+                    </InteractionRequest:InteractionDialogAction.ContentTemplate>
+                </InteractionRequest:InteractionDialogAction>
+            </prism:InteractionRequestTrigger>
+        </i:Interaction.Triggers>
+        <Grid x:Name="MainSection">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Grid x:Name="MainSectionGrid" Width="Auto" Height="Auto" Margin="0,0,0,2">
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <Border x:Name="MainSectionMask" Background="White" CornerRadius="9" Width="Auto" Height="Auto" Margin="1.208,-0.916,0,0" Grid.Row="0" />
+                <Grid x:Name="MainSectionSubGrid" Width="Auto" Height="Auto" Margin="0,-0.916,0,0" Grid.Row="0">
+                    <Grid.OpacityMask>
+                        <VisualBrush Visual="{Binding ElementName=MainSectionMask}" />
+                    </Grid.OpacityMask>
+                    <ScrollViewer x:Name="MainSectionScrollViewer" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Style="{DynamicResource MainSectionScrollViewer}" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
+                        <Grid>
+                            <StackPanel x:Name="MainSectionContent">
+                                <DockPanel>
+                                    <Expander Style="{DynamicResource PrimaryExpanderStyle}" Header="Mapping Details" IsExpanded="True">
+                                        <ScrollViewer Style="{DynamicResource MainSectionScrollViewer}" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                                            <Grid x:Name="DetailsSubContentGrid1" Grid.Row="1" ClipToBounds="True" Height="Auto">
+                                                <Grid.RowDefinitions>
+                                                        <RowDefinition Height="Auto" />
+                                                        <RowDefinition Height="Auto" />
+                                                        <RowDefinition Height="Auto" />
+                                                </Grid.RowDefinitions>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="300" /><!--Change this width value to safely increase 1st column Textbox Column width-->
+                                                    <ColumnDefinition Width="450" /><!--Change this width value to safely increase 2nd column Textbox Column width-->
+                                                    <ColumnDefinition Width="300" />
+                                                    <ColumnDefinition /><!--Change this width value to safely increase 3rd column Textbox Column width-->
+                                                </Grid.ColumnDefinitions>
+                     
+                                                <Grid Style="{DynamicResource TextBoxContainer}" Grid.ColumnSpan="4">
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition />
+                                                    </Grid.RowDefinitions>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition />
+                                                    </Grid.ColumnDefinitions>
+                                                    <TextBlock Text="{Binding Context, UpdateSourceTrigger=PropertyChanged}" Style="{DynamicResource GenericLabel}" Grid.Row="0"/>
+                                                </Grid>
+                                               
+                                                <Grid Style="{DynamicResource TextBoxContainer}" Grid.Row="1">
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="Auto" />
+                                                        <RowDefinition Height="Auto" />
+                                                    </Grid.RowDefinitions>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Style="{DynamicResource TextBoxContainerLabelColumn}" Width="127" /> <!--Change this width value to safely increase Label Column width-->
+                                                        <ColumnDefinition />
+                                                    </Grid.ColumnDefinitions>
+                                                    <TextBlock Text="Source System Originated" Style="{DynamicResource GenericLabel}" />
+                                                    <CheckBox IsChecked="{Binding Mapping.SourceSystemOriginated, UpdateSourceTrigger=PropertyChanged}"  Grid.Column="1" Margin="2" />
+                                                    <TextBlock Text="Default" Style="{DynamicResource GenericLabel}" Grid.Row="1" />
+                                                    <CheckBox IsChecked="{Binding Mapping.DefaultReverseInd, UpdateSourceTrigger=PropertyChanged}" Grid.Row="1" Grid.Column="1" Margin="2" />
+                                                </Grid>
+                                                <Grid Style="{DynamicResource TextBoxContainer}" Grid.Row="1" Grid.Column="1">
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="Auto" />
+                                                        <RowDefinition Height="Auto" />
+                                                    </Grid.RowDefinitions>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Style="{DynamicResource TextBoxContainerLabelColumn}" Width="108" /> <!--Change this width value to safely increase Label Column width-->
+                                                        <ColumnDefinition Width="150"/>
+                                                        <ColumnDefinition Width="60"/>
+                                                        <ColumnDefinition />
+                                                    </Grid.ColumnDefinitions>
+													<TextBlock Text="Start Date" Style="{DynamicResource GenericLabel}" Grid.Row="0" />
+                                                    <Controls:DateTimePicker FormatValue="dd MMM yyyy HH:mm:ss" Culture="en-GB"  SelectedDate="{Binding Mapping.StartDate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Grid.Row="0" Grid.Column="1" Margin="2" />
+                                                    <Button Content="Minimum" Grid.Row="0" Grid.Column="2">
+                                                        <i:Interaction.Triggers>
+    							                            <i:EventTrigger EventName="Click">
+                                                                <Triggers:CallDataMethod Method="StartMinimum" />
+    							                            </i:EventTrigger>
+    						                            </i:Interaction.Triggers>
+                                                    </Button>
+                                                    <Button Content="Today" Grid.Row="0" Grid.Column="3">
+                                                        <i:Interaction.Triggers>
+    							                            <i:EventTrigger EventName="Click">
+                                                                <Triggers:CallDataMethod Method="StartToday" />
+    							                            </i:EventTrigger>
+    						                            </i:Interaction.Triggers>
+                                                    </Button>
+													<TextBlock Text="End Date" Style="{DynamicResource GenericLabel}" Grid.Row="1" />
+                                                    <Controls:DateTimePicker FormatValue="dd MMM yyyy HH:mm:ss" Culture="en-GB"  Grid.Row="1" Grid.Column="1" Margin="2" SelectedDate="{Binding Mapping.EndDate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+                                                </Grid>
+                                                <Grid Style="{DynamicResource TextBoxContainer}" Grid.Row="2" Grid.ColumnSpan="2">
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition></RowDefinition>
+                                                    <RowDefinition></RowDefinition>
+                                                </Grid.RowDefinitions>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                                                        <ColumnDefinition Width="6*"></ColumnDefinition>
+                                                    </Grid.ColumnDefinitions>
+                                                    <TextBlock Text="System Name" Style="{DynamicResource GenericLabel}" />
+                                                    <TextBlock Text="{Binding Mapping.SystemName, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" Grid.ColumnSpan="3" Margin="2" />
+                                                    <TextBlock Text="Mapping String" Style="{DynamicResource GenericLabel}" Grid.Row="1" />
+                                                    <TextBox Text="{Binding Mapping.MappingString, UpdateSourceTrigger=PropertyChanged}" Grid.Row="1" Grid.Column="1" Margin="2" Grid.ColumnSpan="3"/>
+                                                </Grid>
+                                            </Grid>
+                                        </ScrollViewer>
+                                    </Expander>
+                                </DockPanel>
+                                <DockPanel>
+                                    <Expander Style="{DynamicResource PrimaryExpanderStyle}" Header="Audit" IsExpanded="True">
+                                    </Expander>
+                                </DockPanel>
+
+                            </StackPanel>
+                            <Border CornerRadius="8" BorderThickness="1" BorderBrush="{DynamicResource GenericLineGeometryBrush}" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto" />
+                        </Grid>
+                    </ScrollViewer>
+
+                </Grid>
+            </Grid>
+        </Grid>
+    </Grid>
+</UserControl>

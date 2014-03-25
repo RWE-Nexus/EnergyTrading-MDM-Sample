@@ -1,0 +1,58 @@
+﻿<prism:ModuleCatalog xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:sys="clr-namespace:System;assembly=mscorlib"
+    xmlns:prism="clr-namespace:Microsoft.Practices.Prism.Modularity;assembly=Microsoft.Practices.Prism">
+    
+    <prism:ModuleInfo Ref="Admin.BrokerModule.dll"
+                      ModuleName="Broker"
+                      ModuleType="Admin.BrokerModule.ModuleInit, Admin.BrokerModule, Version=1.0.0.0"
+                      InitializationMode="WhenAvailable"
+                      />
+
+    <prism:ModuleInfo Ref="Admin.ExchangeModule.dll"
+                      ModuleName="Exchange"
+                      ModuleType="Admin.ExchangeModule.ModuleInit, Admin.ExchangeModule, Version=1.0.0.0"
+                      InitializationMode="WhenAvailable"
+                      />
+
+    <prism:ModuleInfo Ref="Admin.LegalEntityModule.dll"
+                      ModuleName="LegalEntity"
+                      ModuleType="Admin.LegalEntityModule.ModuleInit, Admin.LegalEntityModule, Version=1.0.0.0"
+                      InitializationMode="WhenAvailable"
+                      />
+
+    <prism:ModuleInfo Ref="Admin.LocationModule.dll"
+                      ModuleName="Location"
+                      ModuleType="Admin.LocationModule.ModuleInit, Admin.LocationModule, Version=1.0.0.0"
+                      InitializationMode="WhenAvailable"
+                      />
+
+    <prism:ModuleInfo Ref="Admin.PartyModule.dll"
+                      ModuleName="Party"
+                      ModuleType="Admin.PartyModule.ModuleInit, Admin.PartyModule, Version=1.0.0.0"
+                      InitializationMode="WhenAvailable"
+                      />
+
+    <prism:ModuleInfo Ref="Admin.PartyRoleModule.dll"
+                      ModuleName="PartyRole"
+                      ModuleType="Admin.PartyRoleModule.ModuleInit, Admin.PartyRoleModule, Version=1.0.0.0"
+                      InitializationMode="WhenAvailable"
+                      />
+
+    <prism:ModuleInfo Ref="Admin.PersonModule.dll"
+                      ModuleName="Person"
+                      ModuleType="Admin.PersonModule.ModuleInit, Admin.PersonModule, Version=1.0.0.0"
+                      InitializationMode="WhenAvailable"/>
+
+    <prism:ModuleInfo Ref="Admin.ReferenceData.dll"
+                      ModuleName="ReferenceData"
+                      ModuleType="Admin.ReferenceDataModule.ModuleInit, Admin.ReferenceDataModule, Version=1.0.0.0"
+                      InitializationMode="WhenAvailable"/>
+    
+    <prism:ModuleInfo Ref="Admin.SourceSystemModule.dll"
+                      ModuleName="SourceSystem"
+                      ModuleType="Admin.SourceSystemModule.ModuleInit, Admin.SourceSystemModule, Version=1.0.0.0"
+                      InitializationMode="WhenAvailable"
+                      />
+</prism:ModuleCatalog>
+

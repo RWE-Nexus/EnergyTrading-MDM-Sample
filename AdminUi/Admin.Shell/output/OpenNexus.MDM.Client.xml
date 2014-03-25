@@ -1,0 +1,59 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>OpenNexus.MDM.Client</name>
+    </assembly>
+    <members>
+        <member name="T:OpenNexus.Mdm.Client.Services.MdmQueryExtensions">
+            <summary>
+            Standard MDM queries and helper methods for retrieving MDM and model entities.
+            </summary>
+        </member>
+        <member name="M:OpenNexus.Mdm.Client.Services.MdmQueryExtensions.Get``2(EnergyTrading.Mdm.Client.Services.IMdmModelEntityService,``0,System.Func{``0,EnergyTrading.Mdm.Contracts.EntityId})">
+            <summary>
+            Get a MDM contract using data in another entity
+            </summary>
+            <typeparam name="T">Type of the entity to use.</typeparam>
+            <typeparam name="TContract">Type of the contract to use</typeparam>
+            <param name="service">MDM service to use</param>
+            <param name="entity">Entity to use</param>
+            <param name="access">Function to return the identity of the contract from the entity.</param>
+            <returns>MDM contract if found, otherwise null.</returns>
+        </member>
+        <member name="T:OpenNexus.Mdm.Client.Model.Exchange">
+            <summary>
+            Expanded version of a <see cref="T:OpenNexus.MDM.Contracts.Exchange"/> entity.
+            </summary>
+        </member>
+        <member name="P:OpenNexus.Mdm.Client.Model.Exchange.Source">
+            <summary>
+            Gets or sets the source entity.
+            </summary>
+        </member>
+        <member name="T:OpenNexus.Mdm.Client.Model.ProductHierarchyLevel">
+            <summary>
+            Level of product information acquired.
+            </summary>
+        </member>
+        <member name="F:OpenNexus.Mdm.Client.Model.ProductHierarchyLevel.Unknown">
+            <summary>
+            We don't know the level.
+            </summary>
+        </member>
+        <member name="F:OpenNexus.Mdm.Client.Model.ProductHierarchyLevel.Product">
+            <summary>
+            Have identified a product, e.g. NBP
+            </summary>
+        </member>
+        <member name="F:OpenNexus.Mdm.Client.Model.ProductHierarchyLevel.ProductType">
+            <summary>
+            Have identified a product type, e.g. NBP Months
+            </summary>
+        </member>
+        <member name="F:OpenNexus.Mdm.Client.Model.ProductHierarchyLevel.ProductTypeInstance">
+            <summary>
+            Have identified a product type instance e.g. NBP Dec 13
+            </summary>
+        </member>
+    </members>
+</doc>

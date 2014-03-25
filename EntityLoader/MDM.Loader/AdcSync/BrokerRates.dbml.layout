@@ -1,0 +1,110 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 11, 9.5" name="BrokerRates">
+  <DataContextMoniker Name="/BrokerRatesDataContext" />
+  <nestedChildShapes>
+    <classShape Id="ae0adbbb-25a7-4e5b-914c-163c4d0c0f99" absoluteBounds="5.125, 1.75, 2, 2.0822371419270831">
+      <DataClassMoniker Name="/BrokerRatesDataContext/Broker_Desk" />
+      <nestedChildShapes>
+        <elementListCompartment Id="10d09923-0729-42a0-8ea2-d2c76af1aa42" absoluteBounds="5.14, 2.21, 1.9700000000000002, 1.5222371419270833" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="63829fc8-a77f-44d9-90af-15c839f1fb3c" absoluteBounds="0.625, 1.25, 2, 1.26050048828125">
+      <DataClassMoniker Name="/BrokerRatesDataContext/BrokerMapValue" />
+      <nestedChildShapes>
+        <elementListCompartment Id="22adc650-50ad-4d36-86e9-49a1fc6f9e96" absoluteBounds="0.64, 1.71, 1.9700000000000002, 0.70050048828125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <associationConnector edgePoints="[(2.625 : 2.16150274414063); (5.125 : 2.16150274414063)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/BrokerRatesDataContext/BrokerMapValue/BrokerMapValue_Broker_Desk" />
+      <nodes>
+        <classShapeMoniker Id="63829fc8-a77f-44d9-90af-15c839f1fb3c" />
+        <classShapeMoniker Id="ae0adbbb-25a7-4e5b-914c-163c4d0c0f99" />
+      </nodes>
+    </associationConnector>
+    <classShape Id="debd8a6b-7eb9-4e72-8c88-06d69e1b458d" absoluteBounds="0.625, 6.375, 2, 1.26050048828125">
+      <DataClassMoniker Name="/BrokerRatesDataContext/lkupDesk" />
+      <nestedChildShapes>
+        <elementListCompartment Id="48522b4d-8e21-4b96-a882-6e7dfed1b5bc" absoluteBounds="0.64, 6.835, 1.9700000000000002, 0.70050048828125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <associationConnector edgePoints="[(2.625 : 7.00525024414063); (5.25015893229167 : 7.00525024414062 : JumpStart); (5.41682559895833 : 7.00525024414063 : JumpEnd); (5.7292486328125 : 7.00525024414063); (5.7292486328125 : 3.83223714192708)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/BrokerRatesDataContext/lkupDesk/lkupDesk_Broker_Desk" />
+      <nodes>
+        <classShapeMoniker Id="debd8a6b-7eb9-4e72-8c88-06d69e1b458d" />
+        <classShapeMoniker Id="ae0adbbb-25a7-4e5b-914c-163c4d0c0f99" />
+      </nodes>
+    </associationConnector>
+    <classShape Id="f007b31b-d5c4-4f00-8a84-68b46fd9aa3a" absoluteBounds="0.5, 4.5, 2, 1.0961531575520833">
+      <DataClassMoniker Name="/BrokerRatesDataContext/lkupCommodity" />
+      <nestedChildShapes>
+        <elementListCompartment Id="023b38b4-d969-4ea3-98f5-accc7ad1d387" absoluteBounds="0.51500000000000012, 4.96, 1.9700000000000002, 0.53615315755208326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <associationConnector edgePoints="[(2.5 : 5.4827294921875); (5.25015893229167 : 5.4827294921875 : JumpStart); (5.41682559895833 : 5.4827294921875 : JumpEnd); (5.53137044921875 : 5.4827294921875); (5.53137044921875 : 3.83223714192708)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/BrokerRatesDataContext/lkupCommodity/lkupCommodity_Broker_Desk" />
+      <nodes>
+        <classShapeMoniker Id="f007b31b-d5c4-4f00-8a84-68b46fd9aa3a" />
+        <classShapeMoniker Id="ae0adbbb-25a7-4e5b-914c-163c4d0c0f99" />
+      </nodes>
+    </associationConnector>
+    <classShape Id="b19e284c-0919-440a-b677-50905f57954a" absoluteBounds="2.75, 3.125, 2, 1.26050048828125">
+      <DataClassMoniker Name="/BrokerRatesDataContext/LocationMapValue" />
+      <nestedChildShapes>
+        <elementListCompartment Id="8d6fa259-f2af-467c-b3cd-c612d2a4c907" absoluteBounds="2.765, 3.585, 1.9700000000000002, 0.70050048828125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <associationConnector edgePoints="[(4.75 : 3.47861857096354); (5.125 : 3.47861857096354)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/BrokerRatesDataContext/LocationMapValue/LocationMapValue_Broker_Desk" />
+      <nodes>
+        <classShapeMoniker Id="b19e284c-0919-440a-b677-50905f57954a" />
+        <classShapeMoniker Id="ae0adbbb-25a7-4e5b-914c-163c4d0c0f99" />
+      </nodes>
+    </associationConnector>
+    <classShape Id="dce077ed-a153-4b20-8ea6-b1539622673f" absoluteBounds="2, 8, 2, 1.26050048828125">
+      <DataClassMoniker Name="/BrokerRatesDataContext/lkupTradeType" />
+      <nestedChildShapes>
+        <elementListCompartment Id="4972b85f-016b-4788-ad88-cea9dfc17ae2" absoluteBounds="2.015, 8.46, 1.9700000000000002, 0.70050048828125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <associationConnector edgePoints="[(4 : 8.63025024414062); (5.333492265625 : 8.63025024414062); (5.333492265625 : 3.83223714192708)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/BrokerRatesDataContext/lkupTradeType/lkupTradeType_Broker_Desk" />
+      <nodes>
+        <classShapeMoniker Id="dce077ed-a153-4b20-8ea6-b1539622673f" />
+        <classShapeMoniker Id="ae0adbbb-25a7-4e5b-914c-163c4d0c0f99" />
+      </nodes>
+    </associationConnector>
+    <classShape Id="3d82654f-d4cc-42e5-a2a6-06b6258a69b7" absoluteBounds="2.875, 0.625, 2, 1.0961531575520833">
+      <DataClassMoniker Name="/BrokerRatesDataContext/lkupInitAgg" />
+      <nestedChildShapes>
+        <elementListCompartment Id="649dcc9a-a6d8-4909-89e4-a7e1893c3ff4" absoluteBounds="2.89, 1.085, 1.9700000000000002, 0.53615315755208326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <associationConnector edgePoints="[(4.875 : 1.72115315755208); (5.125 : 1.75)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+      <AssociationMoniker Name="/BrokerRatesDataContext/lkupInitAgg/lkupInitAgg_Broker_Desk" />
+      <nodes>
+        <classShapeMoniker Id="3d82654f-d4cc-42e5-a2a6-06b6258a69b7" />
+        <classShapeMoniker Id="ae0adbbb-25a7-4e5b-914c-163c4d0c0f99" />
+      </nodes>
+    </associationConnector>
+    <classShape Id="98d036e5-0e66-43ac-b94c-16aba04edb5e" absoluteBounds="0.5, 2.875, 2, 1.0961531575520833">
+      <DataClassMoniker Name="/BrokerRatesDataContext/lkupExtSource" />
+      <nestedChildShapes>
+        <elementListCompartment Id="3845de4e-05d6-44b6-928b-092241adc798" absoluteBounds="0.515, 3.335, 1.9700000000000002, 0.53615315755208326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <associationConnector edgePoints="[(1.5625 : 2.875); (1.5625 : 2.51050048828125)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/BrokerRatesDataContext/lkupExtSource/lkupExtSource_BrokerMapValue" />
+      <nodes>
+        <classShapeMoniker Id="98d036e5-0e66-43ac-b94c-16aba04edb5e" />
+        <classShapeMoniker Id="63829fc8-a77f-44d9-90af-15c839f1fb3c" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(2.5 : 3.54807657877604); (2.75 : 3.54807657877604)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/BrokerRatesDataContext/lkupExtSource/lkupExtSource_LocationMapValue" />
+      <nodes>
+        <classShapeMoniker Id="98d036e5-0e66-43ac-b94c-16aba04edb5e" />
+        <classShapeMoniker Id="b19e284c-0919-440a-b677-50905f57954a" />
+      </nodes>
+    </associationConnector>
+  </nestedChildShapes>
+</ordesignerObjectsDiagram>

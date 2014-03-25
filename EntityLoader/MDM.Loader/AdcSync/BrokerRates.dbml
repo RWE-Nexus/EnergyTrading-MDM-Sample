@@ -1,0 +1,77 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="AutoDealCapture" Class="BrokerRatesDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="AppSettings" ConnectionString="Data Source=S987A0506\T01SQL06;Initial Catalog=AutoDealCapture;Integrated Security=True" SettingsObjectName="MDM.Loader.Properties.Settings" SettingsPropertyName="AutoDealCaptureConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.Broker_Desk" Member="Broker_Desks">
+    <Type Name="Broker_Desk">
+      <Column Name="BrokerDeskID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="DefBrokerCommission" Type="System.Decimal" DbType="Decimal(19,6) NOT NULL" CanBeNull="false" />
+      <Column Name="BrokerID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="DeskID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="CommodityID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="LocationMapValuesID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="TradeTypeID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="InitAggID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="BrokerMapValue_Broker_Desk" Member="BrokerMapValue" ThisKey="BrokerID" OtherKey="ID" Type="BrokerMapValue" IsForeignKey="true" />
+      <Association Name="lkupDesk_Broker_Desk" Member="lkupDesk" ThisKey="DeskID" OtherKey="DeskID" Type="lkupDesk" IsForeignKey="true" />
+      <Association Name="lkupCommodity_Broker_Desk" Member="lkupCommodity" ThisKey="CommodityID" OtherKey="CommodityID" Type="lkupCommodity" IsForeignKey="true" />
+      <Association Name="LocationMapValue_Broker_Desk" Member="LocationMapValue" ThisKey="LocationMapValuesID" OtherKey="ID" Type="LocationMapValue" IsForeignKey="true" />
+      <Association Name="lkupTradeType_Broker_Desk" Member="lkupTradeType" ThisKey="TradeTypeID" OtherKey="TradeTypeID" Type="lkupTradeType" IsForeignKey="true" />
+      <Association Name="lkupInitAgg_Broker_Desk" Member="lkupInitAgg" ThisKey="InitAggID" OtherKey="InitAggID" Type="lkupInitAgg" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.BrokerMapValues" Member="BrokerMapValues">
+    <Type Name="BrokerMapValue">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="ExtSourceID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="BrokerName" Type="System.String" DbType="VarChar(255) NOT NULL" CanBeNull="false" />
+      <Association Name="BrokerMapValue_Broker_Desk" Member="Broker_Desks" ThisKey="ID" OtherKey="BrokerID" Type="Broker_Desk" />
+      <Association Name="lkupExtSource_BrokerMapValue" Member="lkupExtSource" ThisKey="ExtSourceID" OtherKey="ExtSourceID" Type="lkupExtSource" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.lkupDesk" Member="lkupDesks">
+    <Type Name="lkupDesk">
+      <Column Name="DeskID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="DeskName" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="AllowSelectTrader" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Association Name="lkupDesk_Broker_Desk" Member="Broker_Desks" ThisKey="DeskID" OtherKey="DeskID" Type="Broker_Desk" />
+    </Type>
+  </Table>
+  <Table Name="dbo.lkupCommodity" Member="lkupCommodities">
+    <Type Name="lkupCommodity">
+      <Column Name="CommodityID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="CommodityName" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Association Name="lkupCommodity_Broker_Desk" Member="Broker_Desks" ThisKey="CommodityID" OtherKey="CommodityID" Type="Broker_Desk" />
+    </Type>
+  </Table>
+  <Table Name="dbo.LocationMapValues" Member="LocationMapValues">
+    <Type Name="LocationMapValue">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="ExtSourceID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="LocationName" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Association Name="LocationMapValue_Broker_Desk" Member="Broker_Desks" ThisKey="ID" OtherKey="LocationMapValuesID" Type="Broker_Desk" />
+      <Association Name="lkupExtSource_LocationMapValue" Member="lkupExtSource" ThisKey="ExtSourceID" OtherKey="ExtSourceID" Type="lkupExtSource" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.lkupTradeType" Member="lkupTradeTypes">
+    <Type Name="lkupTradeType">
+      <Column Name="TradeTypeID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="TradeTypeCode" Type="System.String" DbType="VarChar(30) NOT NULL" CanBeNull="false" />
+      <Column Name="TradeTypeDesc" Type="System.String" DbType="VarChar(30) NOT NULL" CanBeNull="false" />
+      <Association Name="lkupTradeType_Broker_Desk" Member="Broker_Desks" ThisKey="TradeTypeID" OtherKey="TradeTypeID" Type="Broker_Desk" />
+    </Type>
+  </Table>
+  <Table Name="dbo.lkupInitAgg" Member="lkupInitAggs">
+    <Type Name="lkupInitAgg">
+      <Column Name="InitAggID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="InitAggName" Type="System.String" DbType="VarChar(20) NOT NULL" CanBeNull="false" />
+      <Association Name="lkupInitAgg_Broker_Desk" Member="Broker_Desks" ThisKey="InitAggID" OtherKey="InitAggID" Type="Broker_Desk" />
+    </Type>
+  </Table>
+  <Table Name="dbo.lkupExtSource" Member="lkupExtSources">
+    <Type Name="lkupExtSource">
+      <Column Name="ExtSourceID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="ExtSourceName" Type="System.String" DbType="VarChar(30) NOT NULL" CanBeNull="false" />
+      <Association Name="lkupExtSource_BrokerMapValue" Member="BrokerMapValues" ThisKey="ExtSourceID" OtherKey="ExtSourceID" Type="BrokerMapValue" />
+      <Association Name="lkupExtSource_LocationMapValue" Member="LocationMapValues" ThisKey="ExtSourceID" OtherKey="ExtSourceID" Type="LocationMapValue" />
+    </Type>
+  </Table>
+</Database>

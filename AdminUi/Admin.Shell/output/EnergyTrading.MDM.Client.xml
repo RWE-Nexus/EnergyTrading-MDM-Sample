@@ -1,0 +1,834 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>EnergyTrading.MDM.Client</name>
+    </assembly>
+    <members>
+        <member name="T:EnergyTrading.Mdm.Client.Extensions.SearchExtensions">
+            <summary>
+            Extensions to make MDM searches easier.
+            </summary>
+        </member>
+        <member name="M:EnergyTrading.Mdm.Client.Extensions.SearchExtensions.AddMdmIdCriteria(EnergyTrading.Contracts.Search.SearchCriteria,System.String,EnergyTrading.Mdm.Contracts.IMdmEntity,EnergyTrading.Contracts.Search.SearchCondition)">
+            <summary>
+            Adds a search clause to the current criteria based on the MDM <see cref="T:EnergyTrading.Mdm.Contracts.EntityId"/> 
+            </summary>
+            <param name="criteria"></param>
+            <param name="searchField"></param>
+            <param name="entity"></param>
+            <param name="condition"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EnergyTrading.Mdm.Client.Extensions.SearchExtensions.AddEntityIdCriteria(EnergyTrading.Contracts.Search.SearchCriteria,System.String,EnergyTrading.Mdm.Contracts.EntityId,EnergyTrading.Contracts.Search.SearchCondition)">
+            <summary>
+            Adds a search clause to the current criteria based on a MDM <see cref="T:EnergyTrading.Mdm.Contracts.EntityId"/>
+            </summary>
+            <param name="criteria"></param>
+            <param name="searchField"></param>
+            <param name="entity"></param>
+            <param name="condition"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EnergyTrading.Mdm.Client.Extensions.SearchExtensions.MappingSearch(System.String,System.String)">
+            <summary>
+            Create a mapping search.
+            </summary>
+            <param name="systemName">System name to use</param>
+            <param name="identifier">Identifier to use</param>
+            <returns>A new mapping search</returns>
+        </member>
+        <member name="M:EnergyTrading.Mdm.Client.Extensions.SearchExtensions.MappingSearch``1(EnergyTrading.Mdm.Client.Services.IMdmService,System.String,System.String)">
+            <summary>
+            Perform a mapping search.
+            </summary>
+            <typeparam name="T">Type of entity to find</typeparam>
+            <param name="service">MDM service to use</param>
+            <param name="systemName">System name to use</param>
+            <param name="identifier">Identifier to use</param>
+            <returns>Result of the search.</returns>
+        </member>
+        <member name="M:EnergyTrading.Mdm.Client.Extensions.SearchExtensions.ReferencedIds``1(System.Collections.Generic.IEnumerable{EnergyTrading.Contracts.Atom.Link})">
+            <summary>
+            Extract links for an MDM entity type.
+            </summary>
+            <typeparam name="T">Type to use</typeparam>
+            <param name="links">Atom links to process</param>
+            <returns></returns>
+        </member>
+        <member name="M:EnergyTrading.Mdm.Client.Extensions.SearchExtensions.TrySearch``2(EnergyTrading.Mdm.Client.Services.IMdmModelEntityService,EnergyTrading.Contracts.Search.Search,System.Func{``0,``1},System.Collections.Generic.IList{``1}@)">
+            <summary>
+            Try to execute a search, detecting if the service is available.
+            </summary>
+            <typeparam name="T">Type contained in the response.</typeparam>
+            <typeparam name="TU">Target type, may be same as <see typeref="T" /></typeparam>
+            <param name="service">MDM service to use</param>
+            <param name="search">Search to execute</param>
+            <param name="func">Function to transform the response into the target.</param>
+            <param name="results">Results of the search</param>
+            <returns>true if the search worked, false otherwise.</returns>
+        </member>
+        <member name="M:EnergyTrading.Mdm.Client.Extensions.SearchExtensions.TrySearch``2(EnergyTrading.Mdm.Client.Services.IMdmModelEntityService,EnergyTrading.Contracts.Search.Search,System.Func{``0,``1})">
+            <summary>
+            Try to execute a search, detecting if the service is available.
+            </summary>
+            <typeparam name="T">Type contained in the response.</typeparam>
+            <typeparam name="TU">Target type, may be same as <see typeref="T" /></typeparam>        
+            <param name="service">MDM service to use</param>
+            <param name="search">Search to execute</param>
+            <returns>true if the search worked, false otherwise.</returns>
+        </member>
+        <member name="M:EnergyTrading.Mdm.Client.Extensions.SearchExtensions.TrySearch``1(EnergyTrading.Mdm.Client.Services.IMdmModelEntityService,EnergyTrading.Contracts.Search.Search,System.Collections.Generic.IList{``0}@)">
+            <summary>
+            Try to execute a search, detecting if the service is available.
+            </summary>
+            <typeparam name="T">Type contained in the response.</typeparam>
+            <param name="service">MDM service to use</param>
+            <param name="search">Search to execute</param>
+            <param name="results">Results of the search</param>
+            <returns>true if the search worked, false otherwise.</returns>
+        </member>
+        <member name="M:EnergyTrading.Mdm.Client.Extensions.SearchExtensions.TrySearch``1(EnergyTrading.Mdm.Client.Services.IMdmModelEntityService,EnergyTrading.Contracts.Search.Search)">
+            <summary>
+            Try to execute a search, detecting if the service is available.
+            </summary>
+            <typeparam name="T">Type contained in the response.</typeparam>
+            <param name="service">MDM service to use</param>
+            <param name="search">Search to execute</param>
+            <returns>true if the search worked, false otherwise.</returns>
+        </member>
+        <member name="M:EnergyTrading.Mdm.Client.Extensions.WebResponseUtility.HandleResponse``1(EnergyTrading.Mdm.Client.WebClient.WebResponse{System.Collections.Generic.IList{``0}})">
+            <summary>
+            Get back a list of values from the response.
+            </summary>
+            <typeparam name="T">Type contained in the response.</typeparam>
+            <param name="response">Response to process</param>
+            <returns>Empty list if the response is invalid, otherwise the contents of the response.</returns>
+        </member>
+        <member name="M:EnergyTrading.Mdm.Client.Extensions.WebResponseUtility.HandleResponse``2(EnergyTrading.Mdm.Client.WebClient.WebResponse{System.Collections.Generic.IList{``0}},System.Func{``0,``1})">
+            <summary>
+            Get back a list of values from the response
+            </summary>
+            <typeparam name="T">Type contained in the response.</typeparam>
+            <typeparam name="TU">Target type, may be same as <see typeref="T" /></typeparam>
+            <param name="response">Response to process</param>
+            <param name="func">Function to transform the response into the target.</param>
+            <returns>Empty list if the response is invalid, otherwise the contents of the response.</returns>
+        </member>
+        <member name="M:EnergyTrading.Mdm.Client.Extensions.WebResponseUtility.IsServiceUnavailable(EnergyTrading.Mdm.Contracts.Fault)">
+            <summary>
+            Determine whether a fault amounts to service unavailability.
+            </summary>
+            <param name="fault">Fault to check</param>
+            <returns>true if the fault indicates service unavailability, false otherwise.</returns>
+        </member>
+        <member name="M:EnergyTrading.Mdm.Client.Extensions.WebResponseUtility.Retry``1(System.Func{EnergyTrading.Mdm.Client.WebClient.WebResponse{``0}},System.Int32,System.Int32)">
+            <summary>
+            Retry a web invocation until it works or we exhaust the retries.
+            </summary>
+            <typeparam name="T">Type we are trying to find</typeparam>
+            <param name="func">Web function to invoke</param>
+            <param name="retries">Number of retry attempts</param>
+            <param name="sleep">Time to sleep between retries in milliseconds</param>
+            <returns></returns>
+            <remarks>Will also abort early if </remarks>
+        </member>
+        <member name="T:EnergyTrading.Mdm.Client.Model.IMdmModelEntity`1">
+            <summary>
+            Model wrapper around a <see cref="T:EnergyTrading.Mdm.Contracts.IMdmEntity"/>
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="P:EnergyTrading.Mdm.Client.Model.IMdmModelEntity`1.Source">
+            <summary>
+            Gets or sets the model source, the underlying MDM contract.
+            </summary>
+        </member>
+        <member name="T:EnergyTrading.Mdm.Client.Services.CachePolicyMdmEntityService`1">
+            <summary>
+            Caching <see cref="T:EnergyTrading.Mdm.Client.Services.IMdmEntityService`1"/> that uses <see cref="T:System.Runtime.Caching.CacheItemPolicy"/> to control behaviour
+            </summary>
+        </member>
+        <member name="T:EnergyTrading.Mdm.Client.Services.IMdmEntityService`1">
+            <summary>
+            REST API for an MDM entity.
+            </summary>
+            <typeparam name="TContract"></typeparam>
+        </member>
+        <member name="M:EnergyTrading.Mdm.Client.Services.IMdmEntityService`1.Create(`0)">
+            <summary>
+            Create a MDM entity.
+            </summary>
+            <param name="contract"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EnergyTrading.Mdm.Client.Services.IMdmEntityService`1.CreateMapping(System.Int32,EnergyTrading.Mdm.Contracts.MdmId)">
+            <summary>
+            Create a mapping for a MDM entity.
+            </summary>
+            <param name="id"></param>
+            <param name="identifier"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EnergyTrading.Mdm.Client.Services.IMdmEntityService`1.CrossMap(EnergyTrading.Mdm.Contracts.MdmId,System.String)">
+            <summary>
+            Locate the cross-map for a MDM system.
+            </summary>
+            <param name="identifier"></param>
+            <param name="targetSystem"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EnergyTrading.Mdm.Client.Services.IMdmEntityService`1.CrossMap(System.String,System.String,System.String)">
+            <summary>
+            Locate the cross-map for a MDM system.
+            </summary>
+            <param name="sourceSystem"></param>
+            <param name="identifier"></param>
+            <param name="targetSystem"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EnergyTrading.Mdm.Client.Services.IMdmEntityService`1.DeleteMapping(System.Int32,System.Int32)">
+            <summary>
+            Delete a mapping for a MDM entity.
+            </summary>
+            <param name="entityId"></param>
+            <param name="mappingId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EnergyTrading.Mdm.Client.Services.IMdmEntityService`1.Get(System.Int32)">
+            <summary>
+            Get a MDM entity.
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EnergyTrading.Mdm.Client.Services.IMdmEntityService`1.GetList(System.Int32)">
+            <summary>
+            Get full temporal history of a MDM entity.
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EnergyTrading.Mdm.Client.Services.IMdmEntityService`1.Get(System.Int32,System.Nullable{System.DateTime})">
+            <summary>
+            Get a MDM entity.
+            </summary>
+            <param name="id"></param>
+            <param name="validAt"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EnergyTrading.Mdm.Client.Services.IMdmEntityService`1.Get(EnergyTrading.Mdm.Contracts.MdmId)">
+            <summary>
+            Get a MDM entity.
+            </summary>
+            <param name="identifier"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EnergyTrading.Mdm.Client.Services.IMdmEntityService`1.Get(EnergyTrading.Mdm.Contracts.MdmId,System.Nullable{System.DateTime})">
+            <summary>
+            Get a MDM entity.
+            </summary>
+            <param name="identifier"></param>
+            <param name="validAt"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EnergyTrading.Mdm.Client.Services.IMdmEntityService`1.GetMapping(System.Int32,System.Predicate{EnergyTrading.Mdm.Contracts.MdmId})">
+            <summary>
+            Get a mapping for a MDM entity.
+            </summary>
+            <param name="id"></param>
+            <param name="query"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EnergyTrading.Mdm.Client.Services.IMdmEntityService`1.Invalidate(System.Int32)">
+            <summary>
+            Invalidate the cache for a MDM entity.
+            </summary>
+            <param name="id"></param>
+        </member>
+        <member name="M:EnergyTrading.Mdm.Client.Services.IMdmEntityService`1.Map(System.Int32,System.String)">
+            <summary>
+            Locate the mapping for a MDM entity.
+            </summary>
+            <param name="id"></param>
+            <param name="targetSystem"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EnergyTrading.Mdm.Client.Services.IMdmEntityService`1.Search(EnergyTrading.Contracts.Search.Search)">
+            <summary>
+            Perform a search for a MDM entity.
+            </summary>
+            <param name="search"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EnergyTrading.Mdm.Client.Services.IMdmEntityService`1.Update(System.Int32,`0)">
+            <summary>
+            Update a MDM entity.
+            </summary>
+            <param name="id"></param>
+            <param name="contract"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EnergyTrading.Mdm.Client.Services.IMdmEntityService`1.Update(System.Int32,`0,System.String)">
+            <summary>
+            Update a MDM entity.
+            </summary>
+            <param name="id"></param>
+            <param name="contract"></param>
+            <param name="etag"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EnergyTrading.Mdm.Client.Services.CachePolicyMdmEntityService`1.#ctor(EnergyTrading.Mdm.Client.Services.IMdmEntityService{`0},EnergyTrading.Caching.ICacheItemPolicyFactory)">
+            <summary>
+            Create a new instance of the <see cref="T:EnergyTrading.Mdm.Client.Services.CachePolicyMdmEntityService`1"/> class.
+            </summary>
+            <param name="service"></param>
+            <param name="cacheItemPolicyFactory"></param>
+        </member>
+        <member name="M:EnergyTrading.Mdm.Client.Services.CachePolicyMdmEntityService`1.Clear">
+            <summary>
+            Clear the cache.
+            </summary>
+        </member>
+        <member name="M:EnergyTrading.Mdm.Client.Services.CachePolicyMdmEntityService`1.Get(System.Int32)">
+            <copydocfrom cref="M:EnergyTrading.Mdm.Client.Services.IMdmEntityService`1.Get(System.Int32)"/>
+        </member>
+        <member name="M:EnergyTrading.Mdm.Client.Services.CachePolicyMdmEntityService`1.Get(System.Int32,System.Nullable{System.DateTime})">
+            <copydocfrom cref="M:EnergyTrading.Mdm.Client.Services.IMdmEntityService`1.Get(System.Int32,System.Nullable{System.DateTime})"/>
+        </member>
+        <member name="M:EnergyTrading.Mdm.Client.Services.CachePolicyMdmEntityService`1.Get(EnergyTrading.Mdm.Contracts.MdmId)">
+            <copydocfrom cref="M:EnergyTrading.Mdm.Client.Services.IMdmEntityService`1.Get(EnergyTrading.Mdm.Contracts.MdmId)"/>
+        </member>
+        <member name="M:EnergyTrading.Mdm.Client.Services.CachePolicyMdmEntityService`1.Get(EnergyTrading.Mdm.Contracts.MdmId,System.Nullable{System.DateTime})">
+            <copydocfrom cref="M:EnergyTrading.Mdm.Client.Services.IMdmEntityService`1.Get(System.Int32,System.Nullable{System.DateTime})"/>
+        </member>
+        <member name="M:EnergyTrading.Mdm.Client.Services.CachePolicyMdmEntityService`1.Create(`0)">
+            <copydocfrom cref="M:EnergyTrading.Mdm.Client.Services.IMdmEntityService`1.Create(`0)"/>
+        </member>
+        <member name="M:EnergyTrading.Mdm.Client.Services.CachePolicyMdmEntityService`1.CreateMapping(System.Int32,EnergyTrading.Mdm.Contracts.MdmId)">
+            <copydocfrom cref="M:EnergyTrading.Mdm.Client.Services.IMdmEntityService`1.CreateMapping(System.Int32,EnergyTrading.Mdm.Contracts.MdmId)"/>
+        </member>
+        <member name="M:EnergyTrading.Mdm.Client.Services.CachePolicyMdmEntityService`1.DeleteMapping(System.Int32,System.Int32)">
+            <copydocfrom cref="M:EnergyTrading.Mdm.Client.Services.IMdmEntityService`1.DeleteMapping(System.Int32,System.Int32)"/>
+        </member>
+        <member name="M:EnergyTrading.Mdm.Client.Services.CachePolicyMdmEntityService`1.GetMapping(System.Int32,System.Predicate{EnergyTrading.Mdm.Contracts.MdmId})">
+            <copydocfrom cref="M:EnergyTrading.Mdm.Client.Services.IMdmEntityService`1.GetMapping(System.Int32,System.Predicate{EnergyTrading.Mdm.Contracts.MdmId})"/>
+        </member>
+        <member name="M:EnergyTrading.Mdm.Client.Services.CachePolicyMdmEntityService`1.Invalidate(System.Int32)">
+            <copydocfrom cref="M:EnergyTrading.Mdm.Client.Services.IMdmEntityService`1.Invalidate(System.Int32)"/>
+        </member>
+        <member name="M:EnergyTrading.Mdm.Client.Services.CachePolicyMdmEntityService`1.Map(System.Int32,System.String)">
+            <copydocfrom cref="M:EnergyTrading.Mdm.Client.Services.IMdmEntityService`1.Map(System.Int32,System.String)"/>
+        </member>
+        <member name="M:EnergyTrading.Mdm.Client.Services.CachePolicyMdmEntityService`1.CrossMap(EnergyTrading.Mdm.Contracts.MdmId,System.String)">
+            <copydocfrom cref="M:EnergyTrading.Mdm.Client.Services.IMdmEntityService`1.CrossMap(EnergyTrading.Mdm.Contracts.MdmId,System.String)"/>
+        </member>
+        <member name="M:EnergyTrading.Mdm.Client.Services.CachePolicyMdmEntityService`1.CrossMap(System.String,System.String,System.String)">
+            <copydocfrom cref="!:IMdmEntityService&lt;T&gt;.CrossMap(MdmId, string, string)"/>
+        </member>
+        <member name="M:EnergyTrading.Mdm.Client.Services.CachePolicyMdmEntityService`1.Search(EnergyTrading.Contracts.Search.Search)">
+            <copydocfrom cref="M:EnergyTrading.Mdm.Client.Services.IMdmEntityService`1.Search(EnergyTrading.Contracts.Search.Search)"/>
+        </member>
+        <member name="M:EnergyTrading.Mdm.Client.Services.CachePolicyMdmEntityService`1.Update(System.Int32,`0)">
+            <copydocfrom cref="M:EnergyTrading.Mdm.Client.Services.IMdmEntityService`1.Update(System.Int32,`0)"/>
+        </member>
+        <member name="M:EnergyTrading.Mdm.Client.Services.CachePolicyMdmEntityService`1.Update(System.Int32,`0,System.String)">
+            <copydocfrom cref="M:EnergyTrading.Mdm.Client.Services.IMdmEntityService`1.Update(System.Int32,`0,System.String)"/>
+        </member>
+        <member name="T:EnergyTrading.Mdm.Client.Services.CachingMdmEntityService`1">
+            <summary>
+            Caching implementation of <see cref="T:EnergyTrading.Mdm.Client.Services.IMdmEntityService`1"/>, allows us to control the cache at an entity level.
+            </summary>
+            <typeparam name="TContract"></typeparam>
+        </member>
+        <member name="M:EnergyTrading.Mdm.Client.Services.CachingMdmEntityService`1.Clear">
+            <summary>
+            Clear the cache.s
+            </summary>
+        </member>
+        <member name="P:EnergyTrading.Mdm.Client.Services.CachingMdmEntityService`1.Count">
+            <summary>
+            Gets the count of entities in the cache.
+            </summary>
+        </member>
+        <member name="P:EnergyTrading.Mdm.Client.Services.CachingMdmEntityService`1.MappingCount">
+            <summary>
+            Gets the count of mappings in the cache.
+            </summary>
+        </member>
+        <member name="T:EnergyTrading.Mdm.Client.Services.IMdmEntityLocator`1">
+            <summary>
+            Locator a <see cref="T:EnergyTrading.Mdm.Contracts.IMdmEntity"/> via a <see cref="T:EnergyTrading.Mdm.Contracts.MdmId"/>
+            </summary>
+        </member>
+        <member name="M:EnergyTrading.Mdm.Client.Services.IMdmEntityLocator`1.Get(EnergyTrading.Mdm.Contracts.MdmId)">
+            <summary>
+            Get a MDM entity.
+            </summary>
+            <param name="id">MdmId to use</param>
+            <returns>The MDM entity if found, null otherwise.</returns>
+        </member>
+        <member name="T:EnergyTrading.Mdm.Client.Services.IMdmEntityLocatorService">
+            <summary>
+            Finds MDM contracts based on an identifier
+            </summary>
+        </member>
+        <member name="M:EnergyTrading.Mdm.Client.Services.IMdmEntityLocatorService.Get``1(EnergyTrading.Mdm.Contracts.MdmId)">
+            <summary>
+            Retrieve an MDM contract based on a key.
+            </summary>
+            <typeparam name="TContract">Type of contract to find</typeparam>
+            <param name="id">Identifier to use</param>
+            <returns>MDM contract if found, null otherwise</returns>
+        </member>
+        <member name="T:EnergyTrading.Mdm.Client.Services.IMdmEntityServiceFactory">
+            <summary>
+            Factory for producing <see cref="T:EnergyTrading.Mdm.Client.Services.IMdmEntityService`1"/> instances.
+            </summary>
+        </member>
+        <member name="M:EnergyTrading.Mdm.Client.Services.IMdmEntityServiceFactory.EntityService``1">
+            <summary>
+            Get a MDM entity service
+            </summary>
+            <typeparam name="TContract">Type of MDM contract to use</typeparam>
+            <returns>A <see cref="T:EnergyTrading.Mdm.Client.Services.IMdmEntityService`1"/> class.</returns>
+        </member>
+        <member name="T:EnergyTrading.Mdm.Client.Services.IMdmModelEntityService`2">
+            <summary>
+            Produces model entities from MDM contracts.
+            </summary>
+            <typeparam name="TContract"></typeparam>
+            <typeparam name="TModel"></typeparam>
+        </member>
+        <member name="M:EnergyTrading.Mdm.Client.Services.IMdmModelEntityService`2.Get(`0)">
+            <summary>
+            Create a model entity given a contract.
+            </summary>
+            <param name="contract">Contract to use</param>
+            <returns>A model entity that wrappers the contract.</returns>
+        </member>
+        <member name="T:EnergyTrading.Mdm.Client.Services.IMdmModelEntityService">
+            <summary>
+            Locates MDM contracts and model entities.
+            </summary>
+        </member>
+        <member name="M:EnergyTrading.Mdm.Client.Services.IMdmModelEntityService.Get``1(System.Int32)">
+            <summary>
+            Get a MDM contract.
+            </summary>
+            <typeparam name="TContract">Type of contract to find</typeparam>
+            <param name="id">Identifier to use</param>
+            <returns>MDM contract if found, null otherwise</returns>
+        </member>
+        <member name="M:EnergyTrading.Mdm.Client.Services.IMdmModelEntityService.Get``2(``0)">
+            <summary>
+            Get a MDM model based on its contract.
+            </summary>
+            <typeparam name="TContract">Type of contract to find</typeparam>
+            <typeparam name="TModel">Type of model to find</typeparam>        
+            <param name="contract">Contract to use</param>
+            <returns>MDM contract if found, null otherwise</returns>
+        </member>
+        <member name="M:EnergyTrading.Mdm.Client.Services.IMdmModelEntityService.Search``1(EnergyTrading.Contracts.Search.Search)">
+            <summary>
+            Find MDM contracts.
+            </summary>
+            <typeparam name="TContract"></typeparam>
+            <param name="search"></param>
+            <returns></returns>
+        </member>
+        <member name="T:EnergyTrading.Mdm.Client.Services.IMdmModelEntityServiceFactory">
+            <summary>
+            Factory for producing <see cref="T:EnergyTrading.Mdm.Client.Services.IMdmModelEntityService`2"/> instances.
+            </summary>
+        </member>
+        <member name="M:EnergyTrading.Mdm.Client.Services.IMdmModelEntityServiceFactory.ModelService``2">
+            <summary>
+            Get a MDM model service.
+            </summary>
+            <typeparam name="TContract">Type of the MDM contract</typeparam>
+            <typeparam name="TModel">Type of the MDM model.</typeparam>
+            <returns>A <see cref="T:EnergyTrading.Mdm.Client.Services.IMdmModelEntityService`2"/> class.</returns>
+        </member>
+        <member name="T:EnergyTrading.Mdm.Client.Services.IMdmService">
+            <summary>
+            Generic service for finding and creating MDM entities.
+            </summary>
+        </member>
+        <member name="M:EnergyTrading.Mdm.Client.Services.IMdmService.Create``1(``0)">
+            <summary>
+            Create a new instance of TContract
+            </summary>
+            <typeparam name="TContract"></typeparam>
+            <param name="contract"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EnergyTrading.Mdm.Client.Services.IMdmService.CreateMapping``1(System.Int32,EnergyTrading.Mdm.Contracts.MdmId)">
+            <summary>
+            Create a mapping from an entity to a MdmId
+            </summary>
+            <typeparam name="TContract"></typeparam>
+            <param name="id"></param>
+            <param name="identifier"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EnergyTrading.Mdm.Client.Services.IMdmService.DeleteMapping``1(System.Int32,System.Int32)">
+            <summary>
+            Create a mapping from an entity to a MdmId
+            </summary>
+            <typeparam name="TContract"></typeparam>
+            <param name="entityId"></param>
+            <param name="mappingId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EnergyTrading.Mdm.Client.Services.IMdmService.Get``1(System.Int32)">
+            <summary>
+            Get an entity.
+            </summary>
+            <typeparam name="TContract">Type of contract to find</typeparam>
+            <param name="id">Identifier to use</param>
+            <returns></returns>
+        </member>
+        <member name="M:EnergyTrading.Mdm.Client.Services.IMdmService.GetList``1(System.Int32)">
+            <summary>
+            Gets the full historical list for a particular entity (useful for temporal entities).
+            </summary>
+            <typeparam name="TContract">Type of contract to find</typeparam>
+            <param name="id">Identifier to use</param>
+            <returns></returns>
+        </member>
+        <member name="M:EnergyTrading.Mdm.Client.Services.IMdmService.Get``1(System.Int32,System.Nullable{System.DateTime})">
+            <summary>
+            Get an entity with an as of date.
+            </summary>
+            <typeparam name="TContract"></typeparam>
+            <param name="id"></param>
+            <param name="asof"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EnergyTrading.Mdm.Client.Services.IMdmService.Get``1(EnergyTrading.Mdm.Contracts.MdmId)">
+            <summary>
+            Get an entity from an identifier
+            </summary>
+            <typeparam name="TContract"></typeparam>
+            <param name="identifier"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EnergyTrading.Mdm.Client.Services.IMdmService.Get``1(EnergyTrading.Mdm.Contracts.MdmId,System.Nullable{System.DateTime})">
+            <summary>
+            Get an entity from an identifier with an as of date.
+            </summary>
+            <typeparam name="TContract"></typeparam>
+            <param name="identifier"></param>
+            <param name="asof"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EnergyTrading.Mdm.Client.Services.IMdmService.GetMapping``1(System.Int32,System.Predicate{EnergyTrading.Mdm.Contracts.MdmId})">
+            <summary>
+            Get a mapping that matches a predicate
+            </summary>
+            <typeparam name="TContract"></typeparam>
+            <param name="id"></param>
+            <param name="query"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EnergyTrading.Mdm.Client.Services.IMdmService.Map``1(System.Int32,System.String)">
+            <summary>
+            Map from an MDM entity to a target system
+            </summary>
+            <typeparam name="TContract"></typeparam>
+            <param name="id"></param>
+            <param name="targetSystem"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EnergyTrading.Mdm.Client.Services.IMdmService.CrossMap``1(EnergyTrading.Mdm.Contracts.MdmId,System.String)">
+            <summary>
+            Map from a MdmId to another system
+            </summary>
+            <param name="identifier"></param>
+            <param name="targetSystem"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EnergyTrading.Mdm.Client.Services.IMdmService.CrossMap``1(System.String,System.String,System.String)">
+            <summary>
+            Map from one system to another.
+            </summary>
+            <param name="sourceSystem"></param>
+            <param name="identifier"></param>
+            <param name="targetSystem"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EnergyTrading.Mdm.Client.Services.IMdmService.Invalidate``1(System.Int32)">
+            <summary>
+            Invalidate an entity in the cache
+            </summary>
+            <typeparam name="TContract"></typeparam>
+            <param name="id"></param>
+        </member>
+        <member name="M:EnergyTrading.Mdm.Client.Services.IMdmService.Search``1(EnergyTrading.Contracts.Search.Search)">
+            <summary>
+            Search for entities
+            </summary>
+            <typeparam name="TContract"></typeparam>
+            <param name="search"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EnergyTrading.Mdm.Client.Services.IMdmService.Update``1(System.Int32,``0,System.String)">
+            <summary>
+            Update an entity including etag for checking the update is still valid
+            </summary>
+            <typeparam name="TContract"></typeparam>
+            <param name="id"></param>
+            <param name="entity"></param>
+            <param name="etag"></param>
+            <returns></returns>
+        </member>
+        <member name="T:EnergyTrading.Mdm.Client.Services.LocatorMdmModelEntityServiceFactory">
+            <copydocfrom cref="T:EnergyTrading.Mdm.Client.Services.IMdmModelEntityServiceFactory"/>
+            <remarks>Uses a <see cref="T:Microsoft.Practices.ServiceLocation.IServiceLocator"/> to find the underlying services.</remarks>
+        </member>
+        <member name="M:EnergyTrading.Mdm.Client.Services.LocatorMdmModelEntityServiceFactory.#ctor(Microsoft.Practices.ServiceLocation.IServiceLocator)">
+            <summary>
+            Creates a new instance of the <see cref="T:EnergyTrading.Mdm.Client.Services.LocatorMdmModelEntityServiceFactory"/>
+            </summary>
+            <param name="locator">Service locator to use.</param>
+        </member>
+        <member name="M:EnergyTrading.Mdm.Client.Services.LocatorMdmModelEntityServiceFactory.ModelService``2">
+            <copydocfrom cref="M:EnergyTrading.Mdm.Client.Services.IMdmModelEntityServiceFactory.ModelService``2"/>
+        </member>
+        <member name="T:EnergyTrading.Mdm.Client.Services.MdmModelEntityService">
+            <copydocfrom cref="T:EnergyTrading.Mdm.Client.Services.IMdmModelEntityService"/>
+        </member>
+        <member name="M:EnergyTrading.Mdm.Client.Services.MdmModelEntityService.#ctor(EnergyTrading.Mdm.Client.Services.IMdmModelEntityServiceFactory,EnergyTrading.Mdm.Client.Services.IMdmService,EnergyTrading.Mdm.Client.Services.IMdmEntityLocatorService)">
+            <summary>
+            Create a new instance of the <see cref="T:EnergyTrading.Mdm.Client.Services.MdmModelEntityService"/> class.
+            </summary>
+            <param name="factory"></param>
+            <param name="mdmService"></param>
+            <param name="locatorService"></param>
+        </member>
+        <member name="M:EnergyTrading.Mdm.Client.Services.MdmModelEntityService.Get``1(System.Int32)">
+            <copydocfrom cref="M:EnergyTrading.Mdm.Client.Services.IMdmModelEntityService.Get``1(System.Int32)"/>
+        </member>
+        <member name="M:EnergyTrading.Mdm.Client.Services.MdmModelEntityService.Get``1(EnergyTrading.Mdm.Contracts.MdmId)">
+            <copydocfrom cref="!:IMdmModelEntityService.Get&lt;T&gt;(MdmId)"/>
+        </member>
+        <member name="M:EnergyTrading.Mdm.Client.Services.MdmModelEntityService.Get``2(``0)">
+            <copydocfrom cref="M:EnergyTrading.Mdm.Client.Services.IMdmModelEntityService.Get``2(``0)"/>
+        </member>
+        <member name="M:EnergyTrading.Mdm.Client.Services.MdmModelEntityService.Search``1(EnergyTrading.Contracts.Search.Search)">
+            <copydocfrom cref="M:EnergyTrading.Mdm.Client.Services.IMdmModelEntityService.Search``1(EnergyTrading.Contracts.Search.Search)"/>
+        </member>
+        <member name="T:EnergyTrading.Mdm.Client.Services.MdmServiceMdmEntityLocator`1">
+            <summary>
+            Uses an <see cref="T:EnergyTrading.Mdm.Client.Services.IMdmEntityService`1"/> for entity location.
+            </summary>
+        </member>
+        <member name="M:EnergyTrading.Mdm.Client.Services.MdmServiceMdmEntityLocator`1.#ctor(EnergyTrading.Mdm.Client.Services.IMdmEntityService{`0})">
+            <summary>
+            Create a new instance of the <see cref="T:EnergyTrading.Mdm.Client.Services.MdmServiceMdmEntityLocator`1"/> class.
+            </summary>
+            <param name="service"></param>
+        </member>
+        <member name="M:EnergyTrading.Mdm.Client.Services.MdmServiceMdmEntityLocator`1.Get(EnergyTrading.Mdm.Contracts.MdmId)">
+            <copydocfrom cref="M:EnergyTrading.Mdm.Client.Services.IMdmEntityLocator`1.Get(EnergyTrading.Mdm.Contracts.MdmId)"/>
+        </member>
+        <member name="P:EnergyTrading.Mdm.Client.Services.MdmServiceMdmEntityLocator`1.Service">
+            <summary>
+            Gets the Service property.
+            </summary>
+        </member>
+        <member name="M:EnergyTrading.Mdm.Client.Services.MdmServiceExtensions.Try``1(EnergyTrading.Mdm.Client.Services.IMdmService,EnergyTrading.Logging.ILogger,System.Func{EnergyTrading.Mdm.Client.WebClient.WebResponse{``0}},System.Int32,System.Int32)">
+            <summary>
+            Attempt multiple calls to the MDM service until we are successful or exhaust the retries.
+            </summary>
+            <param name="service">MDM service to use</param>
+            <param name="func">Function to invoke against MDM</param>
+            <param name="logger">Logger to use</param>
+            <param name="retries">Number of retries, defaults to 5</param>
+            <param name="sleep">Dwell time between retries, defaults to 100 ms</param>
+            <returns>Result of the MDM action</returns>   
+        </member>
+        <member name="M:EnergyTrading.Mdm.Client.Services.MdmServiceExtensions.Try``1(EnergyTrading.Mdm.Client.Services.IMdmService,System.Func{EnergyTrading.Mdm.Client.WebClient.WebResponse{``0}},EnergyTrading.Logging.ILogger,System.Int32,System.Int32)">
+            <summary>
+            Attempt multiple calls to the MDM service until we are successful or exhaust the retries.
+            </summary>
+            <param name="service">MDM service to use</param>
+            <param name="func">Function to invoke against MDM</param>
+            <param name="logger">Logger to use</param>
+            <param name="retries">Number of retries, defaults to 5</param>
+            <param name="sleep">Dwell time between retries, defaults to 100 ms</param>
+            <returns>Result of the MDM action</returns>   
+        </member>
+        <member name="M:EnergyTrading.Mdm.Client.Services.MdmServiceExtensions.Try``1(EnergyTrading.Mdm.Client.Services.IMdmService,System.Func{EnergyTrading.Mdm.Client.WebClient.WebResponse{``0}},System.Action{System.String},System.Int32,System.Int32)">
+            <summary>
+            Attempt multiple calls to the MDM service until we are successful or exhaust the retries.
+            </summary>
+            <param name="service">MDM service to use</param>
+            <param name="func">Function to invoke against MDM</param>
+            <param name="log">Action to perform on failure</param>
+            <param name="retries">Number of retries, defaults to 5</param>
+            <param name="sleep">Dwell time between retries, defaults to 100 ms</param>
+            <returns>Result of the MDM action</returns>
+        </member>
+        <member name="M:EnergyTrading.Mdm.Client.Services.MdmServiceExtensions.TrySearch``1(EnergyTrading.Mdm.Client.Services.IMdmService,EnergyTrading.Logging.ILogger,System.Func{EnergyTrading.Mdm.Client.WebClient.WebResponse{``0}},System.Int32,System.Int32)">
+            <summary>
+            Attempt multiple calls to the MDM service until we are successful or exhaust the retries.
+            </summary>
+            <typeparam name="T">Type we are returning</typeparam>
+            <param name="service">MDM service to use</param>
+            <param name="func">Function to invoke against MDM</param>
+            <param name="logger">Action to perform on failure</param>
+            <param name="retries">Number of retries, defaults to 5</param>
+            <param name="sleep">Dwell time between retries, defaults to 100 ms</param>
+            <returns>Result of the MDM action</returns>        
+        </member>
+        <member name="M:EnergyTrading.Mdm.Client.Services.MdmServiceExtensions.TrySearch``1(EnergyTrading.Mdm.Client.Services.IMdmService,System.Func{EnergyTrading.Mdm.Client.WebClient.WebResponse{``0}},EnergyTrading.Logging.ILogger,System.Int32,System.Int32)">
+            <summary>
+            Attempt multiple calls to the MDM service until we are successful or exhaust the retries.
+            </summary>
+            <typeparam name="T">Type we are returning</typeparam>
+            <param name="service">MDM service to use</param>
+            <param name="func">Function to invoke against MDM</param>
+            <param name="logger">Action to perform on failure</param>
+            <param name="retries">Number of retries, defaults to 5</param>
+            <param name="sleep">Dwell time between retries, defaults to 100 ms</param>
+            <returns>Result of the MDM action</returns>   
+        </member>
+        <member name="M:EnergyTrading.Mdm.Client.Services.MdmServiceExtensions.TrySearch``1(EnergyTrading.Mdm.Client.Services.IMdmService,System.Func{EnergyTrading.Mdm.Client.WebClient.WebResponse{``0}},System.Action{System.String},System.Int32,System.Int32)">
+            <summary>
+            Attempt multiple calls to the MDM service until we are successful or exhaust the retries.
+            </summary>
+            <typeparam name="T">Type we are returning</typeparam>
+            <param name="service">MDM service to use</param>
+            <param name="func">Function to invoke against MDM</param>
+            <param name="log">Action to perform on failure</param>
+            <param name="retries">Number of retries, defaults to 5</param>
+            <param name="sleep">Dwell time between retries, defaults to 100 ms</param>
+            <returns>Result of the MDM action</returns> 
+        </member>
+        <member name="T:EnergyTrading.Mdm.Client.WebClient.IMessageRequester">
+            <summary>
+            Retrieves information over a REST API.
+            </summary>
+        </member>
+        <member name="M:EnergyTrading.Mdm.Client.WebClient.IMessageRequester.Create``1(System.String,``0)">
+            <summary>
+            Create a message at a uri
+            </summary>
+            <typeparam name="TMessage"></typeparam>
+            <param name="uri"></param>
+            <param name="message"></param>
+            <returns>Response code and the location of the new entity if successful</returns>
+        </member>
+        <member name="M:EnergyTrading.Mdm.Client.WebClient.IMessageRequester.Delete``1(System.String)">
+            <summary>
+            Delete a message at a uri
+            </summary>
+            <typeparam name="TMessage"></typeparam>
+            <param name="uri"></param>
+            <returns>Response code
+            </returns>
+        </member>
+        <member name="M:EnergyTrading.Mdm.Client.WebClient.IMessageRequester.Request``1(System.String)">
+            <summary>
+            Request information from a uri
+            </summary>
+            <typeparam name="TMessage"></typeparam>
+            <param name="uri"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EnergyTrading.Mdm.Client.WebClient.IMessageRequester.Search``1(System.String,EnergyTrading.Contracts.Search.Search)">
+            <summary>
+            Search for contracts on uri 
+            </summary>
+            <typeparam name="TContract"></typeparam>
+            <param name="uri"></param>
+            <param name="message"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EnergyTrading.Mdm.Client.WebClient.IMessageRequester.Update``1(System.String,System.String,``0)">
+            <summary>
+            Update entity on uri
+            </summary>
+            <typeparam name="TMessage"></typeparam>
+            <param name="uri"></param>
+            <param name="etag"></param>
+            <param name="message"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EnergyTrading.Mdm.Client.Services.MdmService.CrossMap``1(EnergyTrading.Mdm.Contracts.MdmId,System.String)">
+            <summary>
+            Map from a MdmId to another system
+            </summary>
+            <param name="identifier"></param>
+            <param name="targetSystem"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EnergyTrading.Mdm.Client.Services.MdmService.CrossMap``1(System.String,System.String,System.String)">
+            <summary>
+            Map from one system to another.
+            </summary>
+            <param name="sourceSystem"></param>
+            <param name="identifier"></param>
+            <param name="targetSystem"></param>
+            <returns></returns>
+        </member>
+        <member name="T:EnergyTrading.Mdm.Client.WebClient.PagedWebResponse`1">
+            <summary>
+            Paged response to a web request.
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="T:EnergyTrading.Mdm.Client.WebClient.WebResponse`1">
+            <summary>
+            Response to a web request
+            </summary>
+            <typeparam name="T">Type of the expected result.</typeparam>
+        </member>
+        <member name="M:EnergyTrading.Mdm.Client.WebClient.WebResponse`1.#ctor">
+            <summary>
+            Creates a new instance of the <see cref="T:EnergyTrading.Mdm.Client.WebClient.WebResponse`1"/> class.
+            </summary>
+        </member>
+        <member name="P:EnergyTrading.Mdm.Client.WebClient.WebResponse`1.Code">
+            <summary>
+            Status code returned by the call
+            </summary>
+        </member>
+        <member name="P:EnergyTrading.Mdm.Client.WebClient.WebResponse`1.IsValid">
+            <summary>
+            Is the response valid
+            </summary>
+        </member>
+        <member name="P:EnergyTrading.Mdm.Client.WebClient.WebResponse`1.Message">
+            <summary>
+            The body of the response
+            </summary>
+        </member>
+        <member name="P:EnergyTrading.Mdm.Client.WebClient.WebResponse`1.Fault">
+            <summary>
+            The actual fault the response is invalid.
+            </summary>
+        </member>
+        <member name="P:EnergyTrading.Mdm.Client.WebClient.WebResponse`1.Tag">
+            <summary>
+            The ETag supplied with the response
+            </summary>
+        </member>
+        <member name="P:EnergyTrading.Mdm.Client.WebClient.WebResponse`1.Expires">
+            <summary>
+            Expiry time of the response
+            </summary>
+        </member>
+        <member name="P:EnergyTrading.Mdm.Client.WebClient.WebResponse`1.Location">
+            <summary>
+            The returned location header
+            </summary>
+        </member>
+        <member name="P:EnergyTrading.Mdm.Client.WebClient.PagedWebResponse`1.NextPage">
+            <summary>
+            Gets or sets the URI to the next page.
+            </summary>
+        </member>
+    </members>
+</doc>

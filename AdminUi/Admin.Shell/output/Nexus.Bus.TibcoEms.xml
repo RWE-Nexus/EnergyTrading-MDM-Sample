@@ -1,0 +1,317 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Nexus.Bus.TibcoEms</name>
+    </assembly>
+    <members>
+        <member name="T:RWEST.Nexus.Bus.TibcoEms.AcknowledgementModeMapper">
+            <summary>
+            Maps from our acknowledgment mode to TIBCO's.
+            </summary>
+        </member>
+        <member name="T:RWEST.Nexus.Bus.TibcoEms.IAcknowledgementModeMapper">
+            <summary>
+            Maps from our acknowledgment mode to TIBCO's.
+            </summary>
+        </member>
+        <member name="M:RWEST.Nexus.Bus.TibcoEms.IAcknowledgementModeMapper.Map(RWEST.Nexus.Bus.BusAcknowledgementMode)">
+            <summary>
+            Map a bus acknowledgement mode to the TIBCO equivalent.
+            </summary>
+            <param name="busAcknowledgementMode"></param>
+            <returns></returns>
+        </member>
+        <member name="M:RWEST.Nexus.Bus.TibcoEms.AcknowledgementModeMapper.Map(RWEST.Nexus.Bus.BusAcknowledgementMode)">
+            <summary>
+            Map a bus acknowledgement mode to the TIBCO equivalent.
+            </summary>
+            <param name="busAcknowledgementMode"></param>
+            <returns></returns>
+        </member>
+        <member name="T:RWEST.Nexus.Bus.TibcoEms.BusMessageFactory">
+            <copydocfrom cref="T:RWEST.Nexus.Bus.TibcoEms.IBusMessageFactory"/>
+        </member>
+        <member name="T:RWEST.Nexus.Bus.TibcoEms.IBusMessageFactory">
+            <summary>
+            Implement the conversion of TIBCO message to internal message format.
+            </summary>
+        </member>
+        <member name="T:RWEST.Nexus.Bus.TibcoEms.DeliveryModeMapper">
+            <copycontentfrom cref="T:RWEST.Nexus.Bus.TibcoEms.IDeliveryModeMapper"/>
+        </member>
+        <member name="T:RWEST.Nexus.Bus.TibcoEms.IDeliveryModeMapper">
+            <summary>
+            Maps a delivery mode to the TIBCO equivalent.
+            </summary>
+        </member>
+        <member name="M:RWEST.Nexus.Bus.TibcoEms.IDeliveryModeMapper.Map(RWEST.Nexus.Bus.DeliveryMode)">
+            <summary>
+            Maps a delivery mode to the actual implementation.
+            </summary>
+            <param name="mode">Mode to map</param>
+            <returns>Native mode value.</returns>
+            <exception cref="T:System.NotSupportedException">Thrown if the supplied mode is not supported.</exception>
+        </member>
+        <member name="M:RWEST.Nexus.Bus.TibcoEms.DeliveryModeMapper.Map(RWEST.Nexus.Bus.DeliveryMode)">
+            <copycontentfrom cref="M:RWEST.Nexus.Bus.TibcoEms.IDeliveryModeMapper.Map(RWEST.Nexus.Bus.DeliveryMode)"/>
+        </member>
+        <member name="T:RWEST.Nexus.Bus.TibcoEms.TibcoEmsConnection">
+            <summary>
+            An TIBCO EMS implementation of a <see cref="T:RWEST.Nexus.Bus.IBusConnection"/>
+            </summary>
+            <remarks>
+            Should not be sub-classed.
+            </remarks>
+        </member>
+        <member name="M:RWEST.Nexus.Bus.TibcoEms.TibcoEmsConnection.#ctor">
+            <summary>
+            Create a new instance of the <see cref="T:RWEST.Nexus.Bus.TibcoEms.TibcoEmsConnection"/>
+            </summary>
+        </member>
+        <member name="M:RWEST.Nexus.Bus.TibcoEms.TibcoEmsConnection.Open">
+            <summary>
+            Open a connection to TIBCO.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:RWEST.Nexus.Bus.TibcoEms.TibcoEmsConnection.Close">
+            <summary>
+            Close the connection.
+            </summary>
+            <remarks>
+            May error, but all internal references will be reset by this method.
+            </remarks>
+        </member>
+        <member name="M:RWEST.Nexus.Bus.TibcoEms.TibcoEmsConnection.CreateSession">
+            <copydocfrom cref="M:RWEST.Nexus.Bus.IBusConnection.CreateSession"/>
+        </member>
+        <member name="M:RWEST.Nexus.Bus.TibcoEms.TibcoEmsConnection.CreateTransactionalSession">
+            <copydocfrom cref="M:RWEST.Nexus.Bus.IBusConnection.CreateTransactionalSession"/>
+        </member>
+        <member name="M:RWEST.Nexus.Bus.TibcoEms.TibcoEmsConnection.Dispose">
+            <summary>
+            Dispose of the object.
+            </summary>
+        </member>
+        <member name="M:RWEST.Nexus.Bus.TibcoEms.TibcoEmsConnection.CreateConnection">
+            <summary>
+            Create TIBCO connection based on whether DTC required or not.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:RWEST.Nexus.Bus.TibcoEms.TibcoEmsConnection.CreateConnectionFactory">
+            <summary>
+            Create a TIBCO connection factory.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:RWEST.Nexus.Bus.TibcoEms.TibcoEmsConnection.CreateDtcConnectionFactory">
+            <summary>
+            Create the TIBCO DTC connection factory.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:RWEST.Nexus.Bus.TibcoEms.TibcoEmsConnection.CreateSession(System.Func{TIBCO.EMS.Session})">
+            <summary>
+            Create a TIBCO EMS session.
+            </summary>
+            <param name="createSession"></param>
+            <returns></returns>
+        </member>
+        <member name="P:RWEST.Nexus.Bus.TibcoEms.TibcoEmsConnection.Name">
+            <copydocfrom cref="P:RWEST.Nexus.Bus.IBusConnection.Name"/>
+        </member>
+        <member name="P:RWEST.Nexus.Bus.TibcoEms.TibcoEmsConnection.BrokerUri">
+            <copydocfrom cref="P:RWEST.Nexus.Bus.IBusConnection.BrokerUri"/>
+        </member>
+        <member name="P:RWEST.Nexus.Bus.TibcoEms.TibcoEmsConnection.ClientId">
+            <copydocfrom cref="P:RWEST.Nexus.Bus.IBusConnection.ClientId"/>
+        </member>
+        <member name="P:RWEST.Nexus.Bus.TibcoEms.TibcoEmsConnection.MessageTemplate">
+            <copydocfrom cref="P:RWEST.Nexus.Bus.IBusConnection.MessageTemplate"/>
+        </member>
+        <member name="P:RWEST.Nexus.Bus.TibcoEms.TibcoEmsConnection.IsOpen">
+            <copydocfrom cref="P:RWEST.Nexus.Bus.IBusConnection.IsOpen"/>
+        </member>
+        <member name="P:RWEST.Nexus.Bus.TibcoEms.TibcoEmsConnection.ConnectAttempts">
+            <summary>
+            Gets or sets the connection attempts.
+            </summary>
+        </member>
+        <member name="P:RWEST.Nexus.Bus.TibcoEms.TibcoEmsConnection.RetryAttempts">
+            <summary>
+            Gets or sets the retry attempts
+            </summary>
+        </member>
+        <member name="P:RWEST.Nexus.Bus.TibcoEms.TibcoEmsConnection.UserName">
+            <summary>
+            Gets or sets the user name.
+            </summary>
+        </member>
+        <member name="P:RWEST.Nexus.Bus.TibcoEms.TibcoEmsConnection.Password">
+            <summary>
+            Gets or sets the password.
+            </summary>
+        </member>
+        <member name="P:RWEST.Nexus.Bus.TibcoEms.TibcoEmsConnection.SessionMode">
+            <summary>
+            Gets or sets the session mode.
+            </summary>
+        </member>
+        <member name="P:RWEST.Nexus.Bus.TibcoEms.TibcoEmsConnection.SupportDtc">
+            <summary>
+            Gets or sets whether we support distributed transactions.
+            </summary>
+        </member>
+        <member name="P:RWEST.Nexus.Bus.TibcoEms.TibcoEmsConnection.TimeToLive">
+            <summary>
+            Gets or sets the time to live.
+            </summary>
+        </member>
+        <member name="T:RWEST.Nexus.Bus.TibcoEms.TibcoEmsConnectionConfigurator">
+            <summary>
+            Create and configure TIBCO EMS connections.
+            </summary>
+        </member>
+        <member name="M:RWEST.Nexus.Bus.TibcoEms.TibcoEmsConnectionConfigurator.Create(RWEST.Nexus.Bus.BusConnectionEndpoint)">
+            <inheritdoc />
+        </member>
+        <member name="M:RWEST.Nexus.Bus.TibcoEms.TibcoEmsConnectionConfigurator.AssignCredentials(RWEST.Nexus.Bus.TibcoEms.TibcoEmsConnection,RWEST.Nexus.Bus.Security.BasicCredentials)">
+            <summary>
+            Assign the credentials for TIBCO connection.
+            </summary>
+            <param name="connection"></param>
+            <param name="credentials"></param>
+        </member>
+        <member name="T:RWEST.Nexus.Bus.TibcoEms.TibcoEmsListener">
+            <summary>
+            Listens on TIBCO for a message.
+            </summary>
+        </member>
+        <member name="M:RWEST.Nexus.Bus.TibcoEms.TibcoEmsListener.#ctor(TIBCO.EMS.MessageConsumer,RWEST.Nexus.Bus.TibcoEms.IBusMessageFactory,RWEST.Nexus.Bus.IBusChannel)">
+            <summary>
+            Creates a new instance of the <see cref="T:RWEST.Nexus.Bus.TibcoEms.TibcoEmsListener"/> class.
+            </summary>
+            <param name="consumer">Message consumer to use</param>
+            <param name="busMessageFactory">Bus message factory to use</param>
+            <param name="channel">Channel to use</param>
+        </member>
+        <member name="M:RWEST.Nexus.Bus.TibcoEms.TibcoEmsListener.Listen(System.TimeSpan)">
+            <copydocfrom cref="M:RWEST.Nexus.Bus.IBusListener.Listen(System.TimeSpan)"/>
+        </member>
+        <member name="M:RWEST.Nexus.Bus.TibcoEms.TibcoEmsListener.Listen(System.Action{RWEST.Nexus.Bus.IBusMessage})">
+            <copydocfrom cref="M:RWEST.Nexus.Bus.IAsynchronousBusListener.Listen(System.Action{RWEST.Nexus.Bus.IBusMessage})"/>
+        </member>
+        <member name="M:RWEST.Nexus.Bus.TibcoEms.TibcoEmsListener.Dispose">
+            <summary>
+            Dispose of the listener.
+            </summary>
+        </member>
+        <member name="M:RWEST.Nexus.Bus.TibcoEms.TibcoEmsListener.Dispose(System.Boolean)">
+            <summary>
+            Dispose of the listener.
+            </summary>
+            <param name="disposing">Whether disposing or finalizing.</param>
+        </member>
+        <member name="M:RWEST.Nexus.Bus.TibcoEms.TibcoEmsListener.HandleMessageReceived(TIBCO.EMS.Message)">
+            <summary>
+            Handle the received TIBCO message using the internal message format.
+            </summary>
+            <param name="message"></param>
+            <returns></returns>
+        </member>
+        <member name="P:RWEST.Nexus.Bus.TibcoEms.TibcoEmsListener.Channel">
+            <copydocfrom cref="P:RWEST.Nexus.Bus.IBusListener.Channel"/>
+        </member>
+        <member name="P:RWEST.Nexus.Bus.TibcoEms.TibcoEmsListener.Async">
+            <copydocfrom cref="P:RWEST.Nexus.Bus.IBusListener.Async"/>
+        </member>
+        <member name="T:RWEST.Nexus.Bus.TibcoEms.TibcoEmsPublisher">
+            <summary>
+            Publishes messages onto TIBCO EMS.
+            </summary>
+        </member>
+        <member name="M:RWEST.Nexus.Bus.TibcoEms.TibcoEmsPublisher.#ctor(System.Func{TIBCO.EMS.MapMessage})">
+            <summary>
+            Protected constructor to assist with testing functions that do not require injected values
+            </summary>
+        </member>
+        <member name="M:RWEST.Nexus.Bus.TibcoEms.TibcoEmsPublisher.CreateMessage">
+            <summary>
+            Create a message.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:RWEST.Nexus.Bus.TibcoEms.TibcoEmsPublisher.Publish(RWEST.Nexus.Bus.IBusMessage)">
+            <summary>
+            Publish a message onto TIBCO EMS.
+            </summary>
+            <param name="message"></param>
+        </member>
+        <member name="M:RWEST.Nexus.Bus.TibcoEms.TibcoEmsPublisher.ConfigureProducer(TIBCO.EMS.MessageProducer,RWEST.Nexus.Bus.IBusMessage)">
+            <summary>
+            Configure the TIBCO MessageProducer.
+            </summary>
+            <param name="producer"></param>
+            <param name="busMessage"></param>
+        </member>
+        <member name="M:RWEST.Nexus.Bus.TibcoEms.TibcoEmsPublisher.CreateTibcoMessage(RWEST.Nexus.Bus.IBusMessage)">
+            <summary>
+            Create the TIBCO message from the internal message format.
+            </summary>
+            <param name="message"></param>
+            <returns></returns>
+        </member>
+        <member name="P:RWEST.Nexus.Bus.TibcoEms.TibcoEmsPublisher.Channel">
+            <summary>
+            Gets the channel to publish on.
+            </summary>
+        </member>
+        <member name="P:RWEST.Nexus.Bus.TibcoEms.TibcoEmsPublisher.Priority">
+            <summary>
+            Gets or sets the priority of messages to publish.
+            </summary>
+        </member>
+        <member name="T:RWEST.Nexus.Bus.TibcoEms.TibcoEmsSession">
+            <summary>
+            A bus session implementation for TIBCO EMS.
+            </summary>
+        </member>
+        <member name="M:RWEST.Nexus.Bus.TibcoEms.TibcoEmsSession.CreateListener(RWEST.Nexus.Bus.IBusChannel)">
+            <summary>
+            Create listener on a channel.
+            </summary>
+            <param name="channel"></param>
+            <returns></returns>
+        </member>
+        <member name="M:RWEST.Nexus.Bus.TibcoEms.TibcoEmsSession.CreatePublisher(RWEST.Nexus.Bus.IBusChannel)">
+            <summary>
+            Create publisher for a channel.
+            </summary>
+            <param name="channel"></param>
+            <returns></returns>
+        </member>
+        <member name="M:RWEST.Nexus.Bus.TibcoEms.TibcoEmsSession.CreateBusListener(TIBCO.EMS.MessageConsumer,RWEST.Nexus.Bus.IBusChannel)">
+            <summary>
+            Create a listener based on TIBCO message consumer.
+            </summary>
+            <param name="topicSubscriber"></param>
+            <param name="channel"></param>
+            <returns></returns>
+        </member>
+        <member name="M:RWEST.Nexus.Bus.TibcoEms.TibcoEmsSession.CreateConsumer(RWEST.Nexus.Bus.IBusChannel)">
+            <summary>
+            Create and cache a TIBCO message consumer.
+            </summary>
+            <param name="channel"></param>
+            <returns></returns>
+        </member>
+        <member name="M:RWEST.Nexus.Bus.TibcoEms.TibcoEmsSession.CreateProducer(RWEST.Nexus.Bus.IBusChannel)">
+            <summary>
+            Create and cache TIBCO message producer.
+            </summary>
+            <param name="channel"></param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

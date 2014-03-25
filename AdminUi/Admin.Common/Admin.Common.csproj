@@ -1,0 +1,328 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{CDCBE86B-C79A-4475-9D0D-5A913C87EF79}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Common</RootNamespace>
+    <AssemblyName>Common</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\Admin.Shell\output\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Accessibility">
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="EnergyTrading.Contracts">
+      <HintPath>..\..\packages\EnergyTrading.Contracts.2.8.0.12\lib\net35\EnergyTrading.Contracts.dll</HintPath>
+    </Reference>
+    <Reference Include="EnergyTrading.Core">
+      <HintPath>..\..\packages\EnergyTrading.Core.2.8.0.12\lib\net40\EnergyTrading.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="EnergyTrading.MDM.Client">
+      <HintPath>..\..\packages\EnergyTrading.MDM.Client.2.3.0.16\lib\net40\EnergyTrading.MDM.Client.dll</HintPath>
+    </Reference>
+    <Reference Include="EnergyTrading.MDM.Client.WebApi">
+      <HintPath>..\..\packages\EnergyTrading.MDM.Client.WebApi.2.3.0.16\lib\net40\EnergyTrading.MDM.Client.WebApi.dll</HintPath>
+    </Reference>
+    <Reference Include="EnergyTrading.MDM.Contracts">
+      <HintPath>..\..\packages\EnergyTrading.MDM.Contracts.3.2.0.6\lib\net35\EnergyTrading.MDM.Contracts.dll</HintPath>
+    </Reference>
+    <Reference Include="EnergyTrading.Unity">
+      <HintPath>..\..\packages\EnergyTrading.Unity.2.8.0.12\lib\net40\EnergyTrading.Unity.dll</HintPath>
+    </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib">
+      <HintPath>..\..\packages\SharpZipLib.0.86.0\lib\20\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net">
+      <HintPath>..\..\packages\log4net.1.2.10\lib\2.0\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Expression.Interactions, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Prism.4.1.0.0\lib\NET40\Microsoft.Expression.Interactions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.EnterpriseLibrary.Common">
+      <HintPath>..\..\packages\EnterpriseLibrary.Common.5.0.505.0\lib\NET35\Microsoft.Practices.EnterpriseLibrary.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Prism">
+      <HintPath>..\..\packages\Prism.4.1.0.0\lib\NET40\Microsoft.Practices.Prism.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Prism.Interactivity">
+      <HintPath>..\..\packages\Prism.4.1.0.0\lib\NET40\Microsoft.Practices.Prism.Interactivity.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Prism.MefExtensions">
+      <HintPath>..\..\packages\Prism.MEFExtensions.4.1.0.0\lib\NET40\Microsoft.Practices.Prism.MefExtensions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Prism.UnityExtensions">
+      <HintPath>..\..\packages\Prism.UnityExtensions.4.1.0.0\lib\NET40\Microsoft.Practices.Prism.UnityExtensions.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\CommonServiceLocator.1.0\lib\NET35\Microsoft.Practices.ServiceLocation.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity, Version=2.1.505.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Unity.2.1.505.2\lib\NET35\Microsoft.Practices.Unity.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity.Configuration, Version=2.1.505.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Unity.2.1.505.2\lib\NET35\Microsoft.Practices.Unity.Configuration.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity.Interception">
+      <HintPath>..\..\packages\Unity.Interception.2.1.505.0\lib\NET35\Microsoft.Practices.Unity.Interception.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity.Interception.Configuration">
+      <HintPath>..\..\packages\Unity.Interception.2.1.505.0\lib\NET35\Microsoft.Practices.Unity.Interception.Configuration.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Windows.Shell">
+      <HintPath>..\..\Libs\UI\Microsoft.Windows.Shell.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\..\packages\Newtonsoft.Json.5.0.8\lib\net40\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="PresentationFramework.Aero" />
+    <Reference Include="PresentationFramework.Luna" />
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.Net.Http.2.0.20710.0\lib\net40\System.Net.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.Formatting, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.AspNet.WebApi.Client.4.0.20710.0\lib\net40\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.Net.Http.2.0.20710.0\lib\net40\System.Net.Http.WebRequest.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reactive.Core">
+      <HintPath>..\..\packages\Rx-Core.2.2.2\lib\net40\System.Reactive.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reactive.Interfaces">
+      <HintPath>..\..\packages\Rx-Interfaces.2.2.2\lib\net40\System.Reactive.Interfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reactive.Linq">
+      <HintPath>..\..\packages\Rx-Linq.2.2.2\lib\net40\System.Reactive.Linq.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reactive.PlatformServices">
+      <HintPath>..\..\packages\Rx-PlatformServices.2.2.2\lib\net40\System.Reactive.PlatformServices.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Windows.Interactivity, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Prism.4.1.0.0\lib\NET40\System.Windows.Interactivity.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="VIBlend.WPF.Editors">
+      <HintPath>..\..\Libs\UI\VIBlend.WPF.Editors.dll</HintPath>
+    </Reference>
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AttachedProperties\EventFocusExtension.cs" />
+    <Compile Include="AttachedProperties\FocusExtension.cs" />
+    <Compile Include="Authorisation\AuthorisationHelpers.cs" />
+    <Compile Include="Commands\MenuCommands.cs" />
+    <Compile Include="Commands\RelayCommand.cs" />
+    <Compile Include="Config\ConfigurationHelper.cs" />
+    <Compile Include="EntitySelector\EntityIdViewModel.cs" />
+    <Compile Include="Events\CanCloneChangeEvent.cs" />
+    <Compile Include="Events\CanCreateNewChangeEvent.cs" />
+    <Compile Include="Events\CloneEvent.cs" />
+    <Compile Include="Events\ConfirmMappingDeleteEvent.cs" />
+    <Compile Include="Events\MappingDeleteConfirmedEvent.cs" />
+    <Compile Include="Events\MappingUpdateEvent.cs" />
+    <Compile Include="Events\MappingUpdatedEvent.cs" />
+    <Compile Include="Events\MappingClonedEvent.cs" />
+    <Compile Include="Events\DialogOpenEvent.cs" />
+    <Compile Include="Events\EntitySelectedEvent.cs" />
+    <Compile Include="Events\EntitySelectEvent.cs" />
+    <Compile Include="Events\EntitySelectionViewContext.cs" />
+    <Compile Include="Events\SearchRequestEvent.cs" />
+    <Compile Include="Events\SearchResultsFound.cs" />
+    <Compile Include="Extensions\EventHandlerExtensions.cs" />
+    <Compile Include="Extensions\MdmServiceExtensions.cs" />
+    <Compile Include="Extensions\StringExtensions.cs" />
+    <Compile Include="Extensions\ObjectExtensions.cs" />
+    <Compile Include="InteractionRequest\NotificationLocalModalInteractionDialog.xaml.cs">
+      <DependentUpon>NotificationLocalModalInteractionDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="NavigationParameters.cs" />
+    <Compile Include="Services\IApplicationCommands.cs" />
+    <Compile Include="Services\IApplicationMenuRegistry.cs" />
+    <Compile Include="EventAggregator\EventAggregatorExtensionsProvider.cs" />
+    <Compile Include="EventAggregator\IEventAggregatorExtensionsProvider.cs" />
+    <Compile Include="Events\BusyEvent.cs" />
+    <Compile Include="Events\CanSaveEvent.cs" />
+    <Compile Include="Events\CreateEvent.cs" />
+    <Compile Include="Events\ErrorEvent.cs" />
+    <Compile Include="Events\SaveEvent.cs" />
+    <Compile Include="Events\StatusEvent.cs" />
+    <Compile Include="Extensions\EventAggregatorExtensions.cs" />
+    <Compile Include="Extensions\IMdmEntityExtensions.cs" />
+    <Compile Include="Framework\DateUtility.cs" />
+    <Compile Include="InteractionRequest\ConfirmationLocalModalInteractionDialog.xaml.cs">
+      <DependentUpon>ConfirmationLocalModalInteractionDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="InteractionRequest\InteractionDialogAction.cs" />
+    <Compile Include="InteractionRequest\InteractionDialogBase.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RegionNames.cs" />
+    <Compile Include="Services\EntityWithETag.cs" />
+    <Compile Include="Services\IMenuService.cs" />
+    <Compile Include="Services\INavigationService.cs" />
+    <Compile Include="Services\IMappingService.cs" />
+    <Compile Include="Services\MappingService.cs" />
+    <Compile Include="Services\MenuService.cs" />
+    <Compile Include="Services\NavigationService.cs" />
+    <Compile Include="Services\Server.cs" />
+    <Compile Include="UI\Message.cs" />
+    <Compile Include="UI\Triggers\BindingListener.cs" />
+    <Compile Include="UI\Triggers\CallDataMethod.cs" />
+    <Compile Include="UI\Uris\MappingCloneUri.cs" />
+    <Compile Include="UI\Uris\EntityEditUri.cs" />
+    <Compile Include="UI\Uris\MappingAddUri.cs" />
+    <Compile Include="UI\Uris\MappingEditUri.cs" />
+    <Compile Include="UI\Uris\ViewNames.cs" />
+    <Compile Include="UI\ValueConverters\BoolToVisibilityConverter.cs" />
+    <Compile Include="UI\ValueConverters\StringToDecimalConverter.cs" />
+    <Compile Include="UI\ValueConverters\CountToVisibilityConverter.cs" />
+    <Compile Include="UI\ValueConverters\InvertBooleanConverter.cs" />
+    <Compile Include="UI\ValueConverters\NullToBooleanConverter.cs" />
+    <Compile Include="UI\ValueConverters\StringToBooleanConverter.cs" />
+    <Compile Include="UI\ValueConverters\StringToVisibilityConverter.cs" />
+    <Compile Include="UI\ValueConverters\ValueConverterGroup.cs" />
+    <Compile Include="UI\ViewModels\ConfirmMappingDeleteViewModel.cs" />
+    <Compile Include="UI\ViewModels\MappingUpdateViewModel.cs" />
+    <Compile Include="UI\ViewModels\MappingCloneViewModel.cs" />
+    <Compile Include="UI\ViewModels\MappingAddViewModel.cs" />
+    <Compile Include="UI\ViewModels\MappingEditViewModel.cs" />
+    <Compile Include="UI\ViewModels\MappingViewModel.cs" />
+    <Compile Include="UI\ViewModels\SelectorViewModel.cs" />
+    <Compile Include="UI\Views\ConfirmMappingDeleteView.xaml.cs">
+      <DependentUpon>ConfirmMappingDeleteView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Views\MappingCloneView.xaml.cs">
+      <DependentUpon>MappingCloneView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Views\MappingAddView.xaml.cs">
+      <DependentUpon>MappingAddView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Views\MappingEditView.xaml.cs">
+      <DependentUpon>MappingEditView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Views\MappingUpdateView.xaml.cs">
+      <DependentUpon>MappingUpdateView.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="InteractionRequest\ConfirmationLocalModalInteractionDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="InteractionRequest\NotificationLocalModalInteractionDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\Images\Icons.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\Themes\SimpleStyles.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\Themes\BlackTheme.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\Themes\Brushes.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\Views\ConfirmMappingDeleteView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\Views\MappingCloneView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\Views\MappingAddView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\Views\MappingEditView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\Views\MappingUpdateView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="UI\Application.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\EntityContracts\EnergyTrading.MDM.Contracts.Sample\EnergyTrading.MDM.Contracts.Sample.csproj">
+      <Project>{c8a98274-aba5-47c5-9c91-b049360a7f0f}</Project>
+      <Name>EnergyTrading.MDM.Contracts.Sample</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+  <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

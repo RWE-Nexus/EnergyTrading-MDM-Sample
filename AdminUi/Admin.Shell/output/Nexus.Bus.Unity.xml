@@ -1,0 +1,387 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Nexus.Bus.Unity</name>
+    </assembly>
+    <members>
+        <member name="T:RWEST.Nexus.Configuration.BusConfigurator">
+            <summary>
+            Simplified bus configuration task.
+            </summary>
+        </member>
+        <member name="T:RWEST.Nexus.Configuration.IBusConfigurator">
+            <summary>
+            Fluent interface for configuring the bus.
+            </summary>
+        </member>
+        <member name="M:RWEST.Nexus.Configuration.IBusConfigurator.ConfigureContainer">
+            <summary>
+            Default configuration of the container, including registration of service locator
+            and loading of the container from the configuration file.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:RWEST.Nexus.Configuration.IBusConfigurator.SetSectionName(System.String)">
+            <summary>
+            Sets the section name via the fluent interface.
+            </summary>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:RWEST.Nexus.Configuration.IBusConfigurator.ConfigureRegistrars">
+            <summary>
+            Invokes all registrars registered with the container.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:RWEST.Nexus.Configuration.IBusConfigurator.ConfigureLogging">
+            <summary>
+            Configure the logger.
+            </summary>
+        </member>
+        <member name="M:RWEST.Nexus.Configuration.IBusConfigurator.StandardRegistrars">
+            <summary>
+            Registers/configure the standard behaviour.
+            </summary>
+        </member>
+        <member name="M:RWEST.Nexus.Configuration.IBusConfigurator.Configure``1">
+            <summary>
+            Creates and executes a container registrar.
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="M:RWEST.Nexus.Configuration.IBusConfigurator.Register``1">
+            <summary>
+            Registers a container registrar for later invocation.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <returns></returns>
+        </member>
+        <member name="M:RWEST.Nexus.Configuration.IBusConfigurator.RunConfigurationTasks">
+            <summary>
+            Set up to invoke the global configuration tasks.
+            </summary>
+        </member>
+        <member name="M:RWEST.Nexus.Configuration.IBusConfigurator.Shutdown">
+            <summary>
+            Invoke the <see cref="T:RWEST.Nexus.Configuration.IShutdownTask"/>s that are registered with the container.
+            </summary>
+        </member>
+        <member name="M:RWEST.Nexus.Configuration.IBusConfigurator.ToBusConfiguration">
+            <summary>
+            Resolve the bus configuration and start the connections.
+            </summary>
+            <returns>Returns the IBusConfiguration.</returns>
+        </member>
+        <member name="M:RWEST.Nexus.Configuration.IBusConfigurator.ToListenerHost">
+            <summary>
+            Resolve the listener host and start the connections.
+            </summary>
+            <returns>Returns a ListenerHost.</returns>
+        </member>
+        <member name="M:RWEST.Nexus.Configuration.IBusConfigurator.ToPublisherHost(System.Boolean)">
+            <summary>
+            Resolve the publisher host and start the publisher.
+            </summary>
+            <param name="transactional">Whether to return a transactional or non-transactional publisher</param>
+            <returns>Returns the required IPublisherHost.</returns>
+        </member>
+        <member name="P:RWEST.Nexus.Configuration.IBusConfigurator.Container">
+            <summary>
+            Gets the container used by the configurator.
+            </summary>
+        </member>
+        <member name="P:RWEST.Nexus.Configuration.IBusConfigurator.SectionName">
+            <summary>
+            Gets the section name used to configure the hosts.
+            </summary>
+        </member>
+        <member name="M:RWEST.Nexus.Configuration.BusConfigurator.ConfigureContainer">
+            <summary>
+            Default configuration of the container, including registration of service locator
+            and loading of the container from the configuration file.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:RWEST.Nexus.Configuration.BusConfigurator.SetSectionName(System.String)">
+            <summary>
+            Sets the section name via the fluent interface.
+            </summary>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:RWEST.Nexus.Configuration.BusConfigurator.ConfigureRegistrars">
+            <summary>
+            Invokes all registrars registered with the container.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:RWEST.Nexus.Configuration.BusConfigurator.ConfigureLogging">
+            <summary>
+            Configure the logger.
+            </summary>
+            <remarks>
+            Default is to use log4net, configuration should be in logger.config.
+            </remarks>
+            <returns></returns>
+        </member>
+        <member name="M:RWEST.Nexus.Configuration.BusConfigurator.StandardRegistrars">
+            <summary>
+            Registers/configure the standard behaviour.
+            <para>
+            To affect standard behaviour override <see cref="M:RWEST.Nexus.Configuration.BusConfigurator.ExecuteBusHostRegistrar"/>, 
+            <see cref="M:RWEST.Nexus.Configuration.BusConfigurator.RegisterEventMonitor"/> and <see cref="M:RWEST.Nexus.Configuration.BusConfigurator.RegisterControlBus"/>
+            </para>
+            </summary>
+            <remarks>
+            Configures the following registrars:
+            <list type="bullet">
+            <item><see cref="T:RWEST.Nexus.Registrars.BusConnectionFactoryRegistrar"/></item>
+            <item><see cref="T:RWEST.Nexus.Registrars.XmlSchemaRegistryRegistrar"/></item>
+            <item><see cref="T:RWEST.Nexus.Registrars.XmlMappingEngineFactoryRegistrar"/></item>
+            </list>&gt;
+            <para>&gt;
+            Registers the following registrars:
+            </para>
+            <list type="bullet">
+            <item><see cref="T:RWEST.Nexus.Registrars.ConfigurationManagerRegistrar"/></item>        
+            <item><see cref="T:RWEST.Nexus.Registrars.XmlVersionDetectorRegistrar"/></item>  
+            <item><see cref="T:RWEST.Nexus.Registrars.BusRegistrar"/></item>         
+            <item><see cref="T:Rwe.Nexus.Adm.Registrars.MessagingMapperRegistrar"/></item>
+            <item><see cref="T:RWEST.Nexus.Registrars.MessageTransformerRegistrar"/></item>                 
+            <item><see cref="T:Rwe.Nexus.Adm.Registrars.MessagingVersionDetectorRegistrar"/></item>
+            <item><see cref="T:RWEST.Nexus.Registrars.CompressionRegistrar"/></item>
+            <item><see cref="T:RWEST.Nexus.Registrars.BusConnectionFactoryRegistrar"/></item>
+            <item><see cref="T:RWEST.Nexus.Registrars.WrappersRegistrar"/></item>
+            <item><see cref="T:RWEST.Nexus.Registrars.FilterRegistrar"/></item>        
+            </list>
+            </remarks>
+            <returns></returns>
+        </member>
+        <member name="M:RWEST.Nexus.Configuration.BusConfigurator.Configure``1">
+            <summary>
+            Creates and executes a container registrar.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <returns></returns>
+        </member>
+        <member name="M:RWEST.Nexus.Configuration.BusConfigurator.Register``1">
+            <summary>
+            Registers a container registrar for later invocation.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <returns></returns>
+        </member>
+        <member name="M:RWEST.Nexus.Configuration.BusConfigurator.RunConfigurationTasks">
+            <summary>
+            Set up to invoke the global configuration tasks.
+            </summary>
+        </member>
+        <member name="M:RWEST.Nexus.Configuration.BusConfigurator.Shutdown">
+            <summary>
+            Invoke the <see cref="T:RWEST.Nexus.Configuration.IShutdownTask"/>s that are registered with the container.
+            </summary>
+        </member>
+        <member name="M:RWEST.Nexus.Configuration.BusConfigurator.ToBusConfiguration">
+            <summary>
+            Resolve the bus configuration and start the connections.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:RWEST.Nexus.Configuration.BusConfigurator.ToListenerHost">
+            <summary>
+            Resolve the listener host and start the connections.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:RWEST.Nexus.Configuration.BusConfigurator.ToPublisherHost(System.Boolean)">
+            <summary>
+            Resolve the publisher host and start the publisher.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:RWEST.Nexus.Configuration.BusConfigurator.ExecuteBusHostRegistrar">
+            <summary>
+            Executes the bus host registrar.
+            </summary>
+        </member>
+        <member name="M:RWEST.Nexus.Configuration.BusConfigurator.RegisterEventMonitor">
+            <summary>
+            Register the event monitor.        
+            </summary>
+            <remarks>
+            Default implementation registers the <see cref="T:RWEST.Nexus.EventMonitoring.NullEventMonitor"/>, to use the 
+            event monitor override to <see cref="T:RWEST.Nexus.Registrars.EventMonitorRegistrar"/>.
+            </remarks>
+        </member>
+        <member name="M:RWEST.Nexus.Configuration.BusConfigurator.RegisterControlBus">
+            <summary>
+            Register the control bus.
+            </summary>
+            <remarks>
+            Default implementation registers the <see cref="T:RWEST.Nexus.ControlBus.NullControlBus"/>, to use the 
+            control bus override to <see cref="T:RWEST.Nexus.Registrars.ControlBusClientRegistrar"/>.
+            </remarks>
+        </member>
+        <member name="M:RWEST.Nexus.Configuration.BusConfigurator.Execute``1(System.String)">
+            <summary>
+            Execute a named <see cref="T:RWEST.Nexus.Configuration.IGlobalConfigurationTask"/>
+            </summary>
+            <typeparam name="T">Type of the result</typeparam>
+            <param name="name">Name of the task</param>
+            <returns>Result of the task</returns>
+        </member>
+        <member name="P:RWEST.Nexus.Configuration.BusConfigurator.ExecuteConfigTasks">
+            <summary>
+            Gets or sets whether we should execute the configuration tasks.
+            </summary>
+        </member>
+        <member name="P:RWEST.Nexus.Configuration.BusConfigurator.Container">
+            <summary>
+            Gets the container used by the configurator.
+            </summary>
+        </member>
+        <member name="P:RWEST.Nexus.Configuration.BusConfigurator.SectionName">
+            <summary>
+            Gets the section name used to configure the hosts.
+            </summary>
+        </member>
+        <member name="T:RWEST.Nexus.Registrars.BusHostRegistrar">
+            <summary>
+            Registers the listener and publisher hosts.
+            </summary>
+        </member>
+        <member name="M:RWEST.Nexus.Registrars.BusHostRegistrar.#ctor">
+            <summary>
+            Create a new instance of the <see cref="T:RWEST.Nexus.Registrars.BusHostRegistrar"/> class.
+            </summary>
+        </member>
+        <member name="M:RWEST.Nexus.Registrars.BusHostRegistrar.Register(Microsoft.Practices.Unity.IUnityContainer)">
+            <copydocfrom cref="M:RWEST.Nexus.Container.Unity.IContainerRegistrar.Register(Microsoft.Practices.Unity.IUnityContainer)"/>
+        </member>
+        <member name="P:RWEST.Nexus.Registrars.BusHostRegistrar.SectionName">
+            <summary>
+            Gets or set the section name to use from the configuration file (default: busHost" />
+            </summary>
+        </member>
+        <member name="P:RWEST.Nexus.Registrars.BusHostRegistrar.ConfigManager">
+            <summary>
+            Gets or sets the configuration manager.
+            </summary>
+        </member>
+        <member name="T:RWEST.Nexus.Registrars.CompressionRegistrar">
+            <summary>
+            Configures the compression message processor and policy.
+            <para>
+            Picks up the compression limit from the configuration setting Bus.CompressionLimit
+            </para>
+            </summary>
+        </member>
+        <member name="T:RWEST.Nexus.Registrars.ControlBusClientRegistrar">
+            <summary>
+            Register the standard implementation for <see cref="T:RWEST.Nexus.ControlBus.IControlBus"/>
+            </summary>
+        </member>
+        <member name="M:RWEST.Nexus.Registrars.ControlBusClientRegistrar.Register(Microsoft.Practices.Unity.IUnityContainer)">
+            <copydocfrom cref="M:RWEST.Nexus.Container.Unity.IContainerRegistrar.Register(Microsoft.Practices.Unity.IUnityContainer)"/>
+        </member>
+        <member name="T:RWEST.Nexus.Registrars.EventMonitorRegistrar">
+            <summary>
+            Register the standard implementations for <see cref="T:RWEST.Nexus.EventMonitoring.IEventMonitor"/>.
+            </summary>
+        </member>
+        <member name="M:RWEST.Nexus.Registrars.EventMonitorRegistrar.Register(Microsoft.Practices.Unity.IUnityContainer)">
+            <copydocfrom cref="M:RWEST.Nexus.Container.Unity.IContainerRegistrar.Register(Microsoft.Practices.Unity.IUnityContainer)"/>
+        </member>
+        <member name="T:RWEST.Nexus.Registrars.FilterRegistrar">
+            <summary>
+            Register the standard implementations of <see cref="T:RWEST.Nexus.Bus.IFilterBuilder`1"/>.
+            </summary>
+        </member>
+        <member name="M:RWEST.Nexus.Registrars.FilterRegistrar.Register(Microsoft.Practices.Unity.IUnityContainer)">
+            <summary>
+            Register <see cref="T:RWEST.Nexus.Bus.Filter.NullFilterBuilder`1"/> by default and <see cref="T:RWEST.Nexus.Bus.Filter.EventHeaderBuilder"/> specifically.
+            </summary>
+            <param name="container"></param>
+        </member>
+        <member name="T:RWEST.Nexus.Registrars.NullControlBusRegistrar">
+            <summary>
+            Registers the implementation of <see cref="T:RWEST.Nexus.ControlBus.IControlBus"/> as <see cref="T:RWEST.Nexus.ControlBus.NullControlBus"/>.
+            <para>
+            To use the control bus use <see cref="T:RWEST.Nexus.Registrars.ControlBusClientRegistrar"/>.
+            </para>
+            </summary>
+        </member>
+        <member name="M:RWEST.Nexus.Registrars.NullControlBusRegistrar.Register(Microsoft.Practices.Unity.IUnityContainer)">
+            <copydocfrom cref="M:RWEST.Nexus.Container.Unity.IContainerRegistrar.Register(Microsoft.Practices.Unity.IUnityContainer)"/>
+        </member>
+        <member name="T:RWEST.Nexus.Registrars.NullEventMonitorRegistrar">
+            <summary>
+            Registers the implementation of <see cref="T:RWEST.Nexus.EventMonitoring.IEventMonitor"/> as <see cref="T:RWEST.Nexus.EventMonitoring.NullEventMonitor"/>
+            <para>
+            To use the event monitor use <see cref="T:RWEST.Nexus.Registrars.EventMonitorRegistrar"/>.
+            </para>
+            </summary>
+        </member>
+        <member name="M:RWEST.Nexus.Registrars.NullEventMonitorRegistrar.Register(Microsoft.Practices.Unity.IUnityContainer)">
+            <copydocfrom cref="M:RWEST.Nexus.Container.Unity.IContainerRegistrar.Register(Microsoft.Practices.Unity.IUnityContainer)"/>
+        </member>
+        <member name="T:RWEST.Nexus.Unity.ContainerExtensions">
+            <summary>
+            Extension methods to simplify container usage.
+            </summary>
+        </member>
+        <member name="M:RWEST.Nexus.Unity.ContainerExtensions.RegisterListener(Microsoft.Practices.Unity.IUnityContainer,RWEST.Nexus.Bus.IListenerEndpoint,System.String)">
+            <summary>
+            Register a <see cref="T:RWEST.Nexus.Bus.IListener`1"/> into the container.
+            </summary>
+            <param name="container">Container to use</param>
+            <param name="endpoint">Endpoint to use</param>
+            <param name="host">Host section to use</param>
+        </member>
+        <member name="M:RWEST.Nexus.Unity.ContainerExtensions.RegisterMessageHandler(Microsoft.Practices.Unity.IUnityContainer,RWEST.Nexus.Bus.IListenerEndpoint)">
+            <summary>
+            Register a <see cref="T:RWEST.Nexus.Bus.IMessageHandler`1"/> into the container
+            </summary>
+            <param name="container">Container to use</param>
+            <param name="endpoint">Endpoint to use</param>
+        </member>
+        <member name="M:RWEST.Nexus.Unity.ContainerExtensions.RegisterPublisher(Microsoft.Practices.Unity.IUnityContainer,RWEST.Nexus.Bus.IPublisherEndpoint)">
+            <summary>
+            Register a <see cref="T:RWEST.Nexus.Bus.IPublisher`1"/> into the container.
+            </summary>
+            <param name="container">Container to use</param>
+            <param name="endpoint">Endpoint to use</param>
+        </member>
+        <member name="M:RWEST.Nexus.Unity.ContainerExtensions.RegisterSerializer(Microsoft.Practices.Unity.IUnityContainer,RWEST.Nexus.Bus.SerializationEndpoint)">
+            <summary>
+            Register a <see cref="T:RWEST.Nexus.Bus.IMessageSerializer`2"/> into the container.
+            </summary>
+            <param name="container">Container to use</param>
+            <param name="endpoint">Endpoint to use</param>
+        </member>
+        <member name="M:RWEST.Nexus.Unity.ContainerExtensions.RegisterDeserializer(Microsoft.Practices.Unity.IUnityContainer,RWEST.Nexus.Bus.SerializationEndpoint)">
+            <summary>
+            Register a <see cref="T:RWEST.Nexus.Bus.IMessageDeserializer`2"/> into the container.
+            </summary>
+            <param name="container">Container to use</param>
+            <param name="endpoint">Endpoint to use</param>
+        </member>
+        <member name="T:RWEST.Nexus.Registrars.BusRegistrar">
+            <summary>
+            Register the IBus implementation.
+            </summary>
+            <remarks>
+            IBus is per thread so that <see cref="T:RWEST.Nexus.Bus.ChannelListener`1"/> and <see cref="T:RWEST.Nexus.Bus.IMessageHandler`1"/> get the same copy.
+            </remarks>
+        </member>
+        <member name="T:RWEST.Nexus.Registrars.MessageTransformerRegistrar">
+            <summary>
+            Register the standard implementations for the inbound/outbound message transformers and processors.
+            </summary>
+        </member>
+        <member name="M:RWEST.Nexus.Registrars.MessageTransformerRegistrar.Register(Microsoft.Practices.Unity.IUnityContainer)">
+            <copydocfrom cref="M:RWEST.Nexus.Container.Unity.IContainerRegistrar.Register(Microsoft.Practices.Unity.IUnityContainer)"/>
+        </member>
+    </members>
+</doc>

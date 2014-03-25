@@ -1,0 +1,339 @@
+2014-03-11 14:54:24,459 [7] DEBUG - Searching: 1 remaining
+2014-03-11 14:54:24,468 [7] INFO - Starting connections
+2014-03-11 14:54:24,885 [7] INFO - Bus connection opened in 414 ms - BrokerUri: tcp://S930A4012:7222,tcp://S930A4013:7222, ClientId: 
+2014-03-11 14:54:24,938 [7] INFO - Registering with control bus (Endpoint id: UatMdmAdminUiMdmLoadPublisher EventHeader+ControlMessagePayload C012A4700/1)
+2014-03-11 14:54:25,101 [7] DEBUG - Topic: Test.Monitor.Event: Publishing
+2014-03-11 14:54:25,102 [7] DEBUG - Create: Topic: Test.Monitor.Event
+2014-03-11 14:54:25,102 [7] DEBUG - Processing: Test.Monitor.Event
+2014-03-11 14:54:25,131 [7] DEBUG - Locating mapping engine for EventHeader version 'Messaging.V2_3'
+2014-03-11 14:54:25,161 [7] DEBUG - Locating mapping engine for MonitoringEventPayload version 'Monitoring.V1'
+2014-03-11 14:54:25,176 [7] DEBUG - Locating mapping engine for EventHeader version 'Messaging.V2_3'
+2014-03-11 14:54:25,190 [7] DEBUG - Bus message published - Message: RWEST.Nexus.Bus.BusMessage, Destination: Topic[Test.Monitor.Event]
+2014-03-11 14:54:29,200 [7] WARN - Nexus Bus: Category not defined
+2014-03-11 14:54:29,200 [7] DEBUG - Committing
+2014-03-11 14:54:29,217 [7] DEBUG - Closing
+2014-03-11 14:54:29,235 [7] DEBUG - Removing: RWEST.Nexus.Configuration.ControlBusConfigurationTask
+2014-03-11 14:54:29,235 [7] DEBUG - Searching: 0 remaining
+2014-03-11 14:54:29,235 [7] INFO - Starting connections
+2014-03-11 14:54:30,190 [7] DEBUG - Start: http://nexusatest.rwe.com/Uat_MdmService/SourceSystem/List
+2014-03-11 14:54:30,253 [7] DEBUG - Get: http://nexusatest.rwe.com/Uat_MdmService/SourceSystem/List
+2014-03-11 14:54:30,941 [7] DEBUG - Finish: http://nexusatest.rwe.com/Uat_MdmService/SourceSystem/List
+2014-03-11 14:54:33,123 [7] DEBUG - Start: http://nexusatest.rwe.com/Uat_MdmService/ReferenceData/list/DefaultType
+2014-03-11 14:54:33,123 [7] DEBUG - Get: http://nexusatest.rwe.com/Uat_MdmService/ReferenceData/list/DefaultType
+2014-03-11 14:54:33,331 [7] DEBUG - Finish: http://nexusatest.rwe.com/Uat_MdmService/ReferenceData/list/DefaultType
+2014-03-11 14:54:33,360 [7] DEBUG - Start: http://nexusatest.rwe.com/Uat_MdmService/ReferenceData/list/BrokerRateType
+2014-03-11 14:54:33,360 [7] DEBUG - Get: http://nexusatest.rwe.com/Uat_MdmService/ReferenceData/list/BrokerRateType
+2014-03-11 14:54:33,572 [7] DEBUG - Finish: http://nexusatest.rwe.com/Uat_MdmService/ReferenceData/list/BrokerRateType
+2014-03-11 14:54:33,573 [7] DEBUG - Start: http://nexusatest.rwe.com/Uat_MdmService/ReferenceData/list/MarketCurrency
+2014-03-11 14:54:33,574 [7] DEBUG - Get: http://nexusatest.rwe.com/Uat_MdmService/ReferenceData/list/MarketCurrency
+2014-03-11 14:54:33,777 [7] DEBUG - Finish: http://nexusatest.rwe.com/Uat_MdmService/ReferenceData/list/MarketCurrency
+2014-03-11 14:54:33,787 [7] DEBUG - Start: http://nexusatest.rwe.com/Uat_MdmService/ReferenceData/list/LEPartyStatus
+2014-03-11 14:54:33,788 [7] DEBUG - Get: http://nexusatest.rwe.com/Uat_MdmService/ReferenceData/list/LEPartyStatus
+2014-03-11 14:54:33,992 [7] DEBUG - Finish: http://nexusatest.rwe.com/Uat_MdmService/ReferenceData/list/LEPartyStatus
+2014-03-11 14:54:33,994 [7] DEBUG - Start: http://nexusatest.rwe.com/Uat_MdmService/ReferenceData/list/BUAccountType
+2014-03-11 14:54:33,994 [7] DEBUG - Get: http://nexusatest.rwe.com/Uat_MdmService/ReferenceData/list/BUAccountType
+2014-03-11 14:54:34,203 [7] DEBUG - Finish: http://nexusatest.rwe.com/Uat_MdmService/ReferenceData/list/BUAccountType
+2014-03-11 14:54:34,275 [7] DEBUG - Start: http://nexusatest.rwe.com/Uat_MdmService/ReferenceData/list/InstrumentDelivery
+2014-03-11 14:54:34,275 [7] DEBUG - Get: http://nexusatest.rwe.com/Uat_MdmService/ReferenceData/list/InstrumentDelivery
+2014-03-11 14:54:34,458 [7] DEBUG - Finish: http://nexusatest.rwe.com/Uat_MdmService/ReferenceData/list/InstrumentDelivery
+2014-03-11 14:54:34,494 [7] DEBUG - Start: http://nexusatest.rwe.com/Uat_MdmService/ReferenceData/list/CurveType
+2014-03-11 14:54:34,494 [7] DEBUG - Get: http://nexusatest.rwe.com/Uat_MdmService/ReferenceData/list/CurveType
+2014-03-11 14:54:34,730 [7] DEBUG - Finish: http://nexusatest.rwe.com/Uat_MdmService/ReferenceData/list/CurveType
+2014-03-11 14:54:34,733 [7] DEBUG - Start: http://nexusatest.rwe.com/Uat_MdmService/ReferenceData/list/MarketCurrency
+2014-03-11 14:54:34,733 [7] DEBUG - Get: http://nexusatest.rwe.com/Uat_MdmService/ReferenceData/list/MarketCurrency
+2014-03-11 14:54:34,945 [7] DEBUG - Finish: http://nexusatest.rwe.com/Uat_MdmService/ReferenceData/list/MarketCurrency
+2014-03-11 14:54:35,044 [7] DEBUG - Start: http://nexusatest.rwe.com/Uat_MdmService/ReferenceData/list/LEPartyStatus
+2014-03-11 14:54:35,044 [7] DEBUG - Get: http://nexusatest.rwe.com/Uat_MdmService/ReferenceData/list/LEPartyStatus
+2014-03-11 14:54:35,244 [7] DEBUG - Finish: http://nexusatest.rwe.com/Uat_MdmService/ReferenceData/list/LEPartyStatus
+2014-03-11 14:54:35,283 [7] DEBUG - Start: http://nexusatest.rwe.com/Uat_MdmService/ReferenceData/list/LocationType
+2014-03-11 14:54:35,283 [7] DEBUG - Get: http://nexusatest.rwe.com/Uat_MdmService/ReferenceData/list/LocationType
+2014-03-11 14:54:35,511 [7] DEBUG - Finish: http://nexusatest.rwe.com/Uat_MdmService/ReferenceData/list/LocationType
+2014-03-11 14:54:35,543 [7] DEBUG - Start: http://nexusatest.rwe.com/Uat_MdmService/ReferenceData/list/MarketCurrency
+2014-03-11 14:54:35,543 [7] DEBUG - Get: http://nexusatest.rwe.com/Uat_MdmService/ReferenceData/list/MarketCurrency
+2014-03-11 14:54:35,759 [7] DEBUG - Finish: http://nexusatest.rwe.com/Uat_MdmService/ReferenceData/list/MarketCurrency
+2014-03-11 14:54:35,762 [7] DEBUG - Start: http://nexusatest.rwe.com/Uat_MdmService/ReferenceData/list/MarketTradeUnits
+2014-03-11 14:54:35,762 [7] DEBUG - Get: http://nexusatest.rwe.com/Uat_MdmService/ReferenceData/list/MarketTradeUnits
+2014-03-11 14:54:35,973 [7] DEBUG - Finish: http://nexusatest.rwe.com/Uat_MdmService/ReferenceData/list/MarketTradeUnits
+2014-03-11 14:54:35,975 [7] DEBUG - Start: http://nexusatest.rwe.com/Uat_MdmService/ReferenceData/list/MarketNominationUnits
+2014-03-11 14:54:35,975 [7] DEBUG - Get: http://nexusatest.rwe.com/Uat_MdmService/ReferenceData/list/MarketNominationUnits
+2014-03-11 14:54:36,180 [7] DEBUG - Finish: http://nexusatest.rwe.com/Uat_MdmService/ReferenceData/list/MarketNominationUnits
+2014-03-11 14:54:36,276 [7] DEBUG - Start: http://nexusatest.rwe.com/Uat_MdmService/ReferenceData/list/PartyAccountabilityType
+2014-03-11 14:54:36,276 [7] DEBUG - Get: http://nexusatest.rwe.com/Uat_MdmService/ReferenceData/list/PartyAccountabilityType
+2014-03-11 14:54:36,462 [7] DEBUG - Finish: http://nexusatest.rwe.com/Uat_MdmService/ReferenceData/list/PartyAccountabilityType
+2014-03-11 14:54:36,509 [7] DEBUG - Start: http://nexusatest.rwe.com/Uat_MdmService/ReferenceData/list/PartyRoleAccountabilityType
+2014-03-11 14:54:36,509 [7] DEBUG - Get: http://nexusatest.rwe.com/Uat_MdmService/ReferenceData/list/PartyRoleAccountabilityType
+2014-03-11 14:54:36,690 [7] DEBUG - Finish: http://nexusatest.rwe.com/Uat_MdmService/ReferenceData/list/PartyRoleAccountabilityType
+2014-03-11 14:54:36,724 [7] DEBUG - Start: http://nexusatest.rwe.com/Uat_MdmService/ReferenceData/list/PartyRoleType
+2014-03-11 14:54:36,724 [7] DEBUG - Get: http://nexusatest.rwe.com/Uat_MdmService/ReferenceData/list/PartyRoleType
+2014-03-11 14:54:36,919 [7] DEBUG - Finish: http://nexusatest.rwe.com/Uat_MdmService/ReferenceData/list/PartyRoleType
+2014-03-11 14:54:36,943 [7] DEBUG - Start: http://nexusatest.rwe.com/Uat_MdmService/ReferenceData/list/PersonRole
+2014-03-11 14:54:36,944 [7] DEBUG - Get: http://nexusatest.rwe.com/Uat_MdmService/ReferenceData/list/PersonRole
+2014-03-11 14:54:37,127 [7] DEBUG - Finish: http://nexusatest.rwe.com/Uat_MdmService/ReferenceData/list/PersonRole
+2014-03-11 14:54:37,179 [7] DEBUG - Start: http://nexusatest.rwe.com/Uat_MdmService/ReferenceData/list/CalendarRule
+2014-03-11 14:54:37,179 [7] DEBUG - Get: http://nexusatest.rwe.com/Uat_MdmService/ReferenceData/list/CalendarRule
+2014-03-11 14:54:37,359 [7] DEBUG - Finish: http://nexusatest.rwe.com/Uat_MdmService/ReferenceData/list/CalendarRule
+2014-03-11 14:54:37,393 [7] DEBUG - Start: http://nexusatest.rwe.com/Uat_MdmService/ReferenceData/list/DeliveryRangeType
+2014-03-11 14:54:37,393 [7] DEBUG - Get: http://nexusatest.rwe.com/Uat_MdmService/ReferenceData/list/DeliveryRangeType
+2014-03-11 14:54:37,571 [7] DEBUG - Finish: http://nexusatest.rwe.com/Uat_MdmService/ReferenceData/list/DeliveryRangeType
+2014-03-11 14:54:37,653 [7] DEBUG - Start: http://nexusatest.rwe.com/Uat_MdmService/ReferenceData/list/ScotaContract
+2014-03-11 14:54:37,653 [7] DEBUG - Get: http://nexusatest.rwe.com/Uat_MdmService/ReferenceData/list/ScotaContract
+2014-03-11 14:54:37,823 [7] DEBUG - Finish: http://nexusatest.rwe.com/Uat_MdmService/ReferenceData/list/ScotaContract
+2014-03-11 14:54:37,825 [7] DEBUG - Start: http://nexusatest.rwe.com/Uat_MdmService/ReferenceData/list/ScotaRss
+2014-03-11 14:54:37,825 [7] DEBUG - Get: http://nexusatest.rwe.com/Uat_MdmService/ReferenceData/list/ScotaRss
+2014-03-11 14:54:38,076 [7] DEBUG - Finish: http://nexusatest.rwe.com/Uat_MdmService/ReferenceData/list/ScotaRss
+2014-03-11 14:54:38,078 [7] DEBUG - Start: http://nexusatest.rwe.com/Uat_MdmService/ReferenceData/list/ScotaVersion
+2014-03-11 14:54:38,078 [7] DEBUG - Get: http://nexusatest.rwe.com/Uat_MdmService/ReferenceData/list/ScotaVersion
+2014-03-11 14:54:38,269 [7] DEBUG - Finish: http://nexusatest.rwe.com/Uat_MdmService/ReferenceData/list/ScotaVersion
+2014-03-11 14:55:00,202 [8] DEBUG - Searching: 1 remaining
+2014-03-11 14:55:00,209 [8] INFO - Starting connections
+2014-03-11 14:55:00,505 [8] INFO - Bus connection opened in 293 ms - BrokerUri: tcp://localhost:7222, ClientId: 
+2014-03-11 14:55:00,547 [8] INFO - Registering with control bus (Endpoint id: LocalMdmAdminUiMdmLoadPublisher EventHeader+ControlMessagePayload C012A4700/1)
+2014-03-11 14:55:00,629 [8] DEBUG - Topic: Local.Monitor.Event: Publishing
+2014-03-11 14:55:00,629 [8] DEBUG - Create: Topic: Local.Monitor.Event
+2014-03-11 14:55:00,630 [8] DEBUG - Processing: Local.Monitor.Event
+2014-03-11 14:55:00,641 [8] DEBUG - Locating mapping engine for EventHeader version 'Messaging.V2_3'
+2014-03-11 14:55:00,657 [8] DEBUG - Locating mapping engine for MonitoringEventPayload version 'Monitoring.V1'
+2014-03-11 14:55:00,670 [8] DEBUG - Locating mapping engine for EventHeader version 'Messaging.V2_3'
+2014-03-11 14:55:00,681 [8] DEBUG - Bus message published - Message: RWEST.Nexus.Bus.BusMessage, Destination: Topic[Local.Monitor.Event]
+2014-03-11 14:55:02,621 [8] WARN - Nexus Bus: Category not defined
+2014-03-11 14:55:02,621 [8] DEBUG - Committing
+2014-03-11 14:55:02,646 [8] DEBUG - Closing
+2014-03-11 14:55:02,650 [8] DEBUG - Removing: RWEST.Nexus.Configuration.ControlBusConfigurationTask
+2014-03-11 14:55:02,650 [8] DEBUG - Searching: 0 remaining
+2014-03-11 14:55:02,650 [8] INFO - Starting connections
+2014-03-11 14:55:03,022 [8] DEBUG - Start: http://localhost:8091/SourceSystem/List
+2014-03-11 14:55:03,035 [8] DEBUG - Get: http://localhost:8091/SourceSystem/List
+2014-03-11 14:55:12,221 [8] DEBUG - Finish: http://localhost:8091/SourceSystem/List
+2014-03-11 14:55:12,558 [8] DEBUG - Start: http://localhost:8091/ReferenceData/list/DefaultType
+2014-03-11 14:55:12,558 [8] DEBUG - Get: http://localhost:8091/ReferenceData/list/DefaultType
+2014-03-11 14:55:13,378 [8] DEBUG - Finish: http://localhost:8091/ReferenceData/list/DefaultType
+2014-03-11 14:55:13,433 [8] DEBUG - Start: http://localhost:8091/ReferenceData/list/BrokerRateType
+2014-03-11 14:55:13,433 [8] DEBUG - Get: http://localhost:8091/ReferenceData/list/BrokerRateType
+2014-03-11 14:55:13,443 [8] DEBUG - Finish: http://localhost:8091/ReferenceData/list/BrokerRateType
+2014-03-11 14:55:13,443 [8] DEBUG - Start: http://localhost:8091/ReferenceData/list/MarketCurrency
+2014-03-11 14:55:13,443 [8] DEBUG - Get: http://localhost:8091/ReferenceData/list/MarketCurrency
+2014-03-11 14:55:13,476 [8] DEBUG - Finish: http://localhost:8091/ReferenceData/list/MarketCurrency
+2014-03-11 14:55:13,484 [8] DEBUG - Start: http://localhost:8091/ReferenceData/list/LEPartyStatus
+2014-03-11 14:55:13,484 [8] DEBUG - Get: http://localhost:8091/ReferenceData/list/LEPartyStatus
+2014-03-11 14:55:13,493 [8] DEBUG - Finish: http://localhost:8091/ReferenceData/list/LEPartyStatus
+2014-03-11 14:55:13,494 [8] DEBUG - Start: http://localhost:8091/ReferenceData/list/BUAccountType
+2014-03-11 14:55:13,494 [8] DEBUG - Get: http://localhost:8091/ReferenceData/list/BUAccountType
+2014-03-11 14:55:13,505 [8] DEBUG - Finish: http://localhost:8091/ReferenceData/list/BUAccountType
+2014-03-11 14:55:13,671 [8] DEBUG - Start: http://localhost:8091/ReferenceData/list/InstrumentDelivery
+2014-03-11 14:55:13,671 [8] DEBUG - Get: http://localhost:8091/ReferenceData/list/InstrumentDelivery
+2014-03-11 14:55:13,681 [8] DEBUG - Finish: http://localhost:8091/ReferenceData/list/InstrumentDelivery
+2014-03-11 14:55:13,695 [8] DEBUG - Start: http://localhost:8091/ReferenceData/list/CurveType
+2014-03-11 14:55:13,695 [8] DEBUG - Get: http://localhost:8091/ReferenceData/list/CurveType
+2014-03-11 14:55:13,706 [8] DEBUG - Finish: http://localhost:8091/ReferenceData/list/CurveType
+2014-03-11 14:55:13,707 [8] DEBUG - Start: http://localhost:8091/ReferenceData/list/MarketCurrency
+2014-03-11 14:55:13,707 [8] DEBUG - Get: http://localhost:8091/ReferenceData/list/MarketCurrency
+2014-03-11 14:55:13,716 [8] DEBUG - Finish: http://localhost:8091/ReferenceData/list/MarketCurrency
+2014-03-11 14:55:13,783 [8] DEBUG - Start: http://localhost:8091/ReferenceData/list/LEPartyStatus
+2014-03-11 14:55:13,798 [8] DEBUG - Get: http://localhost:8091/ReferenceData/list/LEPartyStatus
+2014-03-11 14:55:13,807 [8] DEBUG - Finish: http://localhost:8091/ReferenceData/list/LEPartyStatus
+2014-03-11 14:55:13,821 [8] DEBUG - Start: http://localhost:8091/ReferenceData/list/LocationType
+2014-03-11 14:55:13,821 [8] DEBUG - Get: http://localhost:8091/ReferenceData/list/LocationType
+2014-03-11 14:55:13,832 [8] DEBUG - Finish: http://localhost:8091/ReferenceData/list/LocationType
+2014-03-11 14:55:13,846 [8] DEBUG - Start: http://localhost:8091/ReferenceData/list/MarketCurrency
+2014-03-11 14:55:13,846 [8] DEBUG - Get: http://localhost:8091/ReferenceData/list/MarketCurrency
+2014-03-11 14:55:13,855 [8] DEBUG - Finish: http://localhost:8091/ReferenceData/list/MarketCurrency
+2014-03-11 14:55:13,856 [8] DEBUG - Start: http://localhost:8091/ReferenceData/list/MarketTradeUnits
+2014-03-11 14:55:13,856 [8] DEBUG - Get: http://localhost:8091/ReferenceData/list/MarketTradeUnits
+2014-03-11 14:55:13,866 [8] DEBUG - Finish: http://localhost:8091/ReferenceData/list/MarketTradeUnits
+2014-03-11 14:55:14,000 [8] DEBUG - Start: http://localhost:8091/ReferenceData/list/MarketNominationUnits
+2014-03-11 14:55:14,000 [8] DEBUG - Get: http://localhost:8091/ReferenceData/list/MarketNominationUnits
+2014-03-11 14:55:14,028 [8] DEBUG - Finish: http://localhost:8091/ReferenceData/list/MarketNominationUnits
+2014-03-11 14:55:14,069 [8] DEBUG - Start: http://localhost:8091/ReferenceData/list/PartyAccountabilityType
+2014-03-11 14:55:14,069 [8] DEBUG - Get: http://localhost:8091/ReferenceData/list/PartyAccountabilityType
+2014-03-11 14:55:14,081 [8] DEBUG - Finish: http://localhost:8091/ReferenceData/list/PartyAccountabilityType
+2014-03-11 14:55:14,102 [8] DEBUG - Start: http://localhost:8091/ReferenceData/list/PartyRoleAccountabilityType
+2014-03-11 14:55:14,102 [8] DEBUG - Get: http://localhost:8091/ReferenceData/list/PartyRoleAccountabilityType
+2014-03-11 14:55:14,111 [8] DEBUG - Finish: http://localhost:8091/ReferenceData/list/PartyRoleAccountabilityType
+2014-03-11 14:55:14,121 [8] DEBUG - Start: http://localhost:8091/ReferenceData/list/PartyRoleType
+2014-03-11 14:55:14,199 [8] DEBUG - Get: http://localhost:8091/ReferenceData/list/PartyRoleType
+2014-03-11 14:55:14,221 [8] DEBUG - Finish: http://localhost:8091/ReferenceData/list/PartyRoleType
+2014-03-11 14:55:14,237 [8] DEBUG - Start: http://localhost:8091/ReferenceData/list/PersonRole
+2014-03-11 14:55:14,237 [8] DEBUG - Get: http://localhost:8091/ReferenceData/list/PersonRole
+2014-03-11 14:55:14,249 [8] DEBUG - Finish: http://localhost:8091/ReferenceData/list/PersonRole
+2014-03-11 14:55:14,300 [8] DEBUG - Start: http://localhost:8091/ReferenceData/list/CalendarRule
+2014-03-11 14:55:14,300 [8] DEBUG - Get: http://localhost:8091/ReferenceData/list/CalendarRule
+2014-03-11 14:55:14,310 [8] DEBUG - Finish: http://localhost:8091/ReferenceData/list/CalendarRule
+2014-03-11 14:55:14,324 [8] DEBUG - Start: http://localhost:8091/ReferenceData/list/DeliveryRangeType
+2014-03-11 14:55:14,324 [8] DEBUG - Get: http://localhost:8091/ReferenceData/list/DeliveryRangeType
+2014-03-11 14:55:14,348 [8] DEBUG - Finish: http://localhost:8091/ReferenceData/list/DeliveryRangeType
+2014-03-11 14:55:14,474 [8] DEBUG - Start: http://localhost:8091/ReferenceData/list/ScotaContract
+2014-03-11 14:55:14,474 [8] DEBUG - Get: http://localhost:8091/ReferenceData/list/ScotaContract
+2014-03-11 14:55:14,485 [8] DEBUG - Finish: http://localhost:8091/ReferenceData/list/ScotaContract
+2014-03-11 14:55:14,486 [8] DEBUG - Start: http://localhost:8091/ReferenceData/list/ScotaRss
+2014-03-11 14:55:14,486 [8] DEBUG - Get: http://localhost:8091/ReferenceData/list/ScotaRss
+2014-03-11 14:55:14,495 [8] DEBUG - Finish: http://localhost:8091/ReferenceData/list/ScotaRss
+2014-03-11 14:55:14,496 [8] DEBUG - Start: http://localhost:8091/ReferenceData/list/ScotaVersion
+2014-03-11 14:55:14,496 [8] DEBUG - Get: http://localhost:8091/ReferenceData/list/ScotaVersion
+2014-03-11 14:55:14,505 [8] DEBUG - Finish: http://localhost:8091/ReferenceData/list/ScotaVersion
+2014-03-11 14:55:22,830 [13] DEBUG - Search<Book>
+2014-03-11 14:55:22,842 [13] DEBUG - Search<Book>
+2014-03-11 14:55:22,844 [13] DEBUG - Start: http://localhost:8091/book/search
+2014-03-11 14:55:22,876 [13] DEBUG - Post: http://localhost:8091/book/search
+2014-03-11 14:55:29,915 [13] DEBUG - Finish: http://localhost:8091/book/search
+2014-03-11 14:55:32,668 [19] INFO - Sending heartbeat
+2014-03-11 14:55:32,686 [19] DEBUG - Topic: Local.Monitor.Event: Publishing
+2014-03-11 14:55:32,686 [19] DEBUG - Create: Topic: Local.Monitor.Event
+2014-03-11 14:55:32,686 [19] DEBUG - Processing: Local.Monitor.Event
+2014-03-11 14:55:32,687 [19] DEBUG - Locating mapping engine for EventHeader version 'Messaging.V2_3'
+2014-03-11 14:55:32,688 [19] DEBUG - Locating mapping engine for MonitoringEventPayload version 'Monitoring.V1'
+2014-03-11 14:55:32,689 [19] DEBUG - Locating mapping engine for EventHeader version 'Messaging.V2_3'
+2014-03-11 14:55:32,689 [19] DEBUG - Bus message published - Message: RWEST.Nexus.Bus.BusMessage, Destination: Topic[Local.Monitor.Event]
+2014-03-11 14:55:32,689 [19] DEBUG - Committing
+2014-03-11 14:55:32,690 [19] DEBUG - Closing
+2014-03-11 14:55:49,916 [13] DEBUG - Create<Book>
+2014-03-11 14:55:49,917 [13] DEBUG - Create<Book>
+2014-03-11 14:55:49,919 [13] DEBUG - Start: http://localhost:8091/book
+2014-03-11 14:55:49,920 [13] DEBUG - Post: http://localhost:8091/book
+2014-03-11 14:55:51,761 [13] DEBUG - Finish: http://localhost:8091/book
+2014-03-11 14:55:51,762 [13] DEBUG - Start: http://localhost:8091/book/1?as-of=1753-01-01T00:00:00.0000000Z
+2014-03-11 14:55:51,762 [13] DEBUG - Get: http://localhost:8091/book/1?as-of=1753-01-01T00:00:00.0000000Z
+2014-03-11 14:55:52,482 [13] DEBUG - Finish: http://localhost:8091/book/1?as-of=1753-01-01T00:00:00.0000000Z
+2014-03-11 14:55:52,547 [8] DEBUG - Topic: Local.MasterDataManagement.Notifications: Publishing
+2014-03-11 14:55:52,547 [8] DEBUG - Create: Topic: Local.MasterDataManagement.Notifications
+2014-03-11 14:55:52,547 [8] DEBUG - Processing: Local.MasterDataManagement.Notifications
+2014-03-11 14:55:52,551 [8] DEBUG - Locating mapping engine for EventHeader version 'Messaging.V2_3'
+2014-03-11 14:55:52,552 [8] DEBUG - Locating mapping engine for ControlMessagePayload version 'Messaging.V2_2'
+2014-03-11 14:55:52,715 [8] DEBUG - Locating mapping engine for EventHeader version 'Messaging.V2_3'
+2014-03-11 14:55:52,715 [8] DEBUG - Bus message published - Message: RWEST.Nexus.Bus.BusMessage, Destination: Topic[Local.MasterDataManagement.Notifications]
+2014-03-11 14:55:52,715 [8] WARN - Nexus Bus: Category not defined
+2014-03-11 14:55:52,715 [8] DEBUG - Committing
+2014-03-11 14:55:52,716 [8] DEBUG - Closing
+2014-03-11 14:56:00,106 [18] DEBUG - Search<Book>
+2014-03-11 14:56:00,106 [18] DEBUG - Search<Book>
+2014-03-11 14:56:00,106 [18] DEBUG - Start: http://localhost:8091/book/search
+2014-03-11 14:56:00,106 [18] DEBUG - Post: http://localhost:8091/book/search
+2014-03-11 14:56:00,510 [18] DEBUG - Finish: http://localhost:8091/book/search
+2014-03-11 14:56:02,176 [8] DEBUG - Start: http://localhost:8091/SourceSystem/List
+2014-03-11 14:56:02,176 [8] DEBUG - Get: http://localhost:8091/SourceSystem/List
+2014-03-11 14:56:02,177 [13] DEBUG - Get<Book>: 1 03/11/2014 00:00:00
+2014-03-11 14:56:02,177 [13] DEBUG - Get<Book>: 1 - 03/11/2014 00:00:00
+2014-03-11 14:56:02,178 [13] DEBUG - Start: http://localhost:8091/book/1?as-of=2014-03-11T00:00:00.0000000Z
+2014-03-11 14:56:02,178 [13] DEBUG - Get: http://localhost:8091/book/1?as-of=2014-03-11T00:00:00.0000000Z
+2014-03-11 14:56:02,218 [13] DEBUG - Finish: http://localhost:8091/book/1?as-of=2014-03-11T00:00:00.0000000Z
+2014-03-11 14:56:02,244 [8] DEBUG - Finish: http://localhost:8091/SourceSystem/List
+2014-03-11 14:56:02,695 [18] INFO - Sending heartbeat
+2014-03-11 14:56:02,703 [18] DEBUG - Topic: Local.Monitor.Event: Publishing
+2014-03-11 14:56:02,703 [18] DEBUG - Create: Topic: Local.Monitor.Event
+2014-03-11 14:56:02,703 [18] DEBUG - Processing: Local.Monitor.Event
+2014-03-11 14:56:02,705 [18] DEBUG - Locating mapping engine for EventHeader version 'Messaging.V2_3'
+2014-03-11 14:56:02,706 [18] DEBUG - Locating mapping engine for MonitoringEventPayload version 'Monitoring.V1'
+2014-03-11 14:56:02,707 [18] DEBUG - Locating mapping engine for EventHeader version 'Messaging.V2_3'
+2014-03-11 14:56:02,708 [18] DEBUG - Bus message published - Message: RWEST.Nexus.Bus.BusMessage, Destination: Topic[Local.Monitor.Event]
+2014-03-11 14:56:02,708 [18] DEBUG - Committing
+2014-03-11 14:56:02,708 [18] DEBUG - Closing
+2014-03-11 14:56:10,101 [8] DEBUG - Start: http://localhost:8091/SourceSystem/List
+2014-03-11 14:56:10,101 [8] DEBUG - Get: http://localhost:8091/SourceSystem/List
+2014-03-11 14:56:10,154 [8] DEBUG - Finish: http://localhost:8091/SourceSystem/List
+2014-03-11 14:56:10,192 [8] DEBUG - Start: http://localhost:8091/SourceSystem/List
+2014-03-11 14:56:10,192 [8] DEBUG - Get: http://localhost:8091/SourceSystem/List
+2014-03-11 14:56:10,230 [8] DEBUG - Finish: http://localhost:8091/SourceSystem/List
+2014-03-11 14:56:26,107 [8] DEBUG - Start: http://localhost:8091/Book/1/mapping
+2014-03-11 14:56:26,108 [8] DEBUG - Post: http://localhost:8091/Book/1/mapping
+2014-03-11 14:56:26,930 [8] DEBUG - Finish: http://localhost:8091/Book/1/mapping
+2014-03-11 14:56:26,932 [8] DEBUG - Get<Book>: 1 - 
+2014-03-11 14:56:26,932 [8] DEBUG - Start: http://localhost:8091/book/1
+2014-03-11 14:56:26,932 [8] DEBUG - Get: http://localhost:8091/book/1
+2014-03-11 14:56:27,069 [8] DEBUG - Finish: http://localhost:8091/book/1
+2014-03-11 14:56:27,073 [8] DEBUG - Topic: Local.MasterDataManagement.Notifications: Publishing
+2014-03-11 14:56:27,073 [8] DEBUG - Create: Topic: Local.MasterDataManagement.Notifications
+2014-03-11 14:56:27,073 [8] DEBUG - Processing: Local.MasterDataManagement.Notifications
+2014-03-11 14:56:27,075 [8] DEBUG - Locating mapping engine for EventHeader version 'Messaging.V2_3'
+2014-03-11 14:56:27,076 [8] DEBUG - Locating mapping engine for ControlMessagePayload version 'Messaging.V2_2'
+2014-03-11 14:56:27,076 [8] DEBUG - Locating mapping engine for EventHeader version 'Messaging.V2_3'
+2014-03-11 14:56:27,077 [8] DEBUG - Bus message published - Message: RWEST.Nexus.Bus.BusMessage, Destination: Topic[Local.MasterDataManagement.Notifications]
+2014-03-11 14:56:27,077 [8] DEBUG - Committing
+2014-03-11 14:56:27,077 [8] DEBUG - Closing
+2014-03-11 14:56:27,156 [8] DEBUG - Start: http://localhost:8091/SourceSystem/List
+2014-03-11 14:56:27,156 [18] DEBUG - Get<Book>: 1 03/11/2014 00:00:00
+2014-03-11 14:56:27,157 [8] DEBUG - Get: http://localhost:8091/SourceSystem/List
+2014-03-11 14:56:27,157 [18] DEBUG - Get<Book>: 1 - 03/11/2014 00:00:00
+2014-03-11 14:56:27,157 [18] DEBUG - Start: http://localhost:8091/book/1?as-of=2014-03-11T00:00:00.0000000Z
+2014-03-11 14:56:27,157 [18] DEBUG - Get: http://localhost:8091/book/1?as-of=2014-03-11T00:00:00.0000000Z
+2014-03-11 14:56:27,188 [18] DEBUG - Finish: http://localhost:8091/book/1?as-of=2014-03-11T00:00:00.0000000Z
+2014-03-11 14:56:27,220 [8] DEBUG - Finish: http://localhost:8091/SourceSystem/List
+2014-03-11 14:56:32,711 [18] INFO - Sending heartbeat
+2014-03-11 14:56:32,715 [18] DEBUG - Topic: Local.Monitor.Event: Publishing
+2014-03-11 14:56:32,715 [18] DEBUG - Create: Topic: Local.Monitor.Event
+2014-03-11 14:56:32,715 [18] DEBUG - Processing: Local.Monitor.Event
+2014-03-11 14:56:32,717 [18] DEBUG - Locating mapping engine for EventHeader version 'Messaging.V2_3'
+2014-03-11 14:56:32,718 [18] DEBUG - Locating mapping engine for MonitoringEventPayload version 'Monitoring.V1'
+2014-03-11 14:56:32,718 [18] DEBUG - Locating mapping engine for EventHeader version 'Messaging.V2_3'
+2014-03-11 14:56:32,719 [18] DEBUG - Bus message published - Message: RWEST.Nexus.Bus.BusMessage, Destination: Topic[Local.Monitor.Event]
+2014-03-11 14:56:32,719 [18] DEBUG - Committing
+2014-03-11 14:56:32,720 [18] DEBUG - Closing
+2014-03-11 14:57:02,727 [18] INFO - Sending heartbeat
+2014-03-11 14:57:02,731 [18] DEBUG - Topic: Local.Monitor.Event: Publishing
+2014-03-11 14:57:02,731 [18] DEBUG - Create: Topic: Local.Monitor.Event
+2014-03-11 14:57:02,731 [18] DEBUG - Processing: Local.Monitor.Event
+2014-03-11 14:57:02,732 [18] DEBUG - Locating mapping engine for EventHeader version 'Messaging.V2_3'
+2014-03-11 14:57:02,733 [18] DEBUG - Locating mapping engine for MonitoringEventPayload version 'Monitoring.V1'
+2014-03-11 14:57:02,734 [18] DEBUG - Locating mapping engine for EventHeader version 'Messaging.V2_3'
+2014-03-11 14:57:02,734 [18] DEBUG - Bus message published - Message: RWEST.Nexus.Bus.BusMessage, Destination: Topic[Local.Monitor.Event]
+2014-03-11 14:57:02,734 [18] DEBUG - Committing
+2014-03-11 14:57:02,735 [18] DEBUG - Closing
+2014-03-11 14:57:32,743 [19] INFO - Sending heartbeat
+2014-03-11 14:57:32,746 [19] DEBUG - Topic: Local.Monitor.Event: Publishing
+2014-03-11 14:57:32,746 [19] DEBUG - Create: Topic: Local.Monitor.Event
+2014-03-11 14:57:32,746 [19] DEBUG - Processing: Local.Monitor.Event
+2014-03-11 14:57:32,748 [19] DEBUG - Locating mapping engine for EventHeader version 'Messaging.V2_3'
+2014-03-11 14:57:32,749 [19] DEBUG - Locating mapping engine for MonitoringEventPayload version 'Monitoring.V1'
+2014-03-11 14:57:32,750 [19] DEBUG - Locating mapping engine for EventHeader version 'Messaging.V2_3'
+2014-03-11 14:57:32,750 [19] DEBUG - Bus message published - Message: RWEST.Nexus.Bus.BusMessage, Destination: Topic[Local.Monitor.Event]
+2014-03-11 14:57:32,750 [19] DEBUG - Committing
+2014-03-11 14:57:32,751 [19] DEBUG - Closing
+2014-03-11 14:58:02,759 [6] INFO - Sending heartbeat
+2014-03-11 14:58:02,763 [6] DEBUG - Topic: Local.Monitor.Event: Publishing
+2014-03-11 14:58:02,763 [6] DEBUG - Create: Topic: Local.Monitor.Event
+2014-03-11 14:58:02,763 [6] DEBUG - Processing: Local.Monitor.Event
+2014-03-11 14:58:02,765 [6] DEBUG - Locating mapping engine for EventHeader version 'Messaging.V2_3'
+2014-03-11 14:58:02,766 [6] DEBUG - Locating mapping engine for MonitoringEventPayload version 'Monitoring.V1'
+2014-03-11 14:58:02,766 [6] DEBUG - Locating mapping engine for EventHeader version 'Messaging.V2_3'
+2014-03-11 14:58:02,767 [6] DEBUG - Bus message published - Message: RWEST.Nexus.Bus.BusMessage, Destination: Topic[Local.Monitor.Event]
+2014-03-11 14:58:02,767 [6] DEBUG - Committing
+2014-03-11 14:58:02,768 [6] DEBUG - Closing
+2014-03-11 14:58:32,774 [22] INFO - Sending heartbeat
+2014-03-11 14:58:32,777 [22] DEBUG - Topic: Local.Monitor.Event: Publishing
+2014-03-11 14:58:32,778 [22] DEBUG - Create: Topic: Local.Monitor.Event
+2014-03-11 14:58:32,778 [22] DEBUG - Processing: Local.Monitor.Event
+2014-03-11 14:58:32,779 [22] DEBUG - Locating mapping engine for EventHeader version 'Messaging.V2_3'
+2014-03-11 14:58:32,780 [22] DEBUG - Locating mapping engine for MonitoringEventPayload version 'Monitoring.V1'
+2014-03-11 14:58:32,781 [22] DEBUG - Locating mapping engine for EventHeader version 'Messaging.V2_3'
+2014-03-11 14:58:32,781 [22] DEBUG - Bus message published - Message: RWEST.Nexus.Bus.BusMessage, Destination: Topic[Local.Monitor.Event]
+2014-03-11 14:58:32,781 [22] DEBUG - Committing
+2014-03-11 14:58:32,782 [22] DEBUG - Closing
+2014-03-11 14:59:02,790 [22] INFO - Sending heartbeat
+2014-03-11 14:59:02,791 [22] DEBUG - Topic: Local.Monitor.Event: Publishing
+2014-03-11 14:59:02,791 [22] DEBUG - Create: Topic: Local.Monitor.Event
+2014-03-11 14:59:02,791 [22] DEBUG - Processing: Local.Monitor.Event
+2014-03-11 14:59:02,792 [22] DEBUG - Locating mapping engine for EventHeader version 'Messaging.V2_3'
+2014-03-11 14:59:02,793 [22] DEBUG - Locating mapping engine for MonitoringEventPayload version 'Monitoring.V1'
+2014-03-11 14:59:02,794 [22] DEBUG - Locating mapping engine for EventHeader version 'Messaging.V2_3'
+2014-03-11 14:59:02,794 [22] DEBUG - Bus message published - Message: RWEST.Nexus.Bus.BusMessage, Destination: Topic[Local.Monitor.Event]
+2014-03-11 14:59:02,794 [22] DEBUG - Committing
+2014-03-11 14:59:02,794 [22] DEBUG - Closing
+2014-03-11 14:59:32,806 [22] INFO - Sending heartbeat
+2014-03-11 14:59:32,809 [22] DEBUG - Topic: Local.Monitor.Event: Publishing
+2014-03-11 14:59:32,809 [22] DEBUG - Create: Topic: Local.Monitor.Event
+2014-03-11 14:59:32,809 [22] DEBUG - Processing: Local.Monitor.Event
+2014-03-11 14:59:32,811 [22] DEBUG - Locating mapping engine for EventHeader version 'Messaging.V2_3'
+2014-03-11 14:59:32,812 [22] DEBUG - Locating mapping engine for MonitoringEventPayload version 'Monitoring.V1'
+2014-03-11 14:59:32,812 [22] DEBUG - Locating mapping engine for EventHeader version 'Messaging.V2_3'
+2014-03-11 14:59:32,813 [22] DEBUG - Bus message published - Message: RWEST.Nexus.Bus.BusMessage, Destination: Topic[Local.Monitor.Event]
+2014-03-11 14:59:32,813 [22] DEBUG - Committing
+2014-03-11 14:59:32,814 [22] DEBUG - Closing
+2014-03-11 14:59:41,829 [8] INFO - Sending shutdown notification
+2014-03-11 14:59:41,833 [8] DEBUG - Topic: Local.Monitor.Event: Publishing
+2014-03-11 14:59:41,833 [8] DEBUG - Create: Topic: Local.Monitor.Event
+2014-03-11 14:59:41,833 [8] DEBUG - Processing: Local.Monitor.Event
+2014-03-11 14:59:41,834 [8] DEBUG - Locating mapping engine for EventHeader version 'Messaging.V2_3'
+2014-03-11 14:59:41,834 [8] DEBUG - Locating mapping engine for MonitoringEventPayload version 'Monitoring.V1'
+2014-03-11 14:59:41,834 [8] DEBUG - Locating mapping engine for EventHeader version 'Messaging.V2_3'
+2014-03-11 14:59:41,834 [8] DEBUG - Bus message published - Message: RWEST.Nexus.Bus.BusMessage, Destination: Topic[Local.Monitor.Event]
+2014-03-11 14:59:41,834 [8] DEBUG - Committing
+2014-03-11 14:59:41,835 [8] DEBUG - Closing
+2014-03-11 14:59:41,835 [8] INFO - Stopping connections

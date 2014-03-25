@@ -1,0 +1,164 @@
+﻿<UserControl x:Class="Shell.Views.SearchView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity" xmlns:Controls="clr-namespace:VIBlend.WPF.Controls;assembly=VIBlend.WPF.Editors" xmlns:prism="clr-namespace:Microsoft.Practices.Prism.Regions;assembly=Microsoft.Practices.Prism" xmlns:ValueConverters="clr-namespace:Common.UI.ValueConverters;assembly=Common" xmlns:Triggers="clr-namespace:Common.UI.Triggers;assembly=Common" xmlns:System="clr-namespace:System;assembly=mscorlib" mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="300">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/Common;component/UI/Themes/BlackTheme.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/Common;component/UI/Themes/Brushes.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/Common;component/UI/Themes/SimpleStyles.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/Common;component/UI/Images/Icons.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <BooleanToVisibilityConverter x:Key="VisibilityOfBool" />
+            <ValueConverters:NullToBooleanConverter x:Key="NullToBoolean" />
+            <ValueConverters:ValueConverterGroup x:Key="NullToVisibility">
+                <ValueConverters:NullToBooleanConverter />
+                <ValueConverters:BoolToVisibilityConverter />
+            </ValueConverters:ValueConverterGroup>
+            <ValueConverters:ValueConverterGroup x:Key="InvertBooleanToVisibility">
+                <ValueConverters:InvertBooleanConverter />
+                <ValueConverters:BoolToVisibilityConverter />
+            </ValueConverters:ValueConverterGroup>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid x:Name="ContentContainer">
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition Height="50" />
+        </Grid.RowDefinitions>
+        <Grid Margin="0,-12,0,0" Grid.Row="1">
+            <Expander x:Name="Pane" Focusable="False" Style="{DynamicResource PaneStyle}">
+                <Grid>
+                    <Grid ClipToBounds="true" SnapsToDevicePixels="true" KeyboardNavigation.TabNavigation="Local" Margin="0,17,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition x:Name="ColumnDefinition0" Width="Auto" MinWidth="40" MaxWidth="40" />
+                            <ColumnDefinition Width="Auto" MinWidth="140" MaxWidth="500" />
+                            <ColumnDefinition />
+                            <ColumnDefinition Width="26.732" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition x:Name="RowDefinition0" Height="Auto" />
+                            <RowDefinition x:Name="RowDefinition1" Height="*" />
+                        </Grid.RowDefinitions>
+                        <Frame Focusable="False" Template="{DynamicResource icMagnifier}" Width="36" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="5,0" />
+                        <GridSplitter Focusable="False" Width="8.953" Height="Auto" HorizontalAlignment="Right" Margin="0,1,-0.807,1" Background="#00F0F0F0" Grid.Column="1" ResizeBehavior="CurrentAndNext" />
+                        <StackPanel Grid.Column="1" Orientation="Horizontal" Visibility="{Binding SearchCountFound, Converter={StaticResource NullToVisibility}}">
+                            <TextBlock Width="Auto" Margin="0,0,8.146,0" VerticalAlignment="Stretch" Height="Auto" HorizontalAlignment="Stretch" Text="{Binding SearchCountFound}" Style="{DynamicResource SearchResultsPaneTextBoxStyle}" />
+                            <TextBlock Text=" Search Results"></TextBlock>
+                        </StackPanel>
+                    </Grid>
+                </Grid>
+            </Expander>
+        </Grid>
+        <GridSplitter x:Name="PaneSplitter" Focusable="False" ResizeDirection="Rows" HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="9" RenderTransformOrigin="0.5,0.5" Grid.Row="1" Margin="8,-1.878,8,0" Background="{DynamicResource PaneSplitterBackground}" BorderThickness="0" />
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" MinHeight="47" />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+
+            <Rectangle x:Name="bgSearch" Style="{DynamicResource SearchCriteriaBackgroundStyle}" Margin="1,0,1,-15.293" Grid.Row="0" />
+            <Grid x:Name="Section1HeaderContainer" Style="{DynamicResource SectionHeaderContainerStyle}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="115" />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+            </Grid>
+            <Grid x:Name="SearchContainer" Style="{DynamicResource SearchCriteriaContainerStyle}" Margin="10,3,10,5.707" Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="95" />
+                </Grid.ColumnDefinitions>
+                <StackPanel x:Name="HeaderContainerStack">
+                    <StackPanel Orientation="Horizontal">
+                        <DockPanel Style="{DynamicResource MenuCriteriaContainerStyle}">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition />
+                                    <ColumnDefinition />
+                                    <ColumnDefinition />
+                                    <ColumnDefinition Width="160"/>
+                                    <ColumnDefinition />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+
+                                <Label Grid.Row="0" Grid.Column="0" Margin="0,2,10,0" Style="{DynamicResource MenuItemHeaderLabelStyle}" Content="_Entity" Target="{Binding ElementName=cmbEntities}"></Label>
+                                <ComboBox x:Name="cmbEntities" Grid.Row="0" Grid.Column="1" Width="190" Margin="0,0,10,0" VerticalAlignment="Stretch" ItemsSource="{Binding MenuItems}" SelectedItem="{Binding SelectedMenuItem}" DisplayMemberPath="SplitName">
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="SelectionChanged">
+                                            <Triggers:CallDataMethod Method="EntityChanged" />
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                    <ComboBox.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <VirtualizingStackPanel Margin="3" VirtualizingStackPanel.IsVirtualizing="True" IsItemsHost="True" />
+                                        </ItemsPanelTemplate>
+                                    </ComboBox.ItemsPanel>
+                                </ComboBox>
+
+                                <Label Grid.Row="0" Grid.Column="2" Width="110" Margin="0,2,10,0" Visibility="{Binding ElementName=chkMappingSearch, Path=IsChecked, Converter={StaticResource InvertBooleanToVisibility}}" Style="{DynamicResource MenuItemHeaderLabelStyle}" Content="{Binding SelectedMenuItem.SearchLabel}" Target="{Binding ElementName=txtNameSearch}"></Label>
+                                <Label Grid.Row="0" Grid.Column="2" Width="110" Margin="0,2,10,0" Visibility="{Binding ElementName=chkMappingSearch, Path=IsChecked, Converter={StaticResource VisibilityOfBool}}" Style="{DynamicResource MenuItemHeaderLabelStyle}" Content="Mappi_ng" Target="{Binding ElementName=txtNameSearch}"></Label>
+                                <TextBox x:Name="txtNameSearch" Grid.Row="0" Grid.Column="3" Margin="0,5,10,0" Text="{Binding NameSearch, UpdateSourceTrigger=PropertyChanged}" Style="{DynamicResource SearchCriteriaTextBoxStyle}" />
+
+                                <Label Grid.Row="0" Grid.Column="4" Margin="0,2,10,0" Style="{DynamicResource MenuItemHeaderLabelStyle}" Content="_Date" Target="{Binding ElementName=dateTimePicker}"></Label>
+                                <Controls:DateTimePicker x:Name="dateTimePicker" Grid.Row="0" Grid.Column="5" Margin="0,5,10,0" FormatValue="dd MMM yyyy HH:mm:ss" Culture="en-GB" SelectedDate="{Binding AsOf, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+
+                                <Label Grid.Row="1" Grid.Column="0" Margin="0,2,10,0" Style="{DynamicResource MenuItemHeaderLabelStyle}" Content="_Mapping" Target="{Binding ElementName=chkMappingSearch}"></Label>
+                                <CheckBox x:Name="chkMappingSearch" Grid.Row="1" Grid.Column="1" Margin="0,10,0,0" IsChecked="{Binding IsMappingSearch}"></CheckBox>
+
+                                <Label Grid.Row="1" Grid.Column="2" Margin="0,2,10,0" Style="{DynamicResource MenuItemHeaderLabelStyle}" IsEnabled="{Binding ElementName=chkMappingSearch, Path=IsChecked}" Content="Sys_tem" Target="{Binding ElementName=cmbSourceSystem}"></Label>
+                                <ComboBox x:Name="cmbSourceSystem" Grid.Row="1" Grid.Column="3" Width="150" Margin="0,0,10,0" IsEnabled="{Binding ElementName=chkMappingSearch, Path=IsChecked}" VerticalAlignment="Stretch" ItemsSource="{Binding SourceSystems}" SelectedItem="{Binding SourceSystem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, TargetNullValue={x:Static System:String.Empty}}">
+                                    <ComboBox.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <VirtualizingStackPanel Margin="3" VirtualizingStackPanel.IsVirtualizing="True" IsItemsHost="True" />
+                                        </ItemsPanelTemplate>
+                                    </ComboBox.ItemsPanel>
+                                </ComboBox>
+                            </Grid>
+                        </DockPanel>
+                    </StackPanel>
+                </StackPanel>
+                <DockPanel Grid.Column="1" x:Name="ButtonContainer">
+                    <Button x:Name="btnFiiter" Width="80" Height="23.333" Margin="0,0,10,2" x:FieldModifier="public" IsDefault="True" IsEnabled="{Binding SelectedMenuItem, Converter={StaticResource NullToBoolean}}" Content="_Search" VerticalAlignment="Center" HorizontalAlignment="Right">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="Click">
+                                <Triggers:CallDataMethod Method="Search" />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </Button>
+                </DockPanel>
+            </Grid>
+            <Grid x:Name="BodyContainer" Margin="0,0.293,0,0" Grid.Row="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="0.5*" MinHeight="50" />
+                </Grid.RowDefinitions>
+                <Grid x:Name="Section1Container">
+                    <Rectangle Fill="{DynamicResource BodysectionBackgroundBrush}" Stroke="{DynamicResource BodysectionBorderBrush}" RadiusX="7.5" RadiusY="7.5" x:Name="bgSection1" />
+                    <Grid>
+                        <Border BorderThickness="1" CornerRadius="8" Grid.Column="1" Grid.Row="1">
+                            <Grid>
+                                <Border x:Name="mask" Background="#fff" CornerRadius="7" Width="Auto" Height="Auto" BorderThickness="1" BorderBrush="#fff" />
+                                <Grid>
+                                    <Grid.OpacityMask>
+                                        <VisualBrush Visual="{Binding ElementName=mask}" />
+                                    </Grid.OpacityMask>
+                                    <ContentControl prism:RegionManager.RegionName="MainSearchResultsRegion" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" Visibility="{Binding SearchCountFound, Converter={StaticResource NullToVisibility}}" />
+                                    <Grid Margin="0" Background="White" Visibility="{Binding DisplayWelcome, Converter={StaticResource VisibilityOfBool}}">
+                                        <Grid HorizontalAlignment="Center" Margin="40,100,40,0" VerticalAlignment="Top" Height="57.88">
+                                            <Path Stretch="Fill" Stroke="#925C7CD6" Margin="0,28.73,0,28.15" Data="M32,200.02 L869.00956,200.02" />
+                                            <TextBlock TextWrapping="NoWrap" Text="To begin, supply filter criteria or create a new entity" Style="{DynamicResource SplashPageHelpTextStyle}" VerticalAlignment="Top" FontSize="16" Foreground="#FF5579BA" />
+                                            <TextBlock Text="Click &quot;Search&quot; to display results matching your criteria" Style="{DynamicResource SplashPageHelpTextStyle}" VerticalAlignment="Bottom" Foreground="#BA2A385D" FontSize="13.333" TextWrapping="NoWrap" />
+                                        </Grid>
+                                    </Grid>
+                                    <!--Content here-->
+                                </Grid>
+                            </Grid>
+                        </Border>
+                    </Grid>
+                </Grid>
+            </Grid>
+        </Grid>
+    </Grid>
+</UserControl>

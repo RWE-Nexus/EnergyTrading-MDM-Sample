@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>OpenNexus.MDM.LegacySupport</name>
+    </assembly>
+    <members>
+        <member name="T:OpenNexus.MDM.LegacySupport.Extensions.LinkExtensions">
+            <summary>
+            Provides mapping extension methods to map to/from the obsolete Nexus.* class and the new EnergyTrading.* class, 
+            intended to be used within legacy Nexus code
+            </summary>
+        </member>
+        <member name="M:OpenNexus.MDM.LegacySupport.Extensions.LinkExtensions.FromNexus(RWEST.Nexus.Contracts.Atom.Link)">
+            <summary>
+            Maps an obsolete Nexus Link to the new EnergyTrading Link type
+            </summary>
+        </member>
+        <member name="M:OpenNexus.MDM.LegacySupport.Extensions.LinkExtensions.ToNexus(EnergyTrading.Contracts.Atom.Link)">
+            <summary>
+            Maps an EnergyTrading Link to the obsolete Nexus Link type
+            </summary>
+        </member>
+    </members>
+</doc>
