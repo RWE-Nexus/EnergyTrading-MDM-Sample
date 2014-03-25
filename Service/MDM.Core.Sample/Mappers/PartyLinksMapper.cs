@@ -5,17 +5,21 @@ namespace EnergyTrading.MDM.Mappers
     using EnergyTrading.Contracts.Atom;
     using EnergyTrading.Mapping;
 
-    using Party = EnergyTrading.MDM.Party;
-
-    public class PartyLinksMapper : Mapper<EnergyTrading.MDM.Party, List<Link>>
+    public class PartyLinksMapper : Mapper<Party, List<Link>>
     {
-        public override void Map(EnergyTrading.MDM.Party source, List<Link> destination)
+        public override void Map(Party source, List<Link> destination)
         {
             foreach (var partyRole in source.PartyRoles)
             {
                 var entityIdentifier = partyRole.GetType().BaseType.Name;
 
-                destination.Add(new Link() { Rel = "get-related-" + entityIdentifier.ToLower(), Type = entityIdentifier.ToString(), Uri = "/" + entityIdentifier + "/" + partyRole.Id });
+                destination.Add(
+                    new Link
+                        {
+                            Rel = "get-related-" + entityIdentifier.ToLower(), 
+                            Type = entityIdentifier, 
+                            Uri = "/" + entityIdentifier + "/" + partyRole.Id
+                        });
             }
         }
     }

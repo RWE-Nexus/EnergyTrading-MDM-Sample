@@ -4,39 +4,43 @@ namespace EnergyTrading.MDM.Contracts.Mappers
 
     using EnergyTrading.Data;
     using EnergyTrading.Mapping;
-    using EnergyTrading.MDM.Contracts.Sample;
+    using EnergyTrading.Mdm.Contracts;
     using EnergyTrading.MDM.Data;
 
+    using DateRange = EnergyTrading.DateRange;
+
     /// <summary>
-    /// Maps a <see cref="SourceSystem" /> to a <see cref="Exchange" />
+    /// Maps a <see cref="MDM.SourceSystem" /> to a <see cref="Exchange" />
     /// </summary>
-    public class ExchangeMapper : ContractMapper<Exchange, MDM.Exchange, ExchangeDetails, MDM.ExchangeDetails, PartyRoleMapping>
+    public class ExchangeMapper :
+        ContractMapper<Sample.Exchange, Exchange, Sample.ExchangeDetails, ExchangeDetails, PartyRoleMapping>
     {
         private readonly IRepository repository;
 
-        public ExchangeMapper(IMappingEngine mappingEngine, IRepository repository) : base(mappingEngine)
+        public ExchangeMapper(IMappingEngine mappingEngine, IRepository repository)
+            : base(mappingEngine)
         {
             this.repository = repository;
         }
 
-        protected override ExchangeDetails ContractDetails(Exchange contract)
+        public override void Map(Sample.Exchange source, Exchange destination)
+        {
+            base.Map(source, destination);
+            destination.PartyRoleType = "Exchange";
+            destination.Party = this.repository.FindEntityByMapping<Party, PartyMapping>(source.Party);
+        }
+
+        protected override Sample.ExchangeDetails ContractDetails(Sample.Exchange contract)
         {
             return contract.Details;
         }
 
-        public override void Map(Exchange source, MDM.Exchange destination)
-        {
-            base.Map(source, destination);
-            destination.PartyRoleType = "Exchange";
-            destination.Party = this.repository.FindEntityByMapping<MDM.Party, PartyMapping>(source.Party);
-        }
-
-        protected override EnergyTrading.DateRange ContractDetailsValidity(Exchange contract)
+        protected override DateRange ContractDetailsValidity(Sample.Exchange contract)
         {
             return this.SystemDataValidity(contract.MdmSystemData);
         }
 
-        protected override IEnumerable<EnergyTrading.Mdm.Contracts.MdmId> Identifiers(Exchange contract)
+        protected override IEnumerable<MdmId> Identifiers(Sample.Exchange contract)
         {
             return contract.Identifiers;
         }

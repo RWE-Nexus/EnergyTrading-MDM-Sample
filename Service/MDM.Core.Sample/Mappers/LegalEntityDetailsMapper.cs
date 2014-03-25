@@ -1,14 +1,16 @@
 ﻿namespace EnergyTrading.MDM.Mappers
 {
     using EnergyTrading.Mapping;
-    using EnergyTrading.MDM.Contracts.Sample;
 
     /// <summary>
     /// Maps a <see cref="MDM.LegalEntity" /> to a <see cref="RWEST.Nexus.MDM.Contracts.LegalEntityDetails" />
     /// </summary>
-    public class LegalEntityDetailsMapper : Mapper<EnergyTrading.MDM.LegalEntityDetails, LegalEntityDetails>
+    public class LegalEntityDetailsMapper :
+        Mapper<LegalEntityDetails, Contracts.Sample.LegalEntityDetails>
     {
-        public override void Map(EnergyTrading.MDM.LegalEntityDetails source, LegalEntityDetails destination)
+        public override void Map(
+            LegalEntityDetails source, 
+            Contracts.Sample.LegalEntityDetails destination)
         {
             destination.Name = source.Name;
             destination.Address = source.Address;

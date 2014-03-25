@@ -4,39 +4,43 @@ namespace EnergyTrading.MDM.Contracts.Mappers
 
     using EnergyTrading.Data;
     using EnergyTrading.Mapping;
-    using EnergyTrading.MDM.Contracts.Sample;
+    using EnergyTrading.Mdm.Contracts;
     using EnergyTrading.MDM.Data;
 
+    using DateRange = EnergyTrading.DateRange;
+
     /// <summary>
-    /// Maps a <see cref="SourceSystem" /> to a <see cref="Broker" />
+    /// Maps a <see cref="MDM.SourceSystem" /> to a <see cref="Broker" />
     /// </summary>
-    public class BrokerMapper : ContractMapper<Broker, MDM.Broker, BrokerDetails, MDM.BrokerDetails, PartyRoleMapping>
+    public class BrokerMapper :
+        ContractMapper<Sample.Broker, Broker, Sample.BrokerDetails, BrokerDetails, PartyRoleMapping>
     {
         private readonly IRepository repository;
 
-        public BrokerMapper(IMappingEngine mappingEngine, IRepository repository) : base(mappingEngine)
+        public BrokerMapper(IMappingEngine mappingEngine, IRepository repository)
+            : base(mappingEngine)
         {
             this.repository = repository;
         }
 
-        protected override BrokerDetails ContractDetails(Broker contract)
+        public override void Map(Sample.Broker source, Broker destination)
+        {
+            base.Map(source, destination);
+            destination.PartyRoleType = "Broker";
+            destination.Party = this.repository.FindEntityByMapping<Party, PartyMapping>(source.Party);
+        }
+
+        protected override Sample.BrokerDetails ContractDetails(Sample.Broker contract)
         {
             return contract.Details;
         }
 
-        public override void Map(Broker source, MDM.Broker destination)
-        {
-            base.Map(source, destination);
-            destination.PartyRoleType = "Broker";
-            destination.Party = this.repository.FindEntityByMapping<MDM.Party, PartyMapping>(source.Party);
-        }
-
-        protected override EnergyTrading.DateRange ContractDetailsValidity(Broker contract)
+        protected override DateRange ContractDetailsValidity(Sample.Broker contract)
         {
             return this.SystemDataValidity(contract.MdmSystemData);
         }
 
-        protected override IEnumerable<EnergyTrading.Mdm.Contracts.MdmId> Identifiers(Broker contract)
+        protected override IEnumerable<MdmId> Identifiers(Sample.Broker contract)
         {
             return contract.Identifiers;
         }

@@ -1,17 +1,13 @@
 namespace EnergyTrading.MDM.Mappers
 {
-    using System;
-
     using EnergyTrading.Mapping;
-    using EnergyTrading.MDM.Contracts.Sample;
-    using EnergyTrading.MDM.Extensions;
 
     /// <summary>
-    /// Maps a <see cref="MDM.Broker" /> to a <see cref="RWEST.Nexus.MDM.Contracts.BrokerDetails" />
+    /// Maps a <see cref="MDM.Broker" /> to a <see cref="Contracts.Sample.BrokerDetails" />
     /// </summary>
-    public class BrokerDetailsMapper : Mapper<EnergyTrading.MDM.BrokerDetails, BrokerDetails>
+    public class BrokerDetailsMapper : Mapper<BrokerDetails, Contracts.Sample.BrokerDetails>
     {
-        public override void Map(EnergyTrading.MDM.BrokerDetails source, BrokerDetails destination)
+        public override void Map(BrokerDetails source, Contracts.Sample.BrokerDetails destination)
         {
             destination.Name = source.Name;
             destination.Fax = source.Fax;

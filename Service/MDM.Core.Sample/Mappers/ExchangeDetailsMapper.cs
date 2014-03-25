@@ -1,12 +1,13 @@
 namespace EnergyTrading.MDM.Mappers
 {
     using EnergyTrading.Mapping;
-    using EnergyTrading.MDM.Contracts.Sample;
-    using EnergyTrading.MDM.Extensions;
 
-    public class ExchangeDetailsMapper : Mapper<EnergyTrading.MDM.ExchangeDetails, ExchangeDetails>
+    public class ExchangeDetailsMapper :
+        Mapper<ExchangeDetails, Contracts.Sample.ExchangeDetails>
     {
-        public override void Map(EnergyTrading.MDM.ExchangeDetails source, ExchangeDetails destination)
+        public override void Map(
+            ExchangeDetails source, 
+            Contracts.Sample.ExchangeDetails destination)
         {
             destination.Name = source.Name;
             destination.Fax = source.Fax;
@@ -14,4 +15,3 @@ namespace EnergyTrading.MDM.Mappers
         }
     }
 }
-

@@ -2,27 +2,29 @@ namespace EnergyTrading.MDM.Contracts.Mappers
 {
     using System.Collections.Generic;
 
-    using EnergyTrading;
     using EnergyTrading.Mapping;
-    using EnergyTrading.MDM.Contracts.Sample;
+    using EnergyTrading.Mdm.Contracts;
 
-    public class PartyMapper : ContractMapper<Party, MDM.Party, PartyDetails, MDM.PartyDetails, PartyMapping>
+    using DateRange = EnergyTrading.DateRange;
+
+    public class PartyMapper : ContractMapper<Sample.Party, Party, Sample.PartyDetails, PartyDetails, PartyMapping>
     {
-        public PartyMapper(IMappingEngine mappingEngine) : base(mappingEngine)
+        public PartyMapper(IMappingEngine mappingEngine)
+            : base(mappingEngine)
         {
         }
 
-        protected override PartyDetails ContractDetails(Party contract)
+        protected override Sample.PartyDetails ContractDetails(Sample.Party contract)
         {
             return contract.Details;
         }
 
-        protected override EnergyTrading.DateRange ContractDetailsValidity(Party contract)
+        protected override DateRange ContractDetailsValidity(Sample.Party contract)
         {
             return this.SystemDataValidity(contract.MdmSystemData);
         }
 
-        protected override IEnumerable<EnergyTrading.Mdm.Contracts.MdmId> Identifiers(Party contract)
+        protected override IEnumerable<MdmId> Identifiers(Sample.Party contract)
         {
             return contract.Identifiers;
         }

@@ -1,16 +1,12 @@
 namespace EnergyTrading.MDM.Contracts.Mappers
 {
-    using System;
-
     using EnergyTrading.Data;
     using EnergyTrading.Mapping;
-    using EnergyTrading.MDM.Contracts.Sample;
-    using EnergyTrading.MDM.Data;
 
     /// <summary>
-	///
-	/// </summary>
-    public class CounterpartyDetailsMapper : Mapper<CounterpartyDetails, MDM.CounterpartyDetails>
+    ///
+    /// </summary>
+    public class CounterpartyDetailsMapper : Mapper<Sample.CounterpartyDetails, CounterpartyDetails>
     {
         private IRepository repository;
 
@@ -19,7 +15,7 @@ namespace EnergyTrading.MDM.Contracts.Mappers
             this.repository = repository;
         }
 
-        public override void Map(CounterpartyDetails source, MDM.CounterpartyDetails destination)
+        public override void Map(Sample.CounterpartyDetails source, CounterpartyDetails destination)
         {
             destination.Phone = source.Phone;
             destination.Fax = source.Fax;

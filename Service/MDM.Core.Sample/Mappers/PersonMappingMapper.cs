@@ -1,17 +1,18 @@
 ﻿namespace EnergyTrading.MDM.Mappers
 {
     using EnergyTrading.Mapping;
+    using EnergyTrading.Mdm.Contracts;
 
-    public class PersonMappingMapper : Mapper<EnergyTrading.MDM.PersonMapping, EnergyTrading.Mdm.Contracts.MdmId>
+    public class PersonMappingMapper : Mapper<PersonMapping, MdmId>
     {
-        private readonly Mapper<IEntityMapping, EnergyTrading.Mdm.Contracts.MdmId> mapper;
+        private readonly Mapper<IEntityMapping, MdmId> mapper;
 
         public PersonMappingMapper()
         {
             this.mapper = new EntityMappingMapper();
         }
 
-        public override void Map(EnergyTrading.MDM.PersonMapping source, EnergyTrading.Mdm.Contracts.MdmId destination)
+        public override void Map(PersonMapping source, MdmId destination)
         {
             this.mapper.Map(source, destination);
         }

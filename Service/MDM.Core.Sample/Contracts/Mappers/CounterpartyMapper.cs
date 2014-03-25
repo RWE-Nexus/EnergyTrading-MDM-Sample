@@ -4,39 +4,44 @@ namespace EnergyTrading.MDM.Contracts.Mappers
 
     using EnergyTrading.Data;
     using EnergyTrading.Mapping;
-    using EnergyTrading.MDM.Contracts.Sample;
+    using EnergyTrading.Mdm.Contracts;
     using EnergyTrading.MDM.Data;
 
+    using DateRange = EnergyTrading.DateRange;
+
     /// <summary>
-    /// Maps a <see cref="SourceSystem" /> to a <see cref="Counterparty" />
+    /// Maps a <see cref="MDM.SourceSystem" /> to a <see cref="Counterparty" />
     /// </summary>
-    public class CounterpartyMapper : ContractMapper<Counterparty, MDM.Counterparty, CounterpartyDetails, MDM.CounterpartyDetails, PartyRoleMapping>
+    public class CounterpartyMapper :
+        ContractMapper
+            <Sample.Counterparty, Counterparty, Sample.CounterpartyDetails, CounterpartyDetails, PartyRoleMapping>
     {
         private readonly IRepository repository;
 
-        public CounterpartyMapper(IMappingEngine mappingEngine, IRepository repository) : base(mappingEngine)
+        public CounterpartyMapper(IMappingEngine mappingEngine, IRepository repository)
+            : base(mappingEngine)
         {
             this.repository = repository;
         }
 
-        protected override CounterpartyDetails ContractDetails(Counterparty contract)
+        public override void Map(Sample.Counterparty source, Counterparty destination)
+        {
+            base.Map(source, destination);
+            destination.PartyRoleType = "Counterparty";
+            destination.Party = this.repository.FindEntityByMapping<Party, PartyMapping>(source.Party);
+        }
+
+        protected override Sample.CounterpartyDetails ContractDetails(Sample.Counterparty contract)
         {
             return contract.Details;
         }
 
-        public override void Map(Counterparty source, MDM.Counterparty destination)
-        {
-            base.Map(source, destination);
-            destination.PartyRoleType = "Counterparty";
-            destination.Party = this.repository.FindEntityByMapping<MDM.Party, PartyMapping>(source.Party);
-        }
-
-        protected override EnergyTrading.DateRange ContractDetailsValidity(Counterparty contract)
+        protected override DateRange ContractDetailsValidity(Sample.Counterparty contract)
         {
             return this.SystemDataValidity(contract.MdmSystemData);
         }
 
-        protected override IEnumerable<EnergyTrading.Mdm.Contracts.MdmId> Identifiers(Counterparty contract)
+        protected override IEnumerable<MdmId> Identifiers(Sample.Counterparty contract)
         {
             return contract.Identifiers;
         }

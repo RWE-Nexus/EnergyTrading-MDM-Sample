@@ -2,27 +2,30 @@
 {
     using System.Collections.Generic;
 
-    using EnergyTrading;
     using EnergyTrading.Mapping;
-    using EnergyTrading.MDM.Contracts.Sample;
+    using EnergyTrading.Mdm.Contracts;
 
-    public class PersonMapper : ContractMapper<Person, MDM.Person, PersonDetails, MDM.PersonDetails, PersonMapping>
+    using DateRange = EnergyTrading.DateRange;
+
+    public class PersonMapper :
+        ContractMapper<Sample.Person, Person, Sample.PersonDetails, PersonDetails, PersonMapping>
     {
-        public PersonMapper(IMappingEngine mappingEngine) : base(mappingEngine)
+        public PersonMapper(IMappingEngine mappingEngine)
+            : base(mappingEngine)
         {
         }
 
-        protected override PersonDetails ContractDetails(Person contract)
+        protected override Sample.PersonDetails ContractDetails(Sample.Person contract)
         {
             return contract.Details;
         }
 
-        protected override EnergyTrading.DateRange ContractDetailsValidity(Person contract)
+        protected override DateRange ContractDetailsValidity(Sample.Person contract)
         {
             return this.SystemDataValidity(contract.MdmSystemData);
         }
 
-        protected override IEnumerable<EnergyTrading.Mdm.Contracts.MdmId> Identifiers(Person contract)
+        protected override IEnumerable<MdmId> Identifiers(Sample.Person contract)
         {
             return contract.Identifiers;
         }

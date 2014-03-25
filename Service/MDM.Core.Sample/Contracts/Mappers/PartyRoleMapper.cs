@@ -3,38 +3,41 @@ namespace EnergyTrading.MDM.Contracts.Mappers
     using System.Collections.Generic;
 
     using EnergyTrading.Data;
-    using EnergyTrading;
     using EnergyTrading.Mapping;
-    using EnergyTrading.MDM.Contracts.Sample;
+    using EnergyTrading.Mdm.Contracts;
     using EnergyTrading.MDM.Data;
 
-    public class PartyRoleMapper : ContractMapper<PartyRole, MDM.PartyRole, PartyRoleDetails, MDM.PartyRoleDetails, PartyRoleMapping>
+    using DateRange = EnergyTrading.DateRange;
+
+    public class PartyRoleMapper :
+        ContractMapper<Sample.PartyRole, PartyRole, Sample.PartyRoleDetails, PartyRoleDetails, PartyRoleMapping>
     {
         private readonly IRepository repository;
 
-        public PartyRoleMapper(IMappingEngine mappingEngine, IRepository repository) : base(mappingEngine)
+        public PartyRoleMapper(IMappingEngine mappingEngine, IRepository repository)
+            : base(mappingEngine)
         {
             this.repository = repository;
         }
 
-        public override void Map(PartyRole source, MDM.PartyRole destination)
+        public override void Map(Sample.PartyRole source, PartyRole destination)
         {
             base.Map(source, destination);
             destination.PartyRoleType = source.PartyRoleType;
-            destination.Party = this.repository.FindEntityByMapping<MDM.Party, PartyMapping>(source.Party);
+            destination.Party = this.repository.FindEntityByMapping<Party, PartyMapping>(source.Party);
         }
 
-        protected override PartyRoleDetails ContractDetails(PartyRole contract)
+        protected override Sample.PartyRoleDetails ContractDetails(Sample.PartyRole contract)
         {
             return contract.Details;
         }
 
-        protected override EnergyTrading.DateRange ContractDetailsValidity(PartyRole contract)
+        protected override DateRange ContractDetailsValidity(Sample.PartyRole contract)
         {
             return this.SystemDataValidity(contract.MdmSystemData);
         }
 
-        protected override IEnumerable<EnergyTrading.Mdm.Contracts.MdmId> Identifiers(PartyRole contract)
+        protected override IEnumerable<MdmId> Identifiers(Sample.PartyRole contract)
         {
             return contract.Identifiers;
         }

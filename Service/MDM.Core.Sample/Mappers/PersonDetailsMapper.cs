@@ -1,11 +1,13 @@
 ﻿namespace EnergyTrading.MDM.Mappers
 {
     using EnergyTrading.Mapping;
-    using EnergyTrading.MDM.Contracts.Sample;
 
-    public class PersonDetailsMapper : Mapper<EnergyTrading.MDM.PersonDetails, PersonDetails>
+    public class PersonDetailsMapper :
+        Mapper<PersonDetails, Contracts.Sample.PersonDetails>
     {
-        public override void Map(EnergyTrading.MDM.PersonDetails source, PersonDetails destination)
+        public override void Map(
+            PersonDetails source, 
+            Contracts.Sample.PersonDetails destination)
         {
             destination.Forename = source.FirstName;
             destination.Surname = source.LastName;

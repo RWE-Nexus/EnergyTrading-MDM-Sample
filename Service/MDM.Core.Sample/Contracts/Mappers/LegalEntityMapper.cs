@@ -1,42 +1,47 @@
 ﻿namespace EnergyTrading.MDM.Contracts.Mappers
 {
     using System.Collections.Generic;
+
     using EnergyTrading.Data;
     using EnergyTrading.Mapping;
-    using EnergyTrading.MDM.Contracts.Sample;
+    using EnergyTrading.Mdm.Contracts;
     using EnergyTrading.MDM.Data;
 
+    using DateRange = EnergyTrading.DateRange;
+
     /// <summary>
-    /// Maps a <see cref="SourceSystem" /> to a <see cref="LegalEntity" />
+    /// Maps a <see cref="MDM.SourceSystem" /> to a <see cref="LegalEntity" />
     /// </summary>
-    public class LegalEntityMapper : ContractMapper<LegalEntity, MDM.LegalEntity, LegalEntityDetails, MDM.LegalEntityDetails, PartyRoleMapping>
+    public class LegalEntityMapper :
+        ContractMapper<Sample.LegalEntity, LegalEntity, Sample.LegalEntityDetails, LegalEntityDetails, PartyRoleMapping>
     {
         private readonly IRepository repository;
 
-        public LegalEntityMapper(IRepository repository, IMappingEngine mappingEngine) : base(mappingEngine)
+        public LegalEntityMapper(IRepository repository, IMappingEngine mappingEngine)
+            : base(mappingEngine)
         {
             this.repository = repository;
         }
 
-        public override void Map(LegalEntity source, MDM.LegalEntity destination)
+        public override void Map(Sample.LegalEntity source, LegalEntity destination)
         {
             base.Map(source, destination);
 
             destination.PartyRoleType = "Legal Entity";
-            destination.Party = this.repository.FindEntityByMapping<MDM.Party, PartyMapping>(source.Party);
+            destination.Party = this.repository.FindEntityByMapping<Party, PartyMapping>(source.Party);
         }
 
-        protected override LegalEntityDetails ContractDetails(LegalEntity contract)
+        protected override Sample.LegalEntityDetails ContractDetails(Sample.LegalEntity contract)
         {
             return contract.Details;
         }
 
-        protected override EnergyTrading.DateRange ContractDetailsValidity(LegalEntity contract)
+        protected override DateRange ContractDetailsValidity(Sample.LegalEntity contract)
         {
             return this.SystemDataValidity(contract.MdmSystemData);
         }
 
-        protected override IEnumerable<EnergyTrading.Mdm.Contracts.MdmId> Identifiers(LegalEntity contract)
+        protected override IEnumerable<MdmId> Identifiers(Sample.LegalEntity contract)
         {
             return contract.Identifiers;
         }

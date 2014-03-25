@@ -2,10 +2,8 @@ namespace EnergyTrading.MDM.Contracts.Mappers
 {
     using EnergyTrading.Data;
     using EnergyTrading.Mapping;
-    using EnergyTrading.MDM.Contracts.Sample;
-    using EnergyTrading.MDM.Data;
 
-    public class PartyRoleDetailsMapper : Mapper<PartyRoleDetails, MDM.PartyRoleDetails>
+    public class PartyRoleDetailsMapper : Mapper<Sample.PartyRoleDetails, PartyRoleDetails>
     {
         private readonly IRepository repository;
 
@@ -14,10 +12,9 @@ namespace EnergyTrading.MDM.Contracts.Mappers
             this.repository = repository;
         }
 
-        public override void Map(PartyRoleDetails source, MDM.PartyRoleDetails destination)
+        public override void Map(Sample.PartyRoleDetails source, PartyRoleDetails destination)
         {
             destination.Name = source.Name;
         }
     }
 }
-

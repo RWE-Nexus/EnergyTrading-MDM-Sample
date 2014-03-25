@@ -1,11 +1,10 @@
 ﻿namespace EnergyTrading.MDM.Contracts.Mappers
 {
     using EnergyTrading.Mapping;
-    using EnergyTrading.MDM.Contracts.Sample;
 
-    public class LegalEntityDetailsMapper : Mapper<LegalEntityDetails, MDM.LegalEntityDetails>
+    public class LegalEntityDetailsMapper : Mapper<Sample.LegalEntityDetails, LegalEntityDetails>
     {
-        public override void Map(LegalEntityDetails source, MDM.LegalEntityDetails destination)
+        public override void Map(Sample.LegalEntityDetails source, LegalEntityDetails destination)
         {
             destination.Name = source.Name;
             destination.Address = source.Address;

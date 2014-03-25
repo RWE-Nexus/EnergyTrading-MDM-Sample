@@ -2,10 +2,8 @@ namespace EnergyTrading.MDM.Contracts.Mappers
 {
     using EnergyTrading.Data;
     using EnergyTrading.Mapping;
-    using EnergyTrading.MDM.Contracts.Sample;
-    using EnergyTrading.MDM.Data;
 
-    public class ExchangeDetailsMapper : Mapper<ExchangeDetails, MDM.ExchangeDetails>
+    public class ExchangeDetailsMapper : Mapper<Sample.ExchangeDetails, ExchangeDetails>
     {
         private readonly IRepository repository;
 
@@ -14,7 +12,7 @@ namespace EnergyTrading.MDM.Contracts.Mappers
             this.repository = repository;
         }
 
-        public override void Map(ExchangeDetails source, MDM.ExchangeDetails destination)
+        public override void Map(Sample.ExchangeDetails source, ExchangeDetails destination)
         {
             destination.Name = source.Name;
             destination.Fax = source.Fax;
@@ -22,5 +20,3 @@ namespace EnergyTrading.MDM.Contracts.Mappers
         }
     }
 }
-
-

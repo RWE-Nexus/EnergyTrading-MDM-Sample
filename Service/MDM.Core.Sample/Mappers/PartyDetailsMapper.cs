@@ -1,11 +1,13 @@
 namespace EnergyTrading.MDM.Mappers
 {
     using EnergyTrading.Mapping;
-    using EnergyTrading.MDM.Contracts.Sample;
 
-    public class PartyDetailsMapper : Mapper<EnergyTrading.MDM.PartyDetails, PartyDetails>
+    public class PartyDetailsMapper :
+        Mapper<PartyDetails, Contracts.Sample.PartyDetails>
     {
-        public override void Map(EnergyTrading.MDM.PartyDetails source, PartyDetails destination)
+        public override void Map(
+            PartyDetails source, 
+            Contracts.Sample.PartyDetails destination)
         {
             destination.Name = source.Name;
             destination.TelephoneNumber = source.Phone;
