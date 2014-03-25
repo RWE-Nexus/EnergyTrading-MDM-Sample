@@ -1,10 +1,10 @@
 ﻿namespace Shell.Views
 {
-    using System;
     using System.Windows;
     using System.Windows.Input;
-    using System.Windows.Media.Imaging;
+
     using Microsoft.Windows.Shell;
+
     using Shell.ViewModels;
 
     public partial class ShellView : Window
@@ -28,7 +28,8 @@
                 else if (window.WindowState == WindowState.Normal)
                 {
                     SystemCommands.ShowSystemMenu(
-                        window, new Point(window.Left + systemMenuOffset, window.Top + systemMenuOffset));
+                        window, 
+                        new Point(window.Left + systemMenuOffset, window.Top + systemMenuOffset));
                 }
             }
         }

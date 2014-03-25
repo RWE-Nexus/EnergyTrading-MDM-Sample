@@ -7,8 +7,10 @@
     using EnergyTrading.Contracts.Search;
     using EnergyTrading.Logging;
     using EnergyTrading.Mdm.Client.WebClient;
-    using OpenNexus.MDM.Contracts; using EnergyTrading.Mdm.Contracts;
+    using EnergyTrading.Mdm.Contracts;
     using EnergyTrading.Search;
+
+    using OpenNexus.MDM.Contracts;
 
     public class PartyRoleLoader : MdmLoader<PartyRole>
     {
@@ -17,6 +19,17 @@
         public PartyRoleLoader(IList<PartyRole> entities, bool candidateData)
             : base(entities, candidateData)
         {
+        }
+
+        protected override PartyRole CreateCopyWithoutMappings(PartyRole entity)
+        {
+            return new PartyRole
+                       {
+                           Details = entity.Details, 
+                           MdmSystemData = entity.MdmSystemData, 
+                           PartyRoleType = entity.PartyRoleType, 
+                           Party = entity.Party
+                       };
         }
 
         protected override WebResponse<PartyRole> EntityFind(PartyRole entity)
@@ -39,37 +52,23 @@
                 // Call again to get the ETag for the update
                 return Client.Get<PartyRole>(se.ToMdmKey());
             }
-            else if (results.Fault != null && results.Fault.Message.Contains("Unable to connect to the remote server")) // Try again
+
+            if (results.Fault != null && results.Fault.Message.Contains("Unable to connect to the remote server"))
             {
+                // Try again
                 Thread.Sleep(30000);
                 this.logger.WarnFormat("Try again for PartyRole: {0}-{1}", entity.PartyRoleType, entity.Details.Name);
-                results = Client.Search<PartyRole>(search);
+                results = this.Client.Search<PartyRole>(search);
                 if (results.IsValid)
                 {
                     var se = results.Message.FirstOrDefault();
 
                     // Call again to get the ETag for the update
-                    return Client.Get<PartyRole>(se.ToMdmKey());
+                    return this.Client.Get<PartyRole>(se.ToMdmKey());
                 }
             }
 
-            return new WebResponse<PartyRole>
-            {
-                Code = results.Code,
-                IsValid = results.IsValid,
-                Fault = results.Fault
-            };
+            return new WebResponse<PartyRole> { Code = results.Code, IsValid = results.IsValid, Fault = results.Fault };
         }
-
-        protected override PartyRole CreateCopyWithoutMappings(PartyRole entity)
-        {
-            return new PartyRole
-            {
-                Details = entity.Details,
-                MdmSystemData = entity.MdmSystemData,
-                PartyRoleType = entity.PartyRoleType,
-                Party = entity.Party
-            };
-        }
-   }
+    }
 }

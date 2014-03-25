@@ -1,6 +1,7 @@
 namespace Common.Services
 {
     using Common.Commands;
+
     using Microsoft.Practices.Prism.Commands;
 
     public class MenuService : IMenuService

@@ -2,8 +2,6 @@
 {
     using System.Data.Entity.ModelConfiguration;
 
-    
-
     public class PersonMappingConfiguration : EntityTypeConfiguration<PersonMapping>
     {
         public PersonMappingConfiguration()

@@ -6,8 +6,13 @@
 
     public static class RepositoryExtensions
     {
-        public static int FindPartyRoleOverlappingMappingCount<TMapping>(this IRepository repository, string sourceSystem, string mapping, EnergyTrading.DateRange range, string partyRoleType, int mappingId = 0)
-            where TMapping : class, IEntityMapping
+        public static int FindPartyRoleOverlappingMappingCount<TMapping>(
+            this IRepository repository, 
+            string sourceSystem, 
+            string mapping, 
+            DateRange range, 
+            string partyRoleType, 
+            int mappingId = 0) where TMapping : class, IEntityMapping
         {
             var mappings = repository.FindOverlappingMappings<TMapping>(sourceSystem, mapping, range, mappingId);
 

@@ -3,7 +3,6 @@ namespace EnergyTrading.MDM
     using System;
     using System.Collections.Generic;
 
-    using EnergyTrading;
     using EnergyTrading.Data;
     using EnergyTrading.MDM.Extensions;
 
@@ -18,27 +17,9 @@ namespace EnergyTrading.MDM
             this.OnCreate();
         }
 
-        /// <summary>
-        /// Allow for construction actions in the partial class.
-        /// </summary>
-        partial void OnCreate();
-        
         public int Id { get; set; }
 
-        object IIdentifiable.Id
-        {
-            get { return this.Id; }
-        }
-
         public virtual IList<LocationMapping> Mappings { get; private set; }
-
-        IEntity IRangedChild.Entity
-        {
-            get { return this; }
-            set { }
-        }
-
-        public DateRange Validity { get; set; }
 
         /// <summary>
         /// Gets or sets the Timestamp property.
@@ -47,6 +28,8 @@ namespace EnergyTrading.MDM
         /// </para>
         /// </summary>
         public byte[] Timestamp { get; set; }
+
+        public DateRange Validity { get; set; }
 
         /// <summary>
         /// Gets the version property.
@@ -62,6 +45,26 @@ namespace EnergyTrading.MDM
                 var version = this.Timestamp.ToUnsignedLongVersion();
                 version = this.Mappings.LatestVersion(version);
                 return version;
+            }
+        }
+
+        IEntity IRangedChild.Entity
+        {
+            get
+            {
+                return this;
+            }
+
+            set
+            {
+            }
+        }
+
+        object IIdentifiable.Id
+        {
+            get
+            {
+                return this.Id;
             }
         }
 
@@ -86,17 +89,12 @@ namespace EnergyTrading.MDM
         }
 
         /// <summary>
-        /// Perform the field by field copy operation
-        /// </summary>
-        partial void CopyDetails(Location details);
-
-        /// <summary>
         /// Add or update a mapping, checking that it exists and that the details are compatible.
         /// </summary>
         /// <param name="mapping"></param>
         public void ProcessMapping(LocationMapping mapping)
         {
-            this.ProcessMapping(this.Mappings, mapping, this.Validity.Finish);      
+            this.ProcessMapping(this.Mappings, mapping, this.Validity.Finish);
         }
 
         void IEntity.AddDetails(IEntityDetail details)
@@ -108,5 +106,15 @@ namespace EnergyTrading.MDM
         {
             this.ProcessMapping(mapping as LocationMapping);
         }
+
+        /// <summary>
+        /// Perform the field by field copy operation
+        /// </summary>
+        partial void CopyDetails(Location details);
+
+        /// <summary>
+        /// Allow for construction actions in the partial class.
+        /// </summary>
+        partial void OnCreate();
     }
 }

@@ -17,53 +17,82 @@
     using Common.Extensions;
     using Common.Services;
     using Common.UI.Views;
+
     using Microsoft.Practices.EnterpriseLibrary.Logging;
     using Microsoft.Practices.Prism.Commands;
     using Microsoft.Practices.Prism.Events;
     using Microsoft.Practices.Prism.Regions;
     using Microsoft.Practices.Prism.ViewModel;
+
     using Shell.Services;
 
     public class ShellViewModel : NotificationObject
     {
         private readonly IApplicationCommands applicationCommands;
+
         private readonly IEventAggregator eventAggregator;
+
         private readonly LogWriter logWriter;
+
         private readonly INavigationService navigationService;
+
         private readonly IRegionManager regionManager;
-        private bool canCreateNew;
+
         private bool canClone;
+
+        private bool canCreateNew;
+
         private bool canGoBack;
+
         private bool canGoForward;
-        private bool canSave;
+
         private bool canGoToSearch;
-        private bool dialogOpen;
-        private string error;
-        private bool isBusy;
-        private IRegionNavigationJournal journal;
-        private RelayCommand navigateBackCommand;
-        private RelayCommand navigateForwardCommand;
-        private RelayCommand navigateToSearchCommand;
-        private RelayCommand newCommand;
+
+        private bool canSave;
+
         private RelayCommand cloneCommand;
-        private RelayCommand saveCommand;
+
+        private bool dialogOpen;
+
+        private string error;
+
+        private string helpToolTip;
+
+        private bool isBusy;
+
+        private IRegionNavigationJournal journal;
+
+        private RelayCommand navigateBackCommand;
+
+        private RelayCommand navigateForwardCommand;
+
+        private RelayCommand navigateToSearchCommand;
+
+        private RelayCommand newCommand;
+
         private RelayCommand openHelpCommand;
-        private RelayCommand serverSelectedCommand;
+
+        private RelayCommand saveCommand;
+
         private bool selectEntity;
+
+        private Brush selectedServerColor;
+
+        private string selectedServerMenuText;
+
+        private ObservableCollection<string> serverList;
+
+        private RelayCommand serverSelectedCommand;
+
         private bool showUpdateMappingRegion;
 
         private string status;
-        private ObservableCollection<string> serverList;
-        private string selectedServerMenuText;
-
-        private Brush selectedServerColor;
-        private string helpToolTip;
 
         public ShellViewModel(
-            IRegionManager regionManager,
-            IEventAggregator eventAggregator,
-            INavigationService navigationService,
-            IApplicationCommands applicationCommands,
+            IRegionManager regionManager, 
+            IEventAggregator eventAggregator, 
+            INavigationService navigationService, 
+            IApplicationCommands applicationCommands, 
             LogWriter logWriter)
         {
             this.regionManager = regionManager;
@@ -91,47 +120,20 @@
             this.serverList = new ObservableCollection<string>();
             this.SetServerList();
 
-            this.HelpToolTip = "Help Documentation (" + Assembly.GetExecutingAssembly().GetName().Version.ToString() + ")";
+            this.HelpToolTip = "Help Documentation (" + Assembly.GetExecutingAssembly().GetName().Version + ")";
         }
 
-        public string SelectedServerMenuText
+        public bool CanClone
         {
             get
             {
-                return this.selectedServerMenuText;
+                return this.canClone;
             }
 
             set
             {
-                this.selectedServerMenuText = value;
-                this.RaisePropertyChanged(() => this.SelectedServerMenuText);
-            }
-        }
-
-        public Brush SelectedServerColor
-        {
-            get
-            {
-                return this.selectedServerColor;
-            }
-
-            set
-            {
-                this.selectedServerColor = value;
-                this.RaisePropertyChanged(() => this.SelectedServerColor);
-            }
-        }
-
-        public ObservableCollection<string> ServerList
-        {
-            get
-            {
-                return this.serverList;
-            }
-            set
-            {
-                this.serverList = value;
-                this.RaisePropertyChanged(() => this.ServerList);
+                this.canClone = value;
+                this.RaisePropertyChanged(() => this.CanClone);
             }
         }
 
@@ -146,20 +148,6 @@
             {
                 this.canCreateNew = value;
                 this.RaisePropertyChanged(() => this.CanCreateNew);
-            }
-        }
-
-        public bool CanClone
-        {
-            get
-            {
-                return this.canClone;
-            }
-
-            set
-            {
-                this.canClone = value;
-                this.RaisePropertyChanged(() => this.CanClone);
             }
         }
 
@@ -191,6 +179,20 @@
             }
         }
 
+        public bool CanGoToSearch
+        {
+            get
+            {
+                return this.canGoToSearch;
+            }
+
+            set
+            {
+                this.canGoToSearch = value;
+                this.RaisePropertyChanged(() => this.CanGoToSearch);
+            }
+        }
+
         public bool CanSave
         {
             get
@@ -205,17 +207,16 @@
             }
         }
 
-        public bool CanGoToSearch
+        public ICommand CloneCommand
         {
             get
             {
-                return this.canGoToSearch;
-            }
+                if (this.cloneCommand == null)
+                {
+                    this.cloneCommand = new RelayCommand(param => this.NavigateToClone(), param => this.CanClone);
+                }
 
-            set
-            {
-                this.canGoToSearch = value;
-                this.RaisePropertyChanged(() => this.CanGoToSearch);
+                return this.cloneCommand;
             }
         }
 
@@ -251,6 +252,20 @@
 
         public DelegateCommand<object> ExitCommand { get; private set; }
 
+        public string HelpToolTip
+        {
+            get
+            {
+                return this.helpToolTip;
+            }
+
+            set
+            {
+                this.helpToolTip = value;
+                this.RaisePropertyChanged(() => this.HelpToolTip);
+            }
+        }
+
         public bool IsBusy
         {
             get
@@ -284,7 +299,9 @@
             {
                 if (this.navigateForwardCommand == null)
                 {
-                    this.navigateForwardCommand = new RelayCommand(param => this.NavigateForward(), param => this.CanGoForward);
+                    this.navigateForwardCommand = new RelayCommand(
+                        param => this.NavigateForward(), 
+                        param => this.CanGoForward);
                 }
 
                 return this.navigateForwardCommand;
@@ -297,24 +314,12 @@
             {
                 if (this.navigateToSearchCommand == null)
                 {
-                    this.navigateToSearchCommand = new RelayCommand(parma => this.NavigateToSearch(), param => this.CanGoToSearch);
+                    this.navigateToSearchCommand = new RelayCommand(
+                        parma => this.NavigateToSearch(), 
+                        param => this.CanGoToSearch);
                 }
+
                 return this.navigateToSearchCommand;
-
-            }
-        }
-
-        public ICommand ServerSelectedCommand
-        {
-            get
-            {
-                if (this.serverSelectedCommand == null)
-                {
-                    this.serverSelectedCommand = new RelayCommand(
-                        x => { }, y => true);
-                }
-
-                return this.serverSelectedCommand;
             }
         }
 
@@ -331,18 +336,7 @@
             }
         }
 
-        public ICommand CloneCommand
-        {
-            get
-            {
-                if (this.cloneCommand == null)
-                {
-                    this.cloneCommand = new RelayCommand(param => this.NavigateToClone(), param => this.CanClone);
-                }
-
-                return this.cloneCommand;
-            }
-        }
+        public ObservableCollection<MenuItemViewModel> NewEntityMenuItems { get; set; }
 
         public ICommand OpenHelpCommand
         {
@@ -350,7 +344,8 @@
             {
                 if (this.openHelpCommand == null)
                 {
-                    this.openHelpCommand = new RelayCommand(param => Process.Start(ConfigurationManager.AppSettings["help_document"]));
+                    this.openHelpCommand =
+                        new RelayCommand(param => Process.Start(ConfigurationManager.AppSettings["help_document"]));
                 }
 
                 return this.openHelpCommand;
@@ -370,8 +365,6 @@
             }
         }
 
-        public ObservableCollection<MenuItemViewModel> NewEntityMenuItems { get; set; }
-
         public bool SelectEntity
         {
             get
@@ -386,12 +379,68 @@
             }
         }
 
+        public Brush SelectedServerColor
+        {
+            get
+            {
+                return this.selectedServerColor;
+            }
+
+            set
+            {
+                this.selectedServerColor = value;
+                this.RaisePropertyChanged(() => this.SelectedServerColor);
+            }
+        }
+
+        public string SelectedServerMenuText
+        {
+            get
+            {
+                return this.selectedServerMenuText;
+            }
+
+            set
+            {
+                this.selectedServerMenuText = value;
+                this.RaisePropertyChanged(() => this.SelectedServerMenuText);
+            }
+        }
+
+        public ObservableCollection<string> ServerList
+        {
+            get
+            {
+                return this.serverList;
+            }
+
+            set
+            {
+                this.serverList = value;
+                this.RaisePropertyChanged(() => this.ServerList);
+            }
+        }
+
+        public ICommand ServerSelectedCommand
+        {
+            get
+            {
+                if (this.serverSelectedCommand == null)
+                {
+                    this.serverSelectedCommand = new RelayCommand(x => { }, y => true);
+                }
+
+                return this.serverSelectedCommand;
+            }
+        }
+
         public bool ShowUpdateMappingRegion
         {
             get
             {
                 return this.showUpdateMappingRegion;
             }
+
             set
             {
                 this.showUpdateMappingRegion = value;
@@ -431,7 +480,8 @@
                 {
                     this.CanGoBack = this.journal.CanGoBack;
                     this.CanGoForward = this.journal.CanGoForward;
-                    //this.CanCreateNew = true;
+
+                    // this.CanCreateNew = true;
                     this.CanGoToSearch = this.journal.CanGoBack;
                 };
 
@@ -439,7 +489,8 @@
                 {
                     this.CanGoBack = this.journal.CanGoBack;
                     this.CanGoForward = this.journal.CanGoForward;
-                    //this.CanCreateNew = true;
+
+                    // this.CanCreateNew = true;
                     this.CanGoToSearch = false;
                 };
 
@@ -456,9 +507,9 @@
             this.navigationService.NavigateMainForward();
         }
 
-        public void NavigateToSearch()
+        public void NavigateToClone()
         {
-            this.navigationService.NavigateToSearch();
+            this.eventAggregator.Publish(new CloneEvent());
         }
 
         public void NavigateToNew()
@@ -466,14 +517,28 @@
             this.eventAggregator.Publish(new CreateEvent());
         }
 
-        public void NavigateToClone()
+        public void NavigateToSearch()
         {
-            this.eventAggregator.Publish(new CloneEvent());
+            this.navigationService.NavigateToSearch();
         }
 
         public void Save()
         {
             this.eventAggregator.Publish(new SaveEvent());
+        }
+
+        public void ServerChanged()
+        {
+            string args;
+            args = string.Format(
+                "{0} {1} {2} {3} {4}", 
+                ConfigurationManager.AppSettings["menu_service_" + this.SelectedServerMenuText], 
+                Application.Current.MainWindow.Left, 
+                Application.Current.MainWindow.Top, 
+                Application.Current.MainWindow.Width, 
+                Application.Current.MainWindow.Height);
+            Process.Start(Application.ResourceAssembly.Location, args);
+            Application.Current.Shutdown();
         }
 
         private void AppExit(object commandArg)
@@ -484,6 +549,38 @@
         private bool CanAppExit(object commandArg)
         {
             return true;
+        }
+
+        private void CanCloneChange(CanCloneChangeEvent obj)
+        {
+            CanClone = obj.CanClone;
+        }
+
+        private void CanCreateNewChange(CanCreateNewChangeEvent obj)
+        {
+            CanCreateNew = obj.CanCreate;
+        }
+
+        private void ConfirmMappingDelete(ConfirmMappingDeleteEvent obj)
+        {
+            try
+            {
+                var parameters = new Dictionary<string, string>();
+                parameters[NavigationParameters.MappingId] = obj.MappingId.ToString();
+                parameters[NavigationParameters.MappingValue] = obj.MappingValue;
+                parameters[NavigationParameters.SystemName] = obj.SystemName;
+
+                this.applicationCommands.OpenView(
+                    typeof(ConfirmMappingDeleteView), 
+                    RegionNames.MappingUpdateRegion, 
+                    parameters);
+
+                this.ShowUpdateMappingRegion = true;
+            }
+            catch (Exception)
+            {
+                this.ShowUpdateMappingRegion = false;
+            }
         }
 
         private void DialogOpened(DialogOpenEvent dialogOpenEvent)
@@ -503,120 +600,6 @@
             this.applicationCommands.CloseView(typeof(MappingUpdateView), RegionNames.MappingUpdateRegion);
         }
 
-        private void CanCreateNewChange(CanCreateNewChangeEvent obj)
-        {
-            CanCreateNew = obj.CanCreate;
-        }
-
-        private void CanCloneChange(CanCloneChangeEvent obj)
-        {
-            CanClone = obj.CanClone;
-        }
-
-        private void SetBusy(BusyEvent busyEvent)
-        {
-            this.IsBusy = busyEvent.IsBusy;
-        }
-
-        private void ShowError(ErrorEvent obj)
-        {
-            try
-            {
-                this.logWriter.Write(obj.Error ?? "Unkown Exception");
-            }
-            catch
-            {
-                // A problem writing to the log should not stop the exception from being displayed    
-            }
-
-            this.Error = obj.Error ?? "Unkown Exception";
-
-            if (obj.Exception != null)
-            {
-                this.logWriter.Write(obj.Exception);
-                return;
-            }
-
-            if (obj.Fault != null)
-            {
-                this.logWriter.Write("Message: " + obj.Fault.Message + "Reason: " + obj.Fault.Reason);
-                return;
-            }
-        }
-
-        private void ShowSelectEntity(EntitySelectEvent obj)
-        {
-            try
-            {
-                this.applicationCommands.OpenView(
-                    this.EntitySelectorViews.Where(pair => pair.Key == obj.EntityName).First().Value,
-                    obj.EntityName,
-                    obj.PropertyName,
-                    RegionNames.EntitySelectorRegion);
-
-                this.SelectEntity = true;
-            }
-            catch (Exception)
-            {
-                this.SelectEntity = false;
-            }
-        }
-
-        private void ShowUpdateMapping(MappingUpdateEvent obj)
-        {
-            try
-            {
-                var parameters = new Dictionary<string, string>();
-                parameters[NavigationParameters.EntityId] = obj.EntityId.ToString();
-                parameters[NavigationParameters.MappingId] = obj.MappingId.ToString();
-                parameters[NavigationParameters.MappingValue] = obj.MappingValue;
-                parameters[NavigationParameters.EntityName] = obj.EntityName;
-
-                this.applicationCommands.OpenView(
-                    typeof(MappingUpdateView),
-                    RegionNames.MappingUpdateRegion,
-                    parameters);
-
-                this.ShowUpdateMappingRegion = true;
-            }
-            catch (Exception)
-            {
-                this.ShowUpdateMappingRegion = false;
-            }
-        }
-
-        private void UpdateCanSave(CanSaveEvent canSaveEvent)
-        {
-            this.CanSave = canSaveEvent.CanSave;
-        }
-
-        private void UpdateStatus(StatusEvent statusEvent)
-        {
-            this.Status = statusEvent.StatusMessage;
-        }
-
-        private void ConfirmMappingDelete(ConfirmMappingDeleteEvent obj)
-        {
-            try
-            {
-                var parameters = new Dictionary<string, string>();
-                parameters[NavigationParameters.MappingId] = obj.MappingId.ToString();
-                parameters[NavigationParameters.MappingValue] = obj.MappingValue;
-                parameters[NavigationParameters.SystemName] = obj.SystemName;
-
-                this.applicationCommands.OpenView(
-                    typeof(ConfirmMappingDeleteView),
-                    RegionNames.MappingUpdateRegion,
-                    parameters);
-
-                this.ShowUpdateMappingRegion = true;
-            }
-            catch (Exception)
-            {
-                this.ShowUpdateMappingRegion = false;
-            }
-        }
-
         private void MappingDeleteConfirmed(MappingDeleteConfirmedEvent obj)
         {
             this.ShowUpdateMappingRegion = false;
@@ -624,17 +607,9 @@
             this.applicationCommands.CloseView(typeof(ConfirmMappingDeleteView), RegionNames.MappingUpdateRegion);
         }
 
-        public void ServerChanged()
+        private void SetBusy(BusyEvent busyEvent)
         {
-            string args;
-            args = string.Format("{0} {1} {2} {3} {4}",
-                ConfigurationManager.AppSettings["menu_service_" + this.SelectedServerMenuText],
-                Application.Current.MainWindow.Left,
-                Application.Current.MainWindow.Top,
-                Application.Current.MainWindow.Width,
-                Application.Current.MainWindow.Height);
-            Process.Start(Application.ResourceAssembly.Location, args);
-            Application.Current.Shutdown();
+            this.IsBusy = busyEvent.IsBusy;
         }
 
         private void SetServerList()
@@ -671,7 +646,7 @@
             {
                 foreach (var item in items)
                 {
-                    if (item.key.StartsWith("menu_service_") && item.value == (serverId))
+                    if (item.key.StartsWith("menu_service_") && item.value == serverId)
                     {
                         selectedServerMenuText = item.key.Substring(13);
                         serverColor = ConfigurationManager.AppSettings["color_" + serverId.Substring(8)];
@@ -684,25 +659,90 @@
 
             if (serverColor != null)
             {
-                Object c = ColorConverter.ConvertFromString(serverColor);
-                if (c != null) dropDownColor = (Color)c;
+                object c = ColorConverter.ConvertFromString(serverColor);
+                if (c != null)
+                {
+                    dropDownColor = (Color)c;
+                }
             }
 
             this.SelectedServerColor = new SolidColorBrush(dropDownColor);
         }
 
-        public string HelpToolTip
+        private void ShowError(ErrorEvent obj)
         {
-            get
+            try
             {
-                return this.helpToolTip;
+                this.logWriter.Write(obj.Error ?? "Unkown Exception");
+            }
+            catch
+            {
+                // A problem writing to the log should not stop the exception from being displayed    
             }
 
-            set
+            this.Error = obj.Error ?? "Unkown Exception";
+
+            if (obj.Exception != null)
             {
-                this.helpToolTip = value;
-                this.RaisePropertyChanged(() => this.HelpToolTip);
+                this.logWriter.Write(obj.Exception);
+                return;
             }
+
+            if (obj.Fault != null)
+            {
+                this.logWriter.Write("Message: " + obj.Fault.Message + "Reason: " + obj.Fault.Reason);
+            }
+        }
+
+        private void ShowSelectEntity(EntitySelectEvent obj)
+        {
+            try
+            {
+                this.applicationCommands.OpenView(
+                    this.EntitySelectorViews.Where(pair => pair.Key == obj.EntityName).First().Value, 
+                    obj.EntityName, 
+                    obj.PropertyName, 
+                    RegionNames.EntitySelectorRegion);
+
+                this.SelectEntity = true;
+            }
+            catch (Exception)
+            {
+                this.SelectEntity = false;
+            }
+        }
+
+        private void ShowUpdateMapping(MappingUpdateEvent obj)
+        {
+            try
+            {
+                var parameters = new Dictionary<string, string>();
+                parameters[NavigationParameters.EntityId] = obj.EntityId.ToString();
+                parameters[NavigationParameters.MappingId] = obj.MappingId.ToString();
+                parameters[NavigationParameters.MappingValue] = obj.MappingValue;
+                parameters[NavigationParameters.EntityName] = obj.EntityName;
+
+                this.applicationCommands.OpenView(
+                    typeof(MappingUpdateView), 
+                    RegionNames.MappingUpdateRegion, 
+                    parameters);
+
+                this.ShowUpdateMappingRegion = true;
+            }
+            catch (Exception)
+            {
+                this.ShowUpdateMappingRegion = false;
+            }
+        }
+
+        private void UpdateCanSave(CanSaveEvent canSaveEvent)
+        {
+            this.CanSave = canSaveEvent.CanSave;
+        }
+
+        private void UpdateStatus(StatusEvent statusEvent)
+        {
+            this.Status = statusEvent.StatusMessage;
         }
     }
 }

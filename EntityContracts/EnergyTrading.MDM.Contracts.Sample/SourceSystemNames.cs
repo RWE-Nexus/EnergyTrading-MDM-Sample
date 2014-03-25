@@ -5,10 +5,10 @@
     /// </summary>
     public static class SourceSystemNames
     {
+        public const string Endur = "Endur";
+
         public const string Nexus = "Nexus";
 
         public const string Trayport = "Trayport";
-
-        public const string Endur = "Endur";
     }
 }

@@ -2,7 +2,6 @@
 {
     using System.Collections.Generic;
 
-    using EnergyTrading;
     using EnergyTrading.Data;
     using EnergyTrading.MDM.Extensions;
 
@@ -14,25 +13,26 @@
             this.Details = new List<PartyDetails>();
         }
 
+        public virtual IList<PartyDetails> Details { get; private set; }
+
         public int Id { get; set; }
 
-        object IIdentifiable.Id
+        public PartyDetails LatestDetails
         {
-            get { return this.Id; }
+            get
+            {
+                return this.Details.Latest();
+            }
         }
 
         public virtual IList<PartyMapping> Mappings { get; private set; }
 
-        public virtual IList<PartyDetails> Details { get; private set; }
-
-        public PartyDetails LatestDetails
-        {
-            get { return this.Details.Latest(); }
-        }
-
         public DateRange Validity
         {
-            get { return this.Details.GetEntityValidity(); }
+            get
+            {
+                return this.Details.GetEntityValidity();
+            }
         }
 
         /// <summary>
@@ -48,6 +48,14 @@
             {
                 var version = this.Details.LatestVersion(this.Mappings.LatestVersion());
                 return version;
+            }
+        }
+
+        object IIdentifiable.Id
+        {
+            get
+            {
+                return this.Id;
             }
         }
 
@@ -71,11 +79,6 @@
         }
 
         /// <summary>
-        /// Perform the field by field copy operation
-        /// </summary>
-        partial void CopyDetails(PartyDetails details);
-
-        /// <summary>
         /// Add or update a mapping, checking that it exists and that the details are compatible.
         /// </summary>
         /// <param name="mapping"></param>
@@ -93,5 +96,10 @@
         {
             this.ProcessMapping(mapping as PartyMapping);
         }
+
+        /// <summary>
+        /// Perform the field by field copy operation
+        /// </summary>
+        partial void CopyDetails(PartyDetails details);
     }
 }

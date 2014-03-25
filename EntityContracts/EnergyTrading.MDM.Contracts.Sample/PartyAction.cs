@@ -8,9 +8,11 @@ namespace EnergyTrading.MDM.Contracts.Sample
     public enum PartyAction
     {
         [EnumMember]
-        Unknown = 0,
+        Unknown = 0, 
+
         [EnumMember]
-        Initiator = 1,
+        Initiator = 1, 
+
         [EnumMember]
         Aggressor = 2
     }

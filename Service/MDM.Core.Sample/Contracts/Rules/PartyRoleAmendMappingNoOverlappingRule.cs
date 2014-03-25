@@ -5,12 +5,14 @@ namespace EnergyTrading.MDM.Contracts.Rules
     using EnergyTrading.MDM.Messages;
     using EnergyTrading.Validation;
 
-    public class PartyRoleAmendMappingNoOverlappingRule<TEntity, TMapping> : Rule<AmendMappingRequest> 
-        where TMapping : class, IIdentifiable, IEntityMapping
-        where TEntity : class, IIdentifiable, IEntity
+    public class PartyRoleAmendMappingNoOverlappingRule<TEntity, TMapping> : Rule<AmendMappingRequest>
+        where TMapping : class, IIdentifiable, IEntityMapping where TEntity : class, IIdentifiable, IEntity
     {
-        private const string MessageTemplate = "Identifier '{0}' for system '{1}' already assigned to an entity for some part of the range {2:yyyy-MMM-dd} to {3:yyyy-MMM-dd}";
         private const string EntityNotFoundMessageTemplate = "No {0} exists with identifier '{1}'";
+
+        private const string MessageTemplate =
+            "Identifier '{0}' for system '{1}' already assigned to an entity for some part of the range {2:yyyy-MMM-dd} to {3:yyyy-MMM-dd}";
+
         private readonly IRepository repository;
 
         public PartyRoleAmendMappingNoOverlappingRule(IRepository repository)
@@ -30,10 +32,20 @@ namespace EnergyTrading.MDM.Contracts.Rules
                 return false;
             }
 
-            var count = this.repository.FindPartyRoleOverlappingMappingCount<TMapping>(mapping.SystemName, mapping.Identifier, range, entity.PartyRoleType, request.MappingId);
+            var count = this.repository.FindPartyRoleOverlappingMappingCount<TMapping>(
+                mapping.SystemName, 
+                mapping.Identifier, 
+                range, 
+                entity.PartyRoleType, 
+                request.MappingId);
             if (count > 0)
             {
-                this.Message = string.Format(MessageTemplate, mapping.Identifier, mapping.SystemName, range.Start, range.Finish);
+                this.Message = string.Format(
+                    MessageTemplate, 
+                    mapping.Identifier, 
+                    mapping.SystemName, 
+                    range.Start, 
+                    range.Finish);
                 return false;
             }
 

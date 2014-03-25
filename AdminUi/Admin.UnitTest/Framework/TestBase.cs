@@ -8,26 +8,9 @@ namespace Admin.UnitTest.Framework
     [TestClass]
     public abstract class TestBase<T>
     {
-        private IUnityContainer container;
-
         protected T Sut;
 
-       [TestInitialize] 
-       public void Setup()
-       {
-           this.container = new UnityContainer().AddNewExtension<AutoMockingContainerExtension>();
-           this.Establish_context();
-           this.Because_of();
-       }
-
-        protected virtual void Because_of()
-        {
-        }
-
-        protected virtual void Establish_context()
-        {
-            this.Sut = this.container.Resolve<T>();
-        }
+        private IUnityContainer container;
 
         public void AddConcrete<TInterface, TInstance>(TInstance concrete) where TInstance : TInterface
         {
@@ -39,14 +22,31 @@ namespace Admin.UnitTest.Framework
             return this.container.Resolve<TInterface>();
         }
 
+        public Mock<TInterface> Mock<TInterface>() where TInterface : class
+        {
+            return this.container.ConfigureMockFor<TInterface>();
+        }
+
         public Mock<TInterface> RegisterMock<TInterface>() where TInterface : class
         {
             return this.container.RegisterMock<TInterface>();
         }
 
-        public Mock<TInterface> Mock<TInterface>() where TInterface : class
+        [TestInitialize]
+        public void Setup()
         {
-            return this.container.ConfigureMockFor<TInterface>();
+            this.container = new UnityContainer().AddNewExtension<AutoMockingContainerExtension>();
+            this.Establish_context();
+            this.Because_of();
+        }
+
+        protected virtual void Because_of()
+        {
+        }
+
+        protected virtual void Establish_context()
+        {
+            this.Sut = this.container.Resolve<T>();
         }
     }
 }

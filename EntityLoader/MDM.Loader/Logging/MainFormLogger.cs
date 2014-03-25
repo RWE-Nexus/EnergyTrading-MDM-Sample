@@ -2,18 +2,62 @@
 {
     using System;
     using System.Threading;
-    using MDM.Loader.Views;
+
     using EnergyTrading.Logging;
     using EnergyTrading.Logging.Log4Net;
 
+    using MDM.Loader.Views;
+
     public class MainFormLogger : ILogger
     {
+        private readonly ILogger log4netLogger =
+            new Log4NetLoggerFactory(new Log4NetConfiguration()).GetLogger(typeof(FormMain));
+
         private readonly IMainFormView mainFormView;
-        private readonly ILogger log4netLogger = new Log4NetLoggerFactory(new Log4NetConfiguration()).GetLogger(typeof(FormMain));
 
         public MainFormLogger(IMainFormView mainFormView)
         {
             this.mainFormView = mainFormView;
+        }
+
+        public bool IsDebugEnabled
+        {
+            get
+            {
+                return true;
+            }
+        }
+
+        public bool IsErrorEnabled
+        {
+            get
+            {
+                return true;
+            }
+        }
+
+        public bool IsFatalEnabled
+        {
+            get
+            {
+                return true;
+            }
+        }
+
+        public bool IsInfoEnabled
+        {
+            get
+            {
+                return true;
+            }
+        }
+
+        public bool IsWarnEnabled
+        {
+            get
+            {
+                return true;
+            }
         }
 
         public void Debug(string message)
@@ -29,36 +73,6 @@
         public void DebugFormat(string format, params object[] parameters)
         {
             Log(string.Format(format, parameters), m => log4netLogger.Debug(m));
-        }
-
-        public void Info(string message)
-        {
-            Log(message, m => log4netLogger.Info(m));
-        }
-
-        public void Info(string message, Exception exception)
-        {
-            Log(message, exception, (m, e) => log4netLogger.Info(m, e));
-        }
-
-        public void InfoFormat(string format, params object[] parameters)
-        {
-            Log(string.Format(format, parameters), m => log4netLogger.Info(m));
-        }
-
-        public void Warn(string message)
-        {
-            Log(message, m => log4netLogger.Warn(m));
-        }
-
-        public void Warn(string message, Exception exception)
-        {
-            Log(message, exception, (m, e) => log4netLogger.Warn(m, e));
-        }
-
-        public void WarnFormat(string format, params object[] parameters)
-        {
-            Log(string.Format(format, parameters), m => log4netLogger.Warn(m));
         }
 
         public void Error(string message)
@@ -91,29 +105,34 @@
             Log(string.Format(format, parameters), m => log4netLogger.Fatal(m));
         }
 
-        public bool IsDebugEnabled
+        public void Info(string message)
         {
-            get { return true; }
+            Log(message, m => log4netLogger.Info(m));
         }
 
-        public bool IsInfoEnabled
+        public void Info(string message, Exception exception)
         {
-            get { return true; }
+            Log(message, exception, (m, e) => log4netLogger.Info(m, e));
         }
 
-        public bool IsWarnEnabled
+        public void InfoFormat(string format, params object[] parameters)
         {
-            get { return true; }
+            Log(string.Format(format, parameters), m => log4netLogger.Info(m));
         }
 
-        public bool IsErrorEnabled
+        public void Warn(string message)
         {
-            get { return true; }
+            Log(message, m => log4netLogger.Warn(m));
         }
 
-        public bool IsFatalEnabled
+        public void Warn(string message, Exception exception)
         {
-            get { return true; }
+            Log(message, exception, (m, e) => log4netLogger.Warn(m, e));
+        }
+
+        public void WarnFormat(string format, params object[] parameters)
+        {
+            Log(string.Format(format, parameters), m => log4netLogger.Warn(m));
         }
 
         private void Log(string message, Action<string> action)

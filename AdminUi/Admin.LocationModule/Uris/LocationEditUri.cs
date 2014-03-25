@@ -2,15 +2,24 @@
 namespace Admin.LocationModule.Uris
 {
     using System;
+
     using Admin.LocationModule.Views;
+
     using Common;
 
     public class LocationEditUri : Uri
     {
-        public LocationEditUri(int locationId, DateTime validAt) : 
-            base(LocationViewNames.LocationEditView + string.Format("?{0}={1}&{2}={3}", NavigationParameters.EntityId, locationId, NavigationParameters.ValidAtDate, validAt), UriKind.Relative)
+        public LocationEditUri(int locationId, DateTime validAt)
+            : base(
+                LocationViewNames.LocationEditView
+                + string.Format(
+                    "?{0}={1}&{2}={3}", 
+                    NavigationParameters.EntityId, 
+                    locationId, 
+                    NavigationParameters.ValidAtDate, 
+                    validAt), 
+                UriKind.Relative)
         {
         }
     }
 }
-    

@@ -5,8 +5,7 @@ namespace EnergyTrading.MDM.Messages.Validators
     using EnergyTrading.Validation;
 
     public class PartyRoleAmendMappingRequestValidator<TEntity, TMapping> : Validator<AmendMappingRequest>
-        where TMapping : class, IIdentifiable, IEntityMapping
-        where TEntity : class, IIdentifiable, IEntity
+        where TMapping : class, IIdentifiable, IEntityMapping where TEntity : class, IIdentifiable, IEntity
     {
         public PartyRoleAmendMappingRequestValidator(IRepository repository)
         {

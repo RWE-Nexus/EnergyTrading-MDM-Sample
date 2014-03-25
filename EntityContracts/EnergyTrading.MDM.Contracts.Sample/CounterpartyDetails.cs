@@ -7,6 +7,10 @@ namespace EnergyTrading.MDM.Contracts.Sample
     [XmlType(Namespace = "http://schemas.rwe.com/nexus")]
     public class CounterpartyDetails
     {
+        [DataMember(Order = 3)]
+        [XmlElement]
+        public string Fax { get; set; }
+
         [DataMember(Order = 1)]
         [XmlElement]
         public string Name { get; set; }
@@ -14,10 +18,6 @@ namespace EnergyTrading.MDM.Contracts.Sample
         [DataMember(Order = 2)]
         [XmlElement]
         public string Phone { get; set; }
-
-        [DataMember(Order = 3)]
-        [XmlElement]
-        public string Fax { get; set; }
 
         [DataMember(Order = 4)]
         [XmlElement]

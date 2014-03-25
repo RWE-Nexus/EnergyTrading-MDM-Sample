@@ -2,7 +2,6 @@
 namespace Admin.SourceSystemModule.ViewModels
 {
     using System;
-    using System.Collections.Generic;
     using System.Linq.Expressions;
 
     using Common.Events;
@@ -10,18 +9,26 @@ namespace Admin.SourceSystemModule.ViewModels
     using Common.Framework;
     using Common.Services;
 
+    using EnergyTrading.Mdm.Contracts;
+
     using Microsoft.Practices.Prism.Events;
     using Microsoft.Practices.Prism.ViewModel;
-
-    using EnergyTrading.MDM.Contracts.Sample; using EnergyTrading.Mdm.Contracts;
 
     public class SourceSystemViewModel : NotificationObject
     {
         private readonly IEventAggregator eventAggregator;
+
         private readonly SourceSystem sourcesystem;
+
         private bool canSave;
 
         private DateTime end;
+
+        private string name;
+
+        private int? parentId;
+
+        private string parentName;
 
         private DateTime start;
 
@@ -30,9 +37,14 @@ namespace Admin.SourceSystemModule.ViewModels
             this.eventAggregator = eventAggregator;
 
             this.sourcesystem = new SourceSystem
-            {
-                MdmSystemData = new SystemData { StartDate = DateUtility.MinDate, EndDate = DateUtility.MaxDate } 
-            };
+                                    {
+                                        MdmSystemData =
+                                            new SystemData
+                                                {
+                                                    StartDate = DateUtility.MinDate, 
+                                                    EndDate = DateUtility.MaxDate
+                                                }
+                                    };
 
             this.Start = this.sourcesystem.MdmSystemData.StartDate.Value;
 
@@ -64,33 +76,13 @@ namespace Admin.SourceSystemModule.ViewModels
             this.ParentName = this.sourcesystem.Details.Parent != null ? this.sourcesystem.Details.Parent.Name : null;
         }
 
-        private System.String name;
-        public System.String Name 
-        { 
-            get { return this.name; }
-            set { this.ChangeProperty(() => this.Name, ref this.name, value); }
-        }
-
-        private int? parentId;
-        public int? ParentId 
-        {
-            get { return this.parentId; }
-            set { this.ChangeProperty(() => this.ParentId, ref this.parentId, value); }
-        }
-
-        private string parentName;
-        public string ParentName 
-        {
-            get { return this.parentName; }
-            set { this.parentName = value; this.RaisePropertyChanged(() => this.ParentName); }
-        }
-
         public bool CanSave
         {
             get
             {
                 return this.canSave;
             }
+
             set
             {
                 this.canSave = value;
@@ -106,6 +98,7 @@ namespace Admin.SourceSystemModule.ViewModels
             {
                 return this.end;
             }
+
             set
             {
                 this.ChangeProperty(() => this.End, ref this.end, value);
@@ -114,12 +107,53 @@ namespace Admin.SourceSystemModule.ViewModels
 
         public int? Id { get; private set; }
 
+        public string Name
+        {
+            get
+            {
+                return this.name;
+            }
+
+            set
+            {
+                this.ChangeProperty(() => this.Name, ref this.name, value);
+            }
+        }
+
+        public int? ParentId
+        {
+            get
+            {
+                return this.parentId;
+            }
+
+            set
+            {
+                this.ChangeProperty(() => this.ParentId, ref this.parentId, value);
+            }
+        }
+
+        public string ParentName
+        {
+            get
+            {
+                return this.parentName;
+            }
+
+            set
+            {
+                this.parentName = value;
+                this.RaisePropertyChanged(() => this.ParentName);
+            }
+        }
+
         public DateTime Start
         {
             get
             {
                 return this.start;
             }
+
             set
             {
                 this.ChangeProperty(() => this.Start, ref this.start, value);
@@ -129,15 +163,34 @@ namespace Admin.SourceSystemModule.ViewModels
         public SourceSystem Model()
         {
             return new SourceSystem
-            {
-                Details = new SourceSystemDetails 
-                {
-                    Name = this.Name
-                    ,Parent = this.ParentId == null ? null :
-                        new EntityId { Identifier = new MdmId { IsMdmId = true, Identifier = this.ParentId.ToString() } }
-                }, 
-                MdmSystemData = new SystemData { StartDate = this.Start, EndDate = this.End }
-            };
+                       {
+                           Details =
+                               new SourceSystemDetails
+                                   {
+                                       Name = this.Name, 
+                                       Parent =
+                                           this.ParentId == null
+                                               ? null
+                                               : new EntityId
+                                                     {
+                                                         Identifier =
+                                                             new MdmId
+                                                                 {
+                                                                     IsMdmId
+                                                                         =
+                                                                         true, 
+                                                                     Identifier
+                                                                         =
+                                                                         this
+                                                                         .ParentId
+                                                                         .ToString
+                                                                         (
+                                                                             )
+                                                                 }
+                                                     }
+                                   }, 
+                           MdmSystemData = new SystemData { StartDate = this.Start, EndDate = this.End }
+                       };
         }
 
         private void ChangeProperty<T>(Expression<Func<T>> property, ref T variable, T newValue)
@@ -151,12 +204,9 @@ namespace Admin.SourceSystemModule.ViewModels
         private bool HasChanges()
         {
             return
-                !(
-                    this.sourcesystem.MdmSystemData.StartDate == this.Start 
-                    && this.sourcesystem.MdmSystemData.EndDate == this.End
-                    && this.sourcesystem.Details.Name == this.Name 
-                    && this.ParentHasNoChanges()
-                );
+                !(this.sourcesystem.MdmSystemData.StartDate == this.Start
+                  && this.sourcesystem.MdmSystemData.EndDate == this.End && this.sourcesystem.Details.Name == this.Name
+                  && this.ParentHasNoChanges());
         }
 
         private bool ParentHasNoChanges()

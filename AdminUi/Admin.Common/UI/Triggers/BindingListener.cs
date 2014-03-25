@@ -10,9 +10,13 @@ namespace Common.UI.Triggers
         private static readonly List<DependencyPropertyListener> freeListeners = new List<DependencyPropertyListener>();
 
         private readonly ChangedHandler changedHandler;
+
         private Binding binding;
+
         private DependencyPropertyListener listener;
+
         private FrameworkElement target;
+
         private object value;
 
         /// <summary>
@@ -121,10 +125,8 @@ namespace Common.UI.Triggers
 
                 return listener;
             }
-            else
-            {
-                listener = new DependencyPropertyListener();
-            }
+
+            listener = new DependencyPropertyListener();
 
             listener.Changed += this.HandleValueChanged;
 
@@ -152,9 +154,10 @@ namespace Common.UI.Triggers
 
         private class DependencyPropertyListener
         {
+            private static int index;
+
             private readonly DependencyProperty property;
 
-            private static int index;
             private FrameworkElement target;
 
             public DependencyPropertyListener()

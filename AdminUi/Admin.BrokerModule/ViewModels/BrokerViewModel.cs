@@ -2,7 +2,6 @@
 namespace Admin.BrokerModule.ViewModels
 {
     using System;
-    using System.Collections.Generic;
     using System.Linq.Expressions;
 
     using Common.Events;
@@ -10,18 +9,31 @@ namespace Admin.BrokerModule.ViewModels
     using Common.Framework;
     using Common.Services;
 
+    using EnergyTrading.Mdm.Contracts;
+    using EnergyTrading.MDM.Contracts.Sample;
+
     using Microsoft.Practices.Prism.Events;
     using Microsoft.Practices.Prism.ViewModel;
 
-    using EnergyTrading.MDM.Contracts.Sample; using EnergyTrading.Mdm.Contracts;
-
     public class BrokerViewModel : NotificationObject
     {
-        private readonly IEventAggregator eventAggregator;
         private readonly Broker broker;
+
+        private readonly IEventAggregator eventAggregator;
+
         private bool canSave;
 
         private DateTime end;
+
+        private string fax;
+
+        private string name;
+
+        private int? partyId;
+
+        private string partyName;
+
+        private string phone;
 
         private DateTime start;
 
@@ -30,9 +42,14 @@ namespace Admin.BrokerModule.ViewModels
             this.eventAggregator = eventAggregator;
 
             this.broker = new Broker
-            {
-                MdmSystemData = new SystemData { StartDate = DateUtility.MinDate, EndDate = DateUtility.MaxDate } 
-            };
+                              {
+                                  MdmSystemData =
+                                      new SystemData
+                                          {
+                                              StartDate = DateUtility.MinDate, 
+                                              EndDate = DateUtility.MaxDate
+                                          }
+                              };
 
             this.Start = this.broker.MdmSystemData.StartDate.Value;
 
@@ -68,47 +85,13 @@ namespace Admin.BrokerModule.ViewModels
             this.PartyName = this.broker.Party != null ? this.broker.Party.Name : null;
         }
 
-        private System.String name;
-        public System.String Name 
-        { 
-            get { return this.name; }
-            set { this.ChangeProperty(() => this.Name, ref this.name, value); }
-        }
-
-        private System.String fax;
-        public System.String Fax 
-        { 
-            get { return this.fax; }
-            set { this.ChangeProperty(() => this.Fax, ref this.fax, value); }
-        }
-
-        private System.String phone;
-        public System.String Phone 
-        { 
-            get { return this.phone; }
-            set { this.ChangeProperty(() => this.Phone, ref this.phone, value); }
-        }
-
-        private int? partyId;
-        public int? PartyId 
-        {
-            get { return this.partyId; }
-            set { this.ChangeProperty(() => this.PartyId, ref this.partyId, value); }
-        }
-
-        private string partyName;
-        public string PartyName 
-        {
-            get { return this.partyName; }
-            set { this.partyName = value; this.RaisePropertyChanged(() => this.PartyName); }
-        }
-
         public bool CanSave
         {
             get
             {
                 return this.canSave;
             }
+
             set
             {
                 this.canSave = value;
@@ -124,13 +107,80 @@ namespace Admin.BrokerModule.ViewModels
             {
                 return this.end;
             }
+
             set
             {
                 this.ChangeProperty(() => this.End, ref this.end, value);
             }
         }
 
+        public string Fax
+        {
+            get
+            {
+                return this.fax;
+            }
+
+            set
+            {
+                this.ChangeProperty(() => this.Fax, ref this.fax, value);
+            }
+        }
+
         public int? Id { get; private set; }
+
+        public string Name
+        {
+            get
+            {
+                return this.name;
+            }
+
+            set
+            {
+                this.ChangeProperty(() => this.Name, ref this.name, value);
+            }
+        }
+
+        public int? PartyId
+        {
+            get
+            {
+                return this.partyId;
+            }
+
+            set
+            {
+                this.ChangeProperty(() => this.PartyId, ref this.partyId, value);
+            }
+        }
+
+        public string PartyName
+        {
+            get
+            {
+                return this.partyName;
+            }
+
+            set
+            {
+                this.partyName = value;
+                this.RaisePropertyChanged(() => this.PartyName);
+            }
+        }
+
+        public string Phone
+        {
+            get
+            {
+                return this.phone;
+            }
+
+            set
+            {
+                this.ChangeProperty(() => this.Phone, ref this.phone, value);
+            }
+        }
 
         public DateTime Start
         {
@@ -138,6 +188,7 @@ namespace Admin.BrokerModule.ViewModels
             {
                 return this.start;
             }
+
             set
             {
                 this.ChangeProperty(() => this.Start, ref this.start, value);
@@ -147,17 +198,22 @@ namespace Admin.BrokerModule.ViewModels
         public Broker Model()
         {
             return new Broker
-            {
-                Details = new BrokerDetails 
-                {
-                    Name = this.Name
-                    ,Fax = this.Fax
-                    ,Phone = this.Phone
-                }, 
-                MdmSystemData = new SystemData { StartDate = this.Start, EndDate = this.End }
-                    ,Party = this.PartyId == null ? null :
-                        new EntityId { Identifier = new MdmId { IsMdmId = true, Identifier = this.PartyId.ToString() } }
-            };
+                       {
+                           Details = new BrokerDetails { Name = this.Name, Fax = this.Fax, Phone = this.Phone }, 
+                           MdmSystemData = new SystemData { StartDate = this.Start, EndDate = this.End }, 
+                           Party =
+                               this.PartyId == null
+                                   ? null
+                                   : new EntityId
+                                         {
+                                             Identifier =
+                                                 new MdmId
+                                                     {
+                                                         IsMdmId = true, 
+                                                         Identifier = this.PartyId.ToString()
+                                                     }
+                                         }
+                       };
         }
 
         private void ChangeProperty<T>(Expression<Func<T>> property, ref T variable, T newValue)
@@ -171,14 +227,9 @@ namespace Admin.BrokerModule.ViewModels
         private bool HasChanges()
         {
             return
-                !(
-                    this.broker.MdmSystemData.StartDate == this.Start 
-                    && this.broker.MdmSystemData.EndDate == this.End
-                    && this.broker.Details.Name == this.Name 
-                    && this.broker.Details.Fax == this.Fax 
-                    && this.broker.Details.Phone == this.Phone 
-                    && this.PartyHasNoChanges()
-                );
+                !(this.broker.MdmSystemData.StartDate == this.Start && this.broker.MdmSystemData.EndDate == this.End
+                  && this.broker.Details.Name == this.Name && this.broker.Details.Fax == this.Fax
+                  && this.broker.Details.Phone == this.Phone && this.PartyHasNoChanges());
         }
 
         private bool PartyHasNoChanges()

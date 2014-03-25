@@ -1,7 +1,7 @@
-using System.Runtime.Serialization;
-
 namespace MDM.Loader.FakeEntities
 {
+    using System.Runtime.Serialization;
+
     [DataContract(Namespace = "http://schemas.rwe.com/nexus")]
     public class ReferenceDataFake
     {

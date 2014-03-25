@@ -18,7 +18,9 @@ namespace Admin.ExchangeModule.ViewModels
     public class ExchangeAddViewModel : NotificationObject, INavigationAware, IConfirmNavigationRequest
     {
         private readonly InteractionRequest<Confirmation> confirmationFromViewModelInteractionRequest;
+
         private readonly IMdmService entityService;
+
         private readonly IEventAggregator eventAggregator;
 
         private ExchangeViewModel exchange;
@@ -28,8 +30,8 @@ namespace Admin.ExchangeModule.ViewModels
             this.eventAggregator = eventAggregator;
             this.confirmationFromViewModelInteractionRequest = new InteractionRequest<Confirmation>();
             this.entityService = entityService;
-            this.Exchange = new ExchangeViewModel(this.eventAggregator);            
-                    }
+            this.Exchange = new ExchangeViewModel(this.eventAggregator);
+        }
 
         /// <summary>
         /// Gets the notification from view model interaction request. View binds to this property
@@ -55,27 +57,14 @@ namespace Admin.ExchangeModule.ViewModels
                 this.RaisePropertyChanged(() => this.Exchange);
             }
         }
-        
-        
-        public void SelectParty()
-        {
-            this.eventAggregator.Publish(new EntitySelectEvent("Party","Party"));
-        }
-        
-        public void DeleteParty()
-        {
-            this.Exchange.PartyId = null;
-            this.Exchange.PartyName = string.Empty;
-        }
-        
-        
+
         public void ConfirmNavigationRequest(NavigationContext navigationContext, Action<bool> continuationCallback)
         {
             if (this.Exchange.CanSave)
             {
                 this.eventAggregator.Publish(new DialogOpenEvent(true));
                 this.confirmationFromViewModelInteractionRequest.Raise(
-                    new Confirmation { Content = Message.UnsavedChanges, Title = Message.UnsavedChangeTitle },
+                    new Confirmation { Content = Message.UnsavedChanges, Title = Message.UnsavedChangeTitle }, 
                     confirmation =>
                         {
                             continuationCallback(confirmation.Confirmed);
@@ -86,6 +75,12 @@ namespace Admin.ExchangeModule.ViewModels
             {
                 continuationCallback(true);
             }
+        }
+
+        public void DeleteParty()
+        {
+            this.Exchange.PartyId = null;
+            this.Exchange.PartyName = string.Empty;
         }
 
         public bool IsNavigationTarget(NavigationContext navigationContext)
@@ -106,6 +101,21 @@ namespace Admin.ExchangeModule.ViewModels
             this.eventAggregator.Subscribe<EntitySelectedEvent>(this.EntitySelected);
         }
 
+        public void SelectParty()
+        {
+            this.eventAggregator.Publish(new EntitySelectEvent("Party", "Party"));
+        }
+
+        public void StartMinimum()
+        {
+            this.Exchange.Start = DateUtility.MinDate;
+        }
+
+        public void StartToday()
+        {
+            this.Exchange.Start = SystemTime.UtcNow().Date;
+        }
+
         private void EntitySelected(EntitySelectedEvent obj)
         {
             switch (obj.EntityKey)
@@ -120,21 +130,10 @@ namespace Admin.ExchangeModule.ViewModels
         private void Save(SaveEvent saveEvent)
         {
             this.entityService.ExecuteAsync(
-                () => this.entityService.Create(this.Exchange.Model()),
-                () => { this.Exchange = new ExchangeViewModel(this.eventAggregator); },
-                string.Format(Message.EntityAddedFormatString, "Exchange"),
+                () => this.entityService.Create(this.Exchange.Model()), 
+                () => { this.Exchange = new ExchangeViewModel(this.eventAggregator); }, 
+                string.Format(Message.EntityAddedFormatString, "Exchange"), 
                 this.eventAggregator);
-        }
-
-        public void StartToday()
-        {
-            this.Exchange.Start = SystemTime.UtcNow().Date;
-        }
-
-        public void StartMinimum()
-        {
-            this.Exchange.Start = DateUtility.MinDate;
         }
     }
 }
-    

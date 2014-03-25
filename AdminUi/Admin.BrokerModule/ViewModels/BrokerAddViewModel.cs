@@ -7,18 +7,20 @@ namespace Admin.BrokerModule.ViewModels
     using Common.Extensions;
     using Common.UI;
 
+    using EnergyTrading;
+    using EnergyTrading.Mdm.Client.Services;
+
     using Microsoft.Practices.Prism.Events;
     using Microsoft.Practices.Prism.Interactivity.InteractionRequest;
     using Microsoft.Practices.Prism.Regions;
     using Microsoft.Practices.Prism.ViewModel;
 
-    using EnergyTrading;
-    using EnergyTrading.Mdm.Client.Services;
-
     public class BrokerAddViewModel : NotificationObject, INavigationAware, IConfirmNavigationRequest
     {
         private readonly InteractionRequest<Confirmation> confirmationFromViewModelInteractionRequest;
+
         private readonly IMdmService entityService;
+
         private readonly IEventAggregator eventAggregator;
 
         private BrokerViewModel broker;
@@ -28,18 +30,7 @@ namespace Admin.BrokerModule.ViewModels
             this.eventAggregator = eventAggregator;
             this.confirmationFromViewModelInteractionRequest = new InteractionRequest<Confirmation>();
             this.entityService = entityService;
-            this.Broker = new BrokerViewModel(this.eventAggregator);            
-                    }
-
-        /// <summary>
-        /// Gets the notification from view model interaction request. View binds to this property
-        /// </summary>
-        public IInteractionRequest ConfirmationFromViewModelInteractionRequest
-        {
-            get
-            {
-                return this.confirmationFromViewModelInteractionRequest;
-            }
+            this.Broker = new BrokerViewModel(this.eventAggregator);
         }
 
         public BrokerViewModel Broker
@@ -55,27 +46,25 @@ namespace Admin.BrokerModule.ViewModels
                 this.RaisePropertyChanged(() => this.Broker);
             }
         }
-        
-        
-        public void SelectParty()
+
+        /// <summary>
+        /// Gets the notification from view model interaction request. View binds to this property
+        /// </summary>
+        public IInteractionRequest ConfirmationFromViewModelInteractionRequest
         {
-            this.eventAggregator.Publish(new EntitySelectEvent("Party","Party"));
+            get
+            {
+                return this.confirmationFromViewModelInteractionRequest;
+            }
         }
-        
-        public void DeleteParty()
-        {
-            this.Broker.PartyId = null;
-            this.Broker.PartyName = string.Empty;
-        }
-        
-        
+
         public void ConfirmNavigationRequest(NavigationContext navigationContext, Action<bool> continuationCallback)
         {
             if (this.Broker.CanSave)
             {
                 this.eventAggregator.Publish(new DialogOpenEvent(true));
                 this.confirmationFromViewModelInteractionRequest.Raise(
-                    new Confirmation { Content = Message.UnsavedChanges, Title = Message.UnsavedChangeTitle },
+                    new Confirmation { Content = Message.UnsavedChanges, Title = Message.UnsavedChangeTitle }, 
                     confirmation =>
                         {
                             continuationCallback(confirmation.Confirmed);
@@ -86,6 +75,12 @@ namespace Admin.BrokerModule.ViewModels
             {
                 continuationCallback(true);
             }
+        }
+
+        public void DeleteParty()
+        {
+            this.Broker.PartyId = null;
+            this.Broker.PartyName = string.Empty;
         }
 
         public bool IsNavigationTarget(NavigationContext navigationContext)
@@ -106,6 +101,21 @@ namespace Admin.BrokerModule.ViewModels
             this.eventAggregator.Subscribe<EntitySelectedEvent>(this.EntitySelected);
         }
 
+        public void SelectParty()
+        {
+            this.eventAggregator.Publish(new EntitySelectEvent("Party", "Party"));
+        }
+
+        public void StartMinimum()
+        {
+            this.Broker.Start = DateUtility.MinDate;
+        }
+
+        public void StartToday()
+        {
+            this.Broker.Start = SystemTime.UtcNow().Date;
+        }
+
         private void EntitySelected(EntitySelectedEvent obj)
         {
             switch (obj.EntityKey)
@@ -114,27 +124,16 @@ namespace Admin.BrokerModule.ViewModels
                     this.Broker.PartyId = obj.Id;
                     this.Broker.PartyName = obj.EntityValue;
                     break;
-          }
-                        }
+            }
+        }
 
         private void Save(SaveEvent saveEvent)
         {
             this.entityService.ExecuteAsync(
-                () => this.entityService.Create(this.Broker.Model()),
-                () => { this.Broker = new BrokerViewModel(this.eventAggregator); },
-                string.Format(Message.EntityAddedFormatString, "Broker"),
+                () => this.entityService.Create(this.Broker.Model()), 
+                () => { this.Broker = new BrokerViewModel(this.eventAggregator); }, 
+                string.Format(Message.EntityAddedFormatString, "Broker"), 
                 this.eventAggregator);
-        }
-
-        public void StartToday()
-        {
-            this.Broker.Start = SystemTime.UtcNow().Date;
-        }
-
-        public void StartMinimum()
-        {
-            this.Broker.Start = DateUtility.MinDate;
         }
     }
 }
-    

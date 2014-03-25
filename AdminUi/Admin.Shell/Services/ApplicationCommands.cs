@@ -3,9 +3,11 @@ namespace Shell.Services
     using System;
     using System.Collections.Generic;
     using System.Linq;
+
     using Common;
     using Common.Events;
     using Common.Services;
+
     using Microsoft.Practices.Prism.Regions;
     using Microsoft.Practices.Unity;
 
@@ -49,7 +51,8 @@ namespace Shell.Services
 
         public void OpenView(Type viewType, string activeEntity, string regionName)
         {
-            var viewToOpen = this.regionManager.Regions[regionName].Views.FirstOrDefault(view => view.GetType() == viewType);
+            var viewToOpen =
+                this.regionManager.Regions[regionName].Views.FirstOrDefault(view => view.GetType() == viewType);
 
             if (viewToOpen == null)
             {
@@ -63,7 +66,8 @@ namespace Shell.Services
 
         public void OpenView(Type viewType, string activeEntity, string selectedPropertyName, string regionName)
         {
-            var viewToOpen = this.regionManager.Regions[regionName].Views.FirstOrDefault(view => view.GetType() == viewType);
+            var viewToOpen =
+                this.regionManager.Regions[regionName].Views.FirstOrDefault(view => view.GetType() == viewType);
 
             if (viewToOpen == null)
             {
@@ -72,7 +76,9 @@ namespace Shell.Services
             }
 
             this.regionManager.Regions[regionName].Activate(viewToOpen);
-            this.regionManager.Regions[regionName].Context = new EntitySelectionViewContext(activeEntity, selectedPropertyName);
+            this.regionManager.Regions[regionName].Context = new EntitySelectionViewContext(
+                activeEntity, 
+                selectedPropertyName);
         }
 
         public void OpenView(string viewName, string regionName, int id, DateTime? validAt)
@@ -101,7 +107,8 @@ namespace Shell.Services
         {
             this.regionManager.Regions[regionName].Context = parameters;
 
-            var viewToOpen = this.regionManager.Regions[regionName].Views.FirstOrDefault(view => view.GetType() == viewType);
+            var viewToOpen =
+                this.regionManager.Regions[regionName].Views.FirstOrDefault(view => view.GetType() == viewType);
             if (viewToOpen == null)
             {
                 viewToOpen = this.container.Resolve(viewType);

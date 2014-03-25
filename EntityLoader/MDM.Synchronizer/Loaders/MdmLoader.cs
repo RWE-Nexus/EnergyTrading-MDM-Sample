@@ -2,20 +2,24 @@
 {
     using System;
     using System.Collections.Generic;
+
     using EnergyTrading.Logging;
     using EnergyTrading.Mdm.Client.WebClient;
-    using OpenNexus.MDM.Contracts; using EnergyTrading.Mdm.Contracts;
+    using EnergyTrading.Mdm.Contracts;
+
+    using OpenNexus.MDM.Contracts;
 
     public class MdmLoader<T> : Loader
         where T : class, IMdmEntity, new()
     {
         private readonly bool candidateData;
+
+        private readonly string entityName = string.Empty;
+
         private readonly ILogger logger = LoggerFactory.GetLogger(typeof(MdmLoader<T>));
 
-        private string entityName = string.Empty;
-
         public MdmLoader()
-        {            
+        {
         }
 
         public MdmLoader(IList<T> entities, bool candidateData)
@@ -27,24 +31,14 @@
             this.entityName = typeof(T).Name;
         }
 
-        protected Dictionary<string, string> NexusNameCache { get; private set; }
+        public IList<T> Entities { get; set; }
 
         /// <summary>
         /// Gets or sets the system we use for the primary identifier.
         /// </summary>
         public string PrimarySystem { get; set; }
-        
-        public IList<T> Entities { get; set; }
 
-        protected override void OnLoad()
-        {
-            foreach (var entity in this.Entities)
-            {
-                logger.DebugFormat("{0}: Begin load", this.entityName);
-                this.Load(entity);
-                logger.DebugFormat("{0}: Load complete", entityName);
-            }
-        }
+        protected Dictionary<string, string> NexusNameCache { get; private set; }
 
         public T Load(T entity)
         {
@@ -59,7 +53,9 @@
             var ok = this.BeforeCreateUpdate(copy);
             if (!ok)
             {
-                this.logger.ErrorFormat("Unable to create or update {0} due to un-available dependent entities. Please check the logs and try again.", entityName);
+                this.logger.ErrorFormat(
+                    "Unable to create or update {0} due to un-available dependent entities. Please check the logs and try again.", 
+                    entityName);
                 return null;
             }
 
@@ -72,19 +68,30 @@
                 }
                 else
                 {
-                    entityAfterOperation = CreateUpdate(() => this.Find(entity), () => Client.Create(copy), w => Update(w, copy), entityVersion, 3);
+                    entityAfterOperation = CreateUpdate(
+                        () => this.Find(entity), 
+                        () => Client.Create(copy), 
+                        w => Update(w, copy), 
+                        entityVersion, 
+                        3);
                 }
             }
             catch (MdmLoadConcurrencyException concurrencyException)
             {
-                this.logger.InfoFormat("Concurrency Exception while creating / updating {0}: {1}. Returning error notification", this.entityName, concurrencyException.Message);
+                this.logger.InfoFormat(
+                    "Concurrency Exception while creating / updating {0}: {1}. Returning error notification", 
+                    this.entityName, 
+                    concurrencyException.Message);
                 throw;
             }
             catch (Exception ex)
             {
-                this.logger.ErrorFormat("Error occurred whilst creating / updating {0}: {1}, InnerException: {2}", this.entityName, ex.Message, ex.InnerException == null ? string.Empty : ex.InnerException.Message);
+                this.logger.ErrorFormat(
+                    "Error occurred whilst creating / updating {0}: {1}, InnerException: {2}", 
+                    this.entityName, 
+                    ex.Message, 
+                    ex.InnerException == null ? string.Empty : ex.InnerException.Message);
             }
-
 
             if (entityAfterOperation == null)
             {
@@ -113,27 +120,20 @@
                 {
                     return response.Message;
                 }
-                this.logger.Error("Error occurred whilst obtaining latest entity for return. returned entity may not have all mappings");
+
+                this.logger.Error(
+                    "Error occurred whilst obtaining latest entity for return. returned entity may not have all mappings");
             }
             catch (Exception ex)
             {
                 this.logger.ErrorFormat(
-                    "Error occurred whilst obtaining latest entity for return. returned entity may not have all mappings  {0}: {1}, InnerException: {2}",
-                    this.entityName,
-                    ex.Message,
+                    "Error occurred whilst obtaining latest entity for return. returned entity may not have all mappings  {0}: {1}, InnerException: {2}", 
+                    this.entityName, 
+                    ex.Message, 
                     ex.InnerException == null ? string.Empty : ex.InnerException.Message);
             }
 
             return entityAfterOperation;
-        }
-
-        protected virtual T CreateCopyWithoutMappings(T entity)
-        {
-            return new T
-            {
-                Details = entity.Details,
-                MdmSystemData = entity.MdmSystemData
-            };
         }
 
         /// <summary>
@@ -147,14 +147,19 @@
             return true;
         }
 
-        protected WebResponse<T> Find(T entity)
+        protected bool ConvertNexusNameToId<TEntity>(EntityId entityId) where TEntity : class, IMdmEntity
         {
-            var id = entity.Identifiers.PrimaryIdentifier(PrimarySystem);
-            var response = id != null ? 
-                           this.FinderChain(() => this.Client.Get<T>(id), () => EntityFind(entity)) :
-                           this.EntityFind(entity);
+            return ConvertNexusNameToId<TEntity>(entityId, false);
+        }
 
-            return response;
+        protected bool ConvertNexusNameToIdOptional<TEntity>(EntityId entityId) where TEntity : class, IMdmEntity
+        {
+            return ConvertNexusNameToId<TEntity>(entityId, true);
+        }
+
+        protected virtual T CreateCopyWithoutMappings(T entity)
+        {
+            return new T { Details = entity.Details, MdmSystemData = entity.MdmSystemData };
         }
 
         protected virtual WebResponse<T> EntityFind(T entity)
@@ -164,16 +169,36 @@
             return this.EditSearch<T>(search);
         }
 
-        protected bool ConvertNexusNameToId<TEntity>(EntityId entityId)
-            where TEntity : class, IMdmEntity
+        protected WebResponse<T> Find(T entity)
         {
-            return ConvertNexusNameToId<TEntity>(entityId, false);
+            var id = entity.Identifiers.PrimaryIdentifier(PrimarySystem);
+            var response = id != null
+                               ? this.FinderChain(() => this.Client.Get<T>(id), () => EntityFind(entity))
+                               : this.EntityFind(entity);
+
+            return response;
         }
 
-        protected bool ConvertNexusNameToIdOptional<TEntity>(EntityId entityId)
-            where TEntity : class, IMdmEntity
+        protected override void OnLoad()
         {
-            return ConvertNexusNameToId<TEntity>(entityId, true);
+            foreach (var entity in this.Entities)
+            {
+                logger.DebugFormat("{0}: Begin load", this.entityName);
+                this.Load(entity);
+                logger.DebugFormat("{0}: Load complete", entityName);
+            }
+        }
+
+        /// <summary>
+        /// Update the entity based on its nexus id
+        /// </summary>
+        /// <param name="response"></param>
+        /// <param name="entity"></param>
+        /// <returns></returns>
+        protected WebResponse<T> Update(WebResponse<T> response, T entity)
+        {
+            var id = response.Message.ToMdmKey();
+            return Client.Update(id, entity, response.Tag);
         }
 
         /// <summary>
@@ -182,8 +207,7 @@
         /// </summary>
         /// <param name="entityId"></param>
         /// <param name="isOptional"></param>
-        private bool ConvertNexusNameToId<TEntity>(EntityId entityId, bool isOptional)
-            where TEntity : class, IMdmEntity
+        private bool ConvertNexusNameToId<TEntity>(EntityId entityId, bool isOptional) where TEntity : class, IMdmEntity
         {
             if (entityId == null)
             {
@@ -217,7 +241,10 @@
             if (NexusNameCache.ContainsKey(cacheKey))
             {
                 entityId.Identifier.Identifier = NexusNameCache[cacheKey];
-                logger.DebugFormat("Found entity with name {0} in cache, using Identifier {1}", cacheKey, NexusNameCache[cacheKey]);
+                logger.DebugFormat(
+                    "Found entity with name {0} in cache, using Identifier {1}", 
+                    cacheKey, 
+                    NexusNameCache[cacheKey]);
                 return true;
             }
 
@@ -233,18 +260,6 @@
             entityId.Identifier.Identifier = response.Message.ToMdmKey().ToString();
             NexusNameCache.Add(cacheKey, entityId.Identifier.Identifier);
             return true;
-        }
-
-        /// <summary>
-        /// Update the entity based on its nexus id
-        /// </summary>
-        /// <param name="response"></param>
-        /// <param name="entity"></param>
-        /// <returns></returns>
-        protected WebResponse<T> Update(WebResponse<T> response, T entity)
-        {
-            var id = response.Message.ToMdmKey();
-            return Client.Update(id, entity, response.Tag);
         }
 
         private string EntityName(T entity)
@@ -271,7 +286,7 @@
                 case "BusinessUnit":
                     var bu = (BusinessUnitDetails)entity.Details;
                     return bu.Name;
-                
+
                 case "Calendar":
                     var cd = (CalendarDetails)entity.Details;
                     return cd.Name;
@@ -370,7 +385,7 @@
 
                 default:
                     throw new NotSupportedException("No EntityName block in case statement for " + typeof(T).Name);
-            }  
+            }
         }
     }
 }

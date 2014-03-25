@@ -65,7 +65,7 @@
                 <TextBlock Grid.Row="0" Grid.Column="0" Margin="5,5,20,5" Text="Start Date" Foreground="#FF0F3F6E" />
                 <Controls:DateTimePicker Grid.Row="0" Grid.Column="1" Margin="5" Width="150" Height="20" HorizontalAlignment="Left" VerticalAlignment="Top" FormatValue="dd MMM yyyy HH:mm:ss" Culture="en-GB" SelectedDate="{Binding StartDate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
                 <TextBlock Grid.Row="1" Grid.Column="0" Margin="5,5,20,5" Text="New Value" Foreground="#FF0F3F6E" />
-                <TextBox Grid.Row="1" Grid.Column="1" Margin="5" Width="245" Text="{Binding NewValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+                <TextBox Grid.Row="1" Grid.Column="1" Margin="5" Width="245" Text="{Binding NewValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
             </Grid>
         </Grid>
     </Grid>

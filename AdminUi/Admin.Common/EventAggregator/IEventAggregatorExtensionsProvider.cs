@@ -11,7 +11,9 @@ namespace Common.EventAggregator
         SubscriptionToken Subscribe<TEvent>(IEventAggregator eventAggregator, Action<TEvent> subscription);
 
         SubscriptionToken Subscribe<TEvent>(
-            IEventAggregator eventAggregator, Action<TEvent> subscription, bool keepSubscriberReferenceAlive);
+            IEventAggregator eventAggregator, 
+            Action<TEvent> subscription, 
+            bool keepSubscriberReferenceAlive);
 
         SubscriptionToken Subscribe<TEvent>(
             IEventAggregator eventAggregator, 

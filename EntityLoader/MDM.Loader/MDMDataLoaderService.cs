@@ -3,28 +3,38 @@ namespace MDM.Loader
     using System;
     using System.Threading;
 
-    using MDM.Sync.Loaders;
     using EnergyTrading.Logging;
+
+    using MDM.Sync.Loaders;
 
     public class MDMDataLoaderService : IMDMDataLoaderService
     {
         private readonly ILogger logger = LoggerFactory.GetLogger(typeof(MDMDataLoaderService));
+
         private readonly ICreateMDMLoader mdmLoaderFactory;
+
         private readonly LoaderProcessor processor;
-        
+
         public MDMDataLoaderService(ICreateMDMLoader mdmLoaderFactory)
         {
             this.mdmLoaderFactory = mdmLoaderFactory;
-            this.processor = new LoaderProcessor() { WorkerCount = 1 };
+            this.processor = new LoaderProcessor { WorkerCount = 1 };
         }
 
-        public void Load(string entityName, string xmlFilePath, bool candidateData, int workersCount = 1, bool canStopLoadProcessorOnLoadComplete = false)
+        public void Load(
+            string entityName, 
+            string xmlFilePath, 
+            bool candidateData, 
+            int workersCount = 1, 
+            bool canStopLoadProcessorOnLoadComplete = false)
         {
             var loader = this.mdmLoaderFactory.Create(entityName, xmlFilePath, candidateData);
 
             if (loader == null)
             {
-                this.logger.ErrorFormat("Unable to create the MDM loader for the entity: {0}. Please check the entity name and file path.", entityName);
+                this.logger.ErrorFormat(
+                    "Unable to create the MDM loader for the entity: {0}. Please check the entity name and file path.", 
+                    entityName);
             }
             else
             {
@@ -40,11 +50,6 @@ namespace MDM.Loader
             }
         }
 
-        private void OnLoadCompleted(object sender, EventArgs e)
-        {
-            this.Stop();
-        }
-
         public void Stop()
         {
             try
@@ -58,7 +63,10 @@ namespace MDM.Loader
             }
             catch (Exception exception)
             {
-                this.logger.ErrorFormat("Exception occurred whilst stopping the current load process: {0}. {1}.", exception.Message, exception.InnerException);
+                this.logger.ErrorFormat(
+                    "Exception occurred whilst stopping the current load process: {0}. {1}.", 
+                    exception.Message, 
+                    exception.InnerException);
             }
         }
 
@@ -71,6 +79,11 @@ namespace MDM.Loader
             }
 
             this.processor.AddWork(loader);
+        }
+
+        private void OnLoadCompleted(object sender, EventArgs e)
+        {
+            this.Stop();
         }
     }
 }

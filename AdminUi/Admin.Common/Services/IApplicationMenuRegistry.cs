@@ -7,9 +7,19 @@ namespace Common.Services
         void RegisterEntitySelector(string location, Type type);
 
         void RegisterMenuItem(
-            string menuItemName, string description, Type searchResultsViewType, Uri addNewEntityUri, string searchKey);
+            string menuItemName, 
+            string description, 
+            Type searchResultsViewType, 
+            Uri addNewEntityUri, 
+            string searchKey);
 
         void RegisterMenuItem(
-            string menuItemName, string description, Type searchResultsViewType, Uri addNewEntityUri, string searchKey, string searchLabel, string baseEntityName = null);
+            string menuItemName, 
+            string description, 
+            Type searchResultsViewType, 
+            Uri addNewEntityUri, 
+            string searchKey, 
+            string searchLabel, 
+            string baseEntityName = null);
     }
 }

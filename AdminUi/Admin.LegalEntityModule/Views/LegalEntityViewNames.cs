@@ -3,10 +3,12 @@ namespace Admin.LegalEntityModule.Views
 {
     public static class LegalEntityViewNames
     {
-        public static string LegalEntityEditView = "LegalEntityEditView";
         public static string LegalEntityAddView = "LegalEntityAddView";
-        public static string LegalEntitySearchResultsView = "LegalEntity";
+
+        public static string LegalEntityEditView = "LegalEntityEditView";
+
         public static string LegalEntityEmbeddedSearchResultsView = "LegalEntityEmbeddedSearchResultsView";
-        }
+
+        public static string LegalEntitySearchResultsView = "LegalEntity";
+    }
 }
-    

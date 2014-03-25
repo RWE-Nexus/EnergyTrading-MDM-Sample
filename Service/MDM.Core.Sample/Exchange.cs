@@ -1,7 +1,5 @@
 namespace EnergyTrading.MDM
 {
-    using System.Collections.Generic;
-
     using EnergyTrading.Data;
 
     public class Exchange : PartyRole, IIdentifiable, IEntity

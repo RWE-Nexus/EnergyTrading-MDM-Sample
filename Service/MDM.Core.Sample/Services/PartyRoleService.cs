@@ -4,13 +4,19 @@ namespace EnergyTrading.MDM.Services
 
     using EnergyTrading.Data;
     using EnergyTrading.Mapping;
-    using EnergyTrading.MDM.Extensions;
     using EnergyTrading.Search;
     using EnergyTrading.Validation;
 
-    public class PartyRoleService : MdmService<Contracts.Sample.PartyRole, PartyRole, PartyRoleMapping, PartyRoleDetails, Contracts.Sample.PartyRoleDetails>
+    public class PartyRoleService :
+        MdmService
+            <Contracts.Sample.PartyRole, PartyRole, PartyRoleMapping, PartyRoleDetails, 
+            Contracts.Sample.PartyRoleDetails>
     {
-        public PartyRoleService(IValidatorEngine validatorFactory, IMappingEngine mappingEngine, IRepository repository, ISearchCache searchCache) 
+        public PartyRoleService(
+            IValidatorEngine validatorFactory, 
+            IMappingEngine mappingEngine, 
+            IRepository repository, 
+            ISearchCache searchCache)
             : base(validatorFactory, mappingEngine, repository, searchCache)
         {
         }
@@ -26,4 +32,3 @@ namespace EnergyTrading.MDM.Services
         }
     }
 }
-

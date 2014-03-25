@@ -2,19 +2,28 @@
 namespace Admin.LocationModule.Uris
 {
     using System;
+
     using Admin.LocationModule.Views;
+
     using Common;
 
     public class LocationEditCloneUri : Uri
     {
-        public LocationEditCloneUri(int locationId, DateTime validAt, int originallocationId, DateTime originalValidAt) : 
-            base(LocationViewNames.LocationEditCloneView + string.Format("?{0}={1}&{2}={3}&{4}={5}&{6}={7}", NavigationParameters.EntityId, locationId, NavigationParameters.ValidAtDate, validAt,
-                    NavigationParameters.OriginalEntityId,
-                    originallocationId,
+        public LocationEditCloneUri(int locationId, DateTime validAt, int originallocationId, DateTime originalValidAt)
+            : base(
+                LocationViewNames.LocationEditCloneView
+                + string.Format(
+                    "?{0}={1}&{2}={3}&{4}={5}&{6}={7}", 
+                    NavigationParameters.EntityId, 
+                    locationId, 
+                    NavigationParameters.ValidAtDate, 
+                    validAt, 
+                    NavigationParameters.OriginalEntityId, 
+                    originallocationId, 
                     NavigationParameters.OriginalValidAtDate, 
-                    originalValidAt), UriKind.Relative)
+                    originalValidAt), 
+                UriKind.Relative)
         {
         }
     }
 }
-    

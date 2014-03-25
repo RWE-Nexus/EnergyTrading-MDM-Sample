@@ -19,21 +19,25 @@ namespace Admin.PartyRoleModule.ViewModels
     public class PartyRoleAddViewModel : NotificationObject, INavigationAware, IConfirmNavigationRequest
     {
         private readonly InteractionRequest<Confirmation> confirmationFromViewModelInteractionRequest;
+
         private readonly IMdmService entityService;
-        
+
         private readonly IEventAggregator eventAggregator;
 
         private PartyRoleViewModel partyrole;
 
-        public PartyRoleAddViewModel(IEventAggregator eventAggregator, IMdmService entityService, IList<string> partyroletypeConfiguration)
+        public PartyRoleAddViewModel(
+            IEventAggregator eventAggregator, 
+            IMdmService entityService, 
+            IList<string> partyroletypeConfiguration)
         {
             this.eventAggregator = eventAggregator;
             this.confirmationFromViewModelInteractionRequest = new InteractionRequest<Confirmation>();
             this.entityService = entityService;
-            
-            this.PartyRole = new PartyRoleViewModel(this.eventAggregator);            
-                         this.PartyRoleTypeConfiguration = partyroletypeConfiguration;
-                   }
+
+            this.PartyRole = new PartyRoleViewModel(this.eventAggregator);
+            this.PartyRoleTypeConfiguration = partyroletypeConfiguration;
+        }
 
         /// <summary>
         /// Gets the notification from view model interaction request. View binds to this property
@@ -59,32 +63,16 @@ namespace Admin.PartyRoleModule.ViewModels
                 this.RaisePropertyChanged(() => this.PartyRole);
             }
         }
-        
-        
-        public void SelectParty()
-        {
-            this.eventAggregator.Publish(new EntitySelectEvent("Party","Party"));
-        }
-        
-        public void DeleteParty()
-        {
-            this.PartyRole.PartyId = null;
-            this.PartyRole.PartyName = string.Empty;
-        }
-        
-                public IList<string> PartyRoleTypeConfiguration
-        {
-            get;
-            set;
-        }
-           
+
+        public IList<string> PartyRoleTypeConfiguration { get; set; }
+
         public void ConfirmNavigationRequest(NavigationContext navigationContext, Action<bool> continuationCallback)
         {
             if (this.PartyRole.CanSave)
             {
                 this.eventAggregator.Publish(new DialogOpenEvent(true));
                 this.confirmationFromViewModelInteractionRequest.Raise(
-                    new Confirmation { Content = Message.UnsavedChanges, Title = Message.UnsavedChangeTitle },
+                    new Confirmation { Content = Message.UnsavedChanges, Title = Message.UnsavedChangeTitle }, 
                     confirmation =>
                         {
                             continuationCallback(confirmation.Confirmed);
@@ -95,6 +83,12 @@ namespace Admin.PartyRoleModule.ViewModels
             {
                 continuationCallback(true);
             }
+        }
+
+        public void DeleteParty()
+        {
+            this.PartyRole.PartyId = null;
+            this.PartyRole.PartyName = string.Empty;
         }
 
         public bool IsNavigationTarget(NavigationContext navigationContext)
@@ -115,6 +109,21 @@ namespace Admin.PartyRoleModule.ViewModels
             this.eventAggregator.Subscribe<EntitySelectedEvent>(this.EntitySelected);
         }
 
+        public void SelectParty()
+        {
+            this.eventAggregator.Publish(new EntitySelectEvent("Party", "Party"));
+        }
+
+        public void StartMinimum()
+        {
+            this.PartyRole.Start = DateUtility.MinDate;
+        }
+
+        public void StartToday()
+        {
+            this.PartyRole.Start = SystemTime.UtcNow().Date;
+        }
+
         private void EntitySelected(EntitySelectedEvent obj)
         {
             switch (obj.EntityKey)
@@ -123,27 +132,16 @@ namespace Admin.PartyRoleModule.ViewModels
                     this.PartyRole.PartyId = obj.Id;
                     this.PartyRole.PartyName = obj.EntityValue;
                     break;
-          }
-                        }
+            }
+        }
 
         private void Save(SaveEvent saveEvent)
         {
             this.entityService.ExecuteAsync(
-                () => this.entityService.Create(this.PartyRole.Model()),
-                () => { this.PartyRole = new PartyRoleViewModel(this.eventAggregator); },
-                string.Format(Message.EntityAddedFormatString, "PartyRole"),
+                () => this.entityService.Create(this.PartyRole.Model()), 
+                () => { this.PartyRole = new PartyRoleViewModel(this.eventAggregator); }, 
+                string.Format(Message.EntityAddedFormatString, "PartyRole"), 
                 this.eventAggregator);
-        }
-
-        public void StartToday()
-        {
-            this.PartyRole.Start = SystemTime.UtcNow().Date;
-        }
-
-        public void StartMinimum()
-        {
-            this.PartyRole.Start = DateUtility.MinDate;
         }
     }
 }
-    

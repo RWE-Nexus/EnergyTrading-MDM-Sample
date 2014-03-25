@@ -8,8 +8,15 @@ namespace Common.Commands
 
         public static CompositeCommand SaveChangesCommand
         {
-            get { return saveChangesCommand; }
-            set { saveChangesCommand = value; }
+            get
+            {
+                return saveChangesCommand;
+            }
+
+            set
+            {
+                saveChangesCommand = value;
+            }
         }
     }
 }

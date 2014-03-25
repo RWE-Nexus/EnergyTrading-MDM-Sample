@@ -5,13 +5,18 @@ namespace EnergyTrading.MDM.Services
 
     using EnergyTrading.Data;
     using EnergyTrading.Mapping;
-    using EnergyTrading.MDM.Extensions;
     using EnergyTrading.Search;
     using EnergyTrading.Validation;
 
-    public class ExchangeService : MdmService<Contracts.Sample.Exchange, Exchange, PartyRoleMapping, ExchangeDetails, Contracts.Sample.ExchangeDetails>
+    public class ExchangeService :
+        MdmService
+            <Contracts.Sample.Exchange, Exchange, PartyRoleMapping, ExchangeDetails, Contracts.Sample.ExchangeDetails>
     {
-        public ExchangeService(IValidatorEngine validatorFactory, IMappingEngine mappingEngine, IRepository repository, ISearchCache searchCache) 
+        public ExchangeService(
+            IValidatorEngine validatorFactory, 
+            IMappingEngine mappingEngine, 
+            IRepository repository, 
+            ISearchCache searchCache)
             : base(validatorFactory, mappingEngine, repository, searchCache)
         {
         }
@@ -27,5 +32,3 @@ namespace EnergyTrading.MDM.Services
         }
     }
 }
-
-

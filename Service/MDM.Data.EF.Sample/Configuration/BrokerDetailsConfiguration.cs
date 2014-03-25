@@ -12,7 +12,7 @@ namespace EnergyTrading.MDM.Data.EF.Configuration
                         y.MapInheritedProperties();
                         y.Requires("PartyRoleDetailsClass").HasValue("BrokerDetails").IsRequired();
                         y.ToTable("PartyRoleDetails");
-                });
+                    });
 
             this.Property(x => x.Phone).HasColumnName("BrokerPhone");
             this.Property(x => x.Fax).HasColumnName("BrokerFax");

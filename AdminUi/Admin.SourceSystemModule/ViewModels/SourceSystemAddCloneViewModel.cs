@@ -2,10 +2,8 @@
 namespace Admin.SourceSystemModule.ViewModels
 {
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
 
-    using Uris;
+    using Admin.SourceSystemModule.Uris;
 
     using Common;
     using Common.Events;
@@ -13,32 +11,38 @@ namespace Admin.SourceSystemModule.ViewModels
     using Common.Services;
     using Common.UI;
 
+    using EnergyTrading;
+    using EnergyTrading.Mdm.Client.Services;
+    using EnergyTrading.Mdm.Contracts;
+
     using Microsoft.Practices.Prism.Events;
     using Microsoft.Practices.Prism.Interactivity.InteractionRequest;
     using Microsoft.Practices.Prism.Regions;
     using Microsoft.Practices.Prism.ViewModel;
 
-    using EnergyTrading.Mdm.Client.Services;
-    using EnergyTrading;
-    using EnergyTrading.MDM.Contracts.Sample; using EnergyTrading.Mdm.Contracts;
-
     public class SourceSystemAddCloneViewModel : NotificationObject, INavigationAware, IConfirmNavigationRequest
     {
         private readonly InteractionRequest<Confirmation> confirmationFromViewModelInteractionRequest;
+
         private readonly IMdmService entityService;
-        private readonly INavigationService navigationService;
+
         private readonly IEventAggregator eventAggregator;
+
+        private readonly INavigationService navigationService;
 
         private SourceSystemViewModel sourcesystem;
 
-        public SourceSystemAddCloneViewModel(IEventAggregator eventAggregator, IMdmService entityService, INavigationService navigationService )
+        public SourceSystemAddCloneViewModel(
+            IEventAggregator eventAggregator, 
+            IMdmService entityService, 
+            INavigationService navigationService)
         {
             this.eventAggregator = eventAggregator;
             this.confirmationFromViewModelInteractionRequest = new InteractionRequest<Confirmation>();
             this.entityService = entityService;
             this.navigationService = navigationService;
-            this.SourceSystem = new SourceSystemViewModel(this.eventAggregator);            
-                    }
+            this.SourceSystem = new SourceSystemViewModel(this.eventAggregator);
+        }
 
         /// <summary>
         /// Gets the notification from view model interaction request. View binds to this property
@@ -64,27 +68,14 @@ namespace Admin.SourceSystemModule.ViewModels
                 this.RaisePropertyChanged(() => this.SourceSystem);
             }
         }
-        
-        
-        public void SelectParent()
-        {
-            this.eventAggregator.Publish(new EntitySelectEvent("SourceSystem","Parent"));
-        }
-        
-        public void DeleteParent()
-        {
-            this.SourceSystem.ParentId = null;
-            this.SourceSystem.ParentName = string.Empty;
-        }
-        
-        
+
         public void ConfirmNavigationRequest(NavigationContext navigationContext, Action<bool> continuationCallback)
         {
             if (this.SourceSystem.CanSave)
             {
                 this.eventAggregator.Publish(new DialogOpenEvent(true));
                 this.confirmationFromViewModelInteractionRequest.Raise(
-                    new Confirmation { Content = Message.UnsavedChanges, Title = Message.UnsavedChangeTitle },
+                    new Confirmation { Content = Message.UnsavedChanges, Title = Message.UnsavedChangeTitle }, 
                     confirmation =>
                         {
                             continuationCallback(confirmation.Confirmed);
@@ -95,6 +86,12 @@ namespace Admin.SourceSystemModule.ViewModels
             {
                 continuationCallback(true);
             }
+        }
+
+        public void DeleteParent()
+        {
+            this.SourceSystem.ParentId = null;
+            this.SourceSystem.ParentName = string.Empty;
         }
 
         public bool IsNavigationTarget(NavigationContext navigationContext)
@@ -119,20 +116,19 @@ namespace Admin.SourceSystemModule.ViewModels
             this.LoadSourceSystemFromService(idParam, validAtString);
         }
 
-        private void LoadSourceSystemFromService(int entityId, DateTime validAt)
+        public void SelectParent()
         {
-            this.entityService.ExecuteAsync(
-                () => this.entityService.Get<SourceSystem>(entityId, validAt),
-                (response) =>
-                {
-                    this.SourceSystem =
-                        new SourceSystemViewModel(
-                            new EntityWithETag<SourceSystem>(response.Message, response.Tag),
-                            this.eventAggregator);
+            this.eventAggregator.Publish(new EntitySelectEvent("SourceSystem", "Parent"));
+        }
 
-                    this.RaisePropertyChanged(string.Empty);
-                },
-                this.eventAggregator);
+        public void StartMinimum()
+        {
+            this.SourceSystem.Start = DateUtility.MinDate;
+        }
+
+        public void StartToday()
+        {
+            this.SourceSystem.Start = SystemTime.UtcNow().Date;
         }
 
         private void EntitySelected(EntitySelectedEvent obj)
@@ -143,38 +139,44 @@ namespace Admin.SourceSystemModule.ViewModels
                     this.SourceSystem.ParentId = obj.Id;
                     this.SourceSystem.ParentName = obj.EntityValue;
                     break;
-          }
-                        }
+            }
+        }
+
+        private void LoadSourceSystemFromService(int entityId, DateTime validAt)
+        {
+            this.entityService.ExecuteAsync(
+                () => this.entityService.Get<SourceSystem>(entityId, validAt), 
+                response =>
+                    {
+                        this.SourceSystem =
+                            new SourceSystemViewModel(
+                                new EntityWithETag<SourceSystem>(response.Message, response.Tag), 
+                                this.eventAggregator);
+
+                        this.RaisePropertyChanged(string.Empty);
+                    }, 
+                this.eventAggregator);
+        }
 
         private void Save(SaveEvent saveEvent)
         {
             this.entityService.ExecuteAsync(
-                            () => this.entityService.Create(this.SourceSystem.Model()),
-                            response =>
-                                {
-                                    // clear down view model - this allows us to navigate away
-                                    var originalId = this.SourceSystem.Id.Value;
-                                    var originalStartDate = this.SourceSystem.Start;
-                                    this.SourceSystem = new SourceSystemViewModel(this.eventAggregator);
+                () => this.entityService.Create(this.SourceSystem.Model()), 
+                response =>
+                    {
+                        // clear down view model - this allows us to navigate away
+                        var originalId = this.SourceSystem.Id.Value;
+                        var originalStartDate = this.SourceSystem.Start;
+                        this.SourceSystem = new SourceSystemViewModel(this.eventAggregator);
 
-                                    this.navigationService.NavigateMain(new SourceSystemEditCloneUri(
-                                        response.Message.MdmId().Value, 
-                                        response.Message.MdmSystemData.StartDate.Value,
-                                        originalId, 
-                                        originalStartDate));
-                                },
-                            this.eventAggregator);
-        }
-
-        public void StartToday()
-        {
-            this.SourceSystem.Start = SystemTime.UtcNow().Date;
-        }
-
-        public void StartMinimum()
-        {
-            this.SourceSystem.Start = DateUtility.MinDate;
+                        this.navigationService.NavigateMain(
+                            new SourceSystemEditCloneUri(
+                                response.Message.MdmId().Value, 
+                                response.Message.MdmSystemData.StartDate.Value, 
+                                originalId, 
+                                originalStartDate));
+                    }, 
+                this.eventAggregator);
         }
     }
 }
-    

@@ -18,13 +18,20 @@ namespace Common.UI.Triggers
         /// Backing DependencyProperty for Method.
         /// </summary>
         public static readonly DependencyProperty MethodProperty = DependencyProperty.Register(
-            "Method", typeof(string), typeof(CallDataMethod), new PropertyMetadata(null));
+            "Method", 
+            typeof(string), 
+            typeof(CallDataMethod), 
+            new PropertyMetadata(null));
 
         /// <summary>
         /// Backing DependencyProperty for Target.
         /// </summary>
         public static readonly DependencyProperty TargetProperty = DependencyProperty.Register(
-            "Target", typeof(Binding), typeof(CallDataMethod), new PropertyMetadata(null, HandleTargetBindingChanged));
+            "Target", 
+            typeof(Binding), 
+            typeof(CallDataMethod), 
+            new PropertyMetadata(null, HandleTargetBindingChanged));
+
         private readonly BindingListener listener = new BindingListener { Binding = new Binding(), };
 
         /// <summary>
@@ -87,8 +94,8 @@ namespace Common.UI.Triggers
                     }
                     else if (parameters.Length == 2 && this.AssociatedObject != null && parameter != null)
                     {
-                        if (parameters[0].ParameterType.IsAssignableFrom(this.AssociatedObject.GetType()) &&
-                            parameters[1].ParameterType.IsAssignableFrom(parameter.GetType()))
+                        if (parameters[0].ParameterType.IsAssignableFrom(this.AssociatedObject.GetType())
+                            && parameters[1].ParameterType.IsAssignableFrom(parameter.GetType()))
                         {
                             method.Invoke(bindingTarget, new[] { this.AssociatedObject, parameter });
                         }

@@ -2,15 +2,22 @@
 namespace Admin.PartyRoleModule.Uris
 {
     using System;
-    using Admin.PartyRoleModule.Views;
+
     using Common;
 
     public class PartyRoleEditUri : Uri
     {
-        public PartyRoleEditUri(string editViewName, int partyroleId, DateTime validAt) : 
-            base(editViewName + string.Format("?{0}={1}&{2}={3}", NavigationParameters.EntityId, partyroleId, NavigationParameters.ValidAtDate, validAt), UriKind.Relative)
+        public PartyRoleEditUri(string editViewName, int partyroleId, DateTime validAt)
+            : base(
+                editViewName
+                + string.Format(
+                    "?{0}={1}&{2}={3}", 
+                    NavigationParameters.EntityId, 
+                    partyroleId, 
+                    NavigationParameters.ValidAtDate, 
+                    validAt), 
+                UriKind.Relative)
         {
         }
     }
 }
-    

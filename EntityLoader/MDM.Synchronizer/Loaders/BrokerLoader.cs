@@ -13,12 +13,7 @@ namespace MDM.Sync.Loaders
 
         protected override Broker CreateCopyWithoutMappings(Broker entity)
         {
-            return new Broker
-                {
-                    Party = entity.Party,
-                    Details = entity.Details,
-                    MdmSystemData = entity.MdmSystemData
-                };
+            return new Broker { Party = entity.Party, Details = entity.Details, MdmSystemData = entity.MdmSystemData };
         }
     }
 }

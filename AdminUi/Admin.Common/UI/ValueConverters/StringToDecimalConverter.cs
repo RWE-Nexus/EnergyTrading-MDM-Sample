@@ -20,7 +20,7 @@ namespace Common.UI.ValueConverters
     [ValueConversion(typeof(Decimal), typeof(string))]
     public class StringToDecimalConverter : IValueConverter
     {
-        private string stringValueFromConvertBack = null;
+        private string stringValueFromConvertBack;
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
@@ -33,7 +33,7 @@ namespace Common.UI.ValueConverters
             }
             else
             {
-                var decimalValue = (decimal) value;
+                var decimalValue = (decimal)value;
                 stringValue = decimalValue.ToString("G28");
             }
 
@@ -43,11 +43,12 @@ namespace Common.UI.ValueConverters
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
             decimal result;
-            if (Decimal.TryParse(value.ToString(), out result))
+            if (decimal.TryParse(value.ToString(), out result))
             {
                 stringValueFromConvertBack = value.ToString();
                 return result;
             }
+
             return 0M;
         }
     }
@@ -64,7 +65,7 @@ namespace Common.UI.ValueConverters
             {
                 return new ValidationResult(false, string.Empty);
             }
-            
+
             return new ValidationResult(true, null);
         }
     }

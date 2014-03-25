@@ -11,4 +11,3 @@ namespace EnergyTrading.MDM.Contracts.Sample
     {
     }
 }
-

@@ -22,9 +22,41 @@
             return service.Get<Exchange>(exchangeId);
         }
 
+        /// <summary>
+        /// Get a MDM contract using data in another entity
+        /// </summary>
+        /// <typeparam name="T">Type of the entity to use.</typeparam>
+        /// <typeparam name="TContract">Type of the contract to use</typeparam>
+        /// <param name="service">MDM service to use</param>
+        /// <param name="entity">Entity to use</param>
+        /// <param name="access">Function to return the identity of the contract from the entity.</param>
+        /// <returns>MDM contract if found, otherwise null.</returns>
+        public static TContract Get<T, TContract>(
+            this IMdmModelEntityService service, 
+            T entity, 
+            Func<T, EntityId> access) where T : class, IMdmEntity where TContract : class, IMdmEntity
+        {
+            return service.Get<TContract>(entity.ToMdmKey(access));
+        }
+
         public static Location Location(this IMdmModelEntityService service, int locationId)
         {
             return service.Get<Location>(locationId);
+        }
+
+        public static TModel Model<TContract, TModel>(this IMdmModelEntityService service, TContract entity)
+            where TContract : class, IMdmEntity where TModel : IMdmModelEntity<TContract>
+        {
+            return service.Get<TContract, TModel>(entity);
+        }
+
+        public static TModel Model<T, TContract, TModel>(
+            this IMdmModelEntityService service, 
+            T entity, 
+            Func<T, EntityId> access) where T : class, IMdmEntity where TContract : class, IMdmEntity
+            where TModel : IMdmModelEntity<TContract>
+        {
+            return service.Get<TContract, TModel>(service.Get<T, TContract>(entity, access));
         }
 
         public static Party Party(this IMdmModelEntityService service, int partyId)
@@ -41,37 +73,6 @@
             where T : class, IMdmEntity
         {
             return service.Get<T, PartyRole>(entity, access);
-        }
-
-        /// <summary>
-        /// Get a MDM contract using data in another entity
-        /// </summary>
-        /// <typeparam name="T">Type of the entity to use.</typeparam>
-        /// <typeparam name="TContract">Type of the contract to use</typeparam>
-        /// <param name="service">MDM service to use</param>
-        /// <param name="entity">Entity to use</param>
-        /// <param name="access">Function to return the identity of the contract from the entity.</param>
-        /// <returns>MDM contract if found, otherwise null.</returns>
-        public static TContract Get<T, TContract>(this IMdmModelEntityService service, T entity, Func<T, EntityId> access)
-            where T : class, IMdmEntity
-            where TContract : class, IMdmEntity
-        {
-            return service.Get<TContract>(entity.ToMdmKey(access));
-        }
-
-        public static TModel Model<TContract, TModel>(this IMdmModelEntityService service, TContract entity)
-            where TContract : class, IMdmEntity
-            where TModel : IMdmModelEntity<TContract>
-        {
-            return service.Get<TContract, TModel>(entity);
-        }
-
-        public static TModel Model<T, TContract, TModel>(this IMdmModelEntityService service, T entity, Func<T, EntityId> access)
-            where T : class, IMdmEntity
-            where TContract : class, IMdmEntity
-            where TModel : IMdmModelEntity<TContract>
-        {
-            return service.Get<TContract, TModel>(service.Get<T, TContract>(entity, access));
         }
     }
 }

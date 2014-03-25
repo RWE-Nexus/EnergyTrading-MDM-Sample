@@ -2,8 +2,6 @@ namespace EnergyTrading.MDM.Data.EF.Configuration
 {
     using System.Data.Entity.ModelConfiguration;
 
-    
-
     public class PartyMappingConfiguration : EntityTypeConfiguration<PartyMapping>
     {
         public PartyMappingConfiguration()

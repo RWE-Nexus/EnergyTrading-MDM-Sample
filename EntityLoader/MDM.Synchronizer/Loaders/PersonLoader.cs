@@ -2,11 +2,14 @@
 {
     using System.Collections.Generic;
     using System.Linq;
+
     using EnergyTrading.Contracts.Search;
     using EnergyTrading.Logging;
     using EnergyTrading.Mdm.Client.WebClient;
-    using OpenNexus.MDM.Contracts; using EnergyTrading.Mdm.Contracts;
+    using EnergyTrading.Mdm.Contracts;
     using EnergyTrading.Search;
+
+    using OpenNexus.MDM.Contracts;
 
     public class PersonLoader : MdmLoader<Person>
     {
@@ -27,8 +30,8 @@
         {
             var search = SearchBuilder.CreateSearch();
             search.AddSearchCriteria(SearchCombinator.And)
-                  .AddCriteria("FirstName", SearchCondition.Equals, entity.Details.Forename)
-                  .AddCriteria("LastName", SearchCondition.Equals, entity.Details.Surname);
+                .AddCriteria("FirstName", SearchCondition.Equals, entity.Details.Forename)
+                .AddCriteria("LastName", SearchCondition.Equals, entity.Details.Surname);
 
             var results = Client.Search<Person>(search);
 
@@ -40,12 +43,7 @@
                 return Client.Get<Person>(se.ToMdmKey());
             }
 
-            return new WebResponse<Person>
-            {
-                Code = results.Code,
-                IsValid = results.IsValid,
-                Fault = results.Fault
-            };
+            return new WebResponse<Person> { Code = results.Code, IsValid = results.IsValid, Fault = results.Fault };
         }
     }
 }

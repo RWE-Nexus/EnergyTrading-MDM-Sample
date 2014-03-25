@@ -2,13 +2,12 @@
 namespace Admin.PersonModule.ViewModels
 {
     using System;
-    using System.Collections.ObjectModel;
     using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     using System.Linq;
     using System.Windows.Input;
 
     using Common;
-    
     using Common.Authorisation;
     using Common.Commands;
     using Common.Events;
@@ -18,48 +17,58 @@ namespace Admin.PersonModule.ViewModels
     using Common.UI.Uris;
     using Common.UI.ViewModels;
 
+    using EnergyTrading;
+    using EnergyTrading.Mdm.Client.Services;
+    using EnergyTrading.Mdm.Contracts;
+    using EnergyTrading.MDM.Contracts.Sample;
+
     using Microsoft.Practices.Prism.Events;
     using Microsoft.Practices.Prism.Interactivity.InteractionRequest;
     using Microsoft.Practices.Prism.Regions;
     using Microsoft.Practices.Prism.ViewModel;
 
-    using EnergyTrading;
-    using EnergyTrading.Mdm.Client.WebClient;
-    using EnergyTrading.MDM.Contracts.Sample; using EnergyTrading.Mdm.Contracts;
-    using EnergyTrading.Mdm.Client.Services;
-
-    using Uris;
-
     public class PersonEditViewModel : NotificationObject, IConfirmNavigationRequest
     {
-        private readonly InteractionRequest<Confirmation> confirmationFromViewModelInteractionRequest;
-        private readonly IMdmService entityService;
-        private readonly IEventAggregator eventAggregator;
-        private readonly INavigationService navigationService;
-        private readonly IMappingService mappingService;
-        private ObservableCollection<MappingViewModel> mappings;
-        private PersonViewModel person;
-        private MappingViewModel selectedMapping;
-        private ICommand deleteMappingCommand;
-        private ICommand updateMappingCommand;
-        private DateTime validAtString;
         private readonly IApplicationCommands applicationCommands;
-        
+
+        private readonly InteractionRequest<Confirmation> confirmationFromViewModelInteractionRequest;
+
+        private readonly IMdmService entityService;
+
+        private readonly IEventAggregator eventAggregator;
+
+        private readonly IMappingService mappingService;
+
+        private readonly INavigationService navigationService;
+
+        private ICommand deleteMappingCommand;
+
+        private ObservableCollection<MappingViewModel> mappings;
+
+        private PersonViewModel person;
+
+        private MappingViewModel selectedMapping;
+
         private bool showPartyAccountabilitys;
+
         private bool showSettlementContacts;
 
+        private ICommand updateMappingCommand;
+
+        private DateTime validAtString;
+
         public PersonEditViewModel(
-            IEventAggregator eventAggregator,
-            IMdmService entityService,
-            INavigationService navigationService,
-            IMappingService mappingService,
-            IApplicationCommands applicationCommands,
+            IEventAggregator eventAggregator, 
+            IMdmService entityService, 
+            INavigationService navigationService, 
+            IMappingService mappingService, 
+            IApplicationCommands applicationCommands, 
             IList<string> roleConfiguration)
         {
             this.navigationService = navigationService;
             this.mappingService = mappingService;
             this.applicationCommands = applicationCommands;
-            
+
             this.eventAggregator = eventAggregator;
             this.entityService = entityService;
             this.confirmationFromViewModelInteractionRequest = new InteractionRequest<Confirmation>();
@@ -70,108 +79,6 @@ namespace Admin.PersonModule.ViewModels
 
         public bool CanEdit { get; private set; }
 
-        public IList<string> RoleConfiguration
-        {
-            get;
-            set;
-        }
-
-        public ICommand DeleteMappingCommand
-        {
-            get
-            {
-                if (this.deleteMappingCommand == null)
-                {
-                    this.deleteMappingCommand = new RelayCommand(param => this.DeleteMapping(param), param => CanEditOrDeleteMapping(param));
-                }
-
-                return this.deleteMappingCommand;
-            }
-        }
-
-        public ICommand UpdateMappingCommand
-        {
-            get
-            {
-                if (this.updateMappingCommand == null)
-                {
-                    this.updateMappingCommand = new RelayCommand(param => this.UpdateMapping(param), param => CanEditOrDeleteMapping(param));
-                }
-
-                return this.updateMappingCommand;
-            }
-        }
-
-        private bool CanEditOrDeleteMapping(object mapping)
-        {
-            var mappingViewModel = mapping as MappingViewModel;
-            if (mappingViewModel == null)
-            {
-                return false;
-            }
-
-            if (mappingViewModel.MappingId == null)
-            {
-                return false;
-            }
-
-            return CanEditOrDeleteMapping(mappingViewModel.MappingId.Value);
-        }
-
-        private bool CanEditOrDeleteMapping(int mappingId)
-        {
-            var system = Mappings.Where(x => x.MappingId == mappingId).Select(x => x.SystemName).FirstOrDefault();
-            return AuthorisationHelpers.HasMappingRights("Person", system);
-        }
-
-        private void DeleteMapping(object mapping)
-        {
-            var mappingViewModel = mapping as MappingViewModel;
-            if (mappingViewModel == null)
-            {
-                return;
-            }
-
-            if (mappingViewModel.MappingId == null)
-            {
-                return;
-            }
-
-            this.eventAggregator.Publish(new ConfirmMappingDeleteEvent(mappingViewModel.MappingId.Value,
-                mappingViewModel.MappingString, mappingViewModel.SystemName));
-        }
-
-        private void UpdateMapping(object mapping)
-        {
-            var mappingViewModel = mapping as MappingViewModel;
-            if (mappingViewModel == null)
-            {
-                return;
-            }
-
-            if (mappingViewModel.MappingId == null)
-            {
-                return;
-            }
-
-            if (mappingViewModel != null)
-            {
-                this.eventAggregator.Publish(new MappingUpdateEvent(this.Person.Id.Value, mappingViewModel.MappingId.Value, mappingViewModel.MappingString, "Person"));
-            }
-        }
-
-        private bool CanAddMappings()
-        {
-            foreach (var system in mappingService.GetSourceSystemNames())
-            {
-                if (AuthorisationHelpers.HasMappingRights("Person", system))
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
-
         /// <summary>
         /// Gets the notification from view model interaction request. View binds to this property
         /// </summary>
@@ -180,6 +87,21 @@ namespace Admin.PersonModule.ViewModels
             get
             {
                 return this.confirmationFromViewModelInteractionRequest;
+            }
+        }
+
+        public ICommand DeleteMappingCommand
+        {
+            get
+            {
+                if (this.deleteMappingCommand == null)
+                {
+                    this.deleteMappingCommand = new RelayCommand(
+                        param => this.DeleteMapping(param), 
+                        param => CanEditOrDeleteMapping(param));
+                }
+
+                return this.deleteMappingCommand;
             }
         }
 
@@ -211,6 +133,8 @@ namespace Admin.PersonModule.ViewModels
             }
         }
 
+        public IList<string> RoleConfiguration { get; set; }
+
         public MappingViewModel SelectedMapping
         {
             get
@@ -223,111 +147,6 @@ namespace Admin.PersonModule.ViewModels
                 this.selectedMapping = value;
                 this.RaisePropertyChanged(() => this.SelectedMapping);
             }
-        }
-
-        public void NavigateToDetail(object sender, KeyEventArgs e)
-        {
-            if (e.Key == Key.Enter)
-            {
-                this.NavigateToDetailScreen();
-            }
-        }
-
-        public void NavigateToDetailDoubleClick()
-        {
-            this.NavigateToDetailScreen();
-        }
-
-        private void NavigateToDetailScreen()
-        {
-            if (this.SelectedMapping != null && CanEditOrDeleteMapping(this.SelectedMapping))
-            {
-                if (!this.SelectedMapping.IsMdmId)
-                {
-                    this.navigationService.NavigateMain(
-                        new MappingEditUri(
-                            this.Person.Id.Value, "Person", Convert.ToInt32(this.SelectedMapping.MappingId), this.Person.Name));
-                    return;
-                }
-
-                this.eventAggregator.Publish(new StatusEvent("MdmSystemData ID cannot be edited"));
-            }
-        }
-
-        public void Sorting()
-        {
-            this.SelectedMapping = null;
-        }
-
-        public void ConfirmNavigationRequest(NavigationContext navigationContext, Action<bool> continuationCallback)
-        {
-            if (this.Person.CanSave)
-            {
-                this.eventAggregator.Publish(new DialogOpenEvent(true));
-                this.confirmationFromViewModelInteractionRequest.Raise(
-                    new Confirmation { Content = Message.UnsavedChanges, Title = Message.UnsavedChangeTitle },
-                    confirmation =>
-                    {
-                        continuationCallback(confirmation.Confirmed);
-                        this.eventAggregator.Publish(new DialogOpenEvent(false));
-                    });
-            }
-            else
-            {
-                continuationCallback(true);
-            }
-        }
-
-        public bool IsNavigationTarget(NavigationContext navigationContext)
-        {
-            return true;
-        }
-
-        public void OnNavigatedFrom(NavigationContext navigationContext)
-        {
-            this.eventAggregator.Unsubscribe<SaveEvent>(this.Save);
-            this.eventAggregator.Unsubscribe<CreateEvent>(this.CreateMapping);
-            this.eventAggregator.Unsubscribe<EntitySelectedEvent>(this.EntitySelected);
-            this.eventAggregator.Unsubscribe<MappingUpdatedEvent>(this.MappingUpdated);
-            this.eventAggregator.Unsubscribe<MappingDeleteConfirmedEvent>(this.MappingDeleteConfirmed);
-
-            this.ShowPartyAccountabilitys = false;
-            this.applicationCommands.CloseView("PartyAccountabilityEmbeddedSearchResultsView", "Person-PartyAccountabilitySearchResultsRegion");
-
-            this.ShowSettlementContacts = false;
-            this.applicationCommands.CloseView("SettlementContactEmbeddedSearchResultsView", "Person-SettlementContactSearchResultsRegion");
-
-        }
-
-        public void OnNavigatedTo(NavigationContext navigationContext)
-        {
-            this.eventAggregator.Subscribe<SaveEvent>(this.Save);
-            this.eventAggregator.Subscribe<CreateEvent>(this.CreateMapping);
-            this.eventAggregator.Subscribe<MappingUpdatedEvent>(this.MappingUpdated);
-            this.eventAggregator.Subscribe<MappingDeleteConfirmedEvent>(this.MappingDeleteConfirmed);
-            this.eventAggregator.Subscribe<EntitySelectedEvent>(this.EntitySelected);
-            int idParam = int.Parse(navigationContext.Parameters[NavigationParameters.EntityId]);
-            DateTime validAtStringParam = DateTime.Parse(navigationContext.Parameters[NavigationParameters.ValidAtDate]);
-
-            if (this.Person == null || this.validAtString != validAtStringParam ||
-                this.Person.Id != idParam)
-            {
-                this.ShowPartyAccountabilitys = false;
-                this.applicationCommands.CloseView("PartyAccountabilityEmbeddedSearchResultsView", "Person-PartyAccountabilitySearchResultsRegion");
-
-                this.ShowSettlementContacts = false;
-                this.applicationCommands.CloseView("SettlementContactEmbeddedSearchResultsView", "Person-SettlementContactSearchResultsRegion");
-
-            }
-
-            this.validAtString = validAtStringParam;
-            this.LoadPersonFromService(idParam, validAtString);
-
-            this.applicationCommands.OpenView("PartyAccountabilityEmbeddedSearchResultsView", "Person-PartyAccountabilitySearchResultsRegion", idParam, validAtStringParam, "Person");
-
-            this.applicationCommands.OpenView("SettlementContactEmbeddedSearchResultsView", "Person-SettlementContactSearchResultsRegion", idParam, validAtStringParam, "Person");
-
-            this.eventAggregator.Publish(new CanCreateNewChangeEvent(CanAddMappings()));
         }
 
         public bool ShowPartyAccountabilitys
@@ -343,6 +162,7 @@ namespace Admin.PersonModule.ViewModels
                 this.RaisePropertyChanged(() => this.ShowPartyAccountabilitys);
             }
         }
+
         public bool ShowSettlementContacts
         {
             get
@@ -357,55 +177,242 @@ namespace Admin.PersonModule.ViewModels
             }
         }
 
+        public ICommand UpdateMappingCommand
+        {
+            get
+            {
+                if (this.updateMappingCommand == null)
+                {
+                    this.updateMappingCommand = new RelayCommand(
+                        param => this.UpdateMapping(param), 
+                        param => CanEditOrDeleteMapping(param));
+                }
 
+                return this.updateMappingCommand;
+            }
+        }
+
+        public void ConfirmNavigationRequest(NavigationContext navigationContext, Action<bool> continuationCallback)
+        {
+            if (this.Person.CanSave)
+            {
+                this.eventAggregator.Publish(new DialogOpenEvent(true));
+                this.confirmationFromViewModelInteractionRequest.Raise(
+                    new Confirmation { Content = Message.UnsavedChanges, Title = Message.UnsavedChangeTitle }, 
+                    confirmation =>
+                        {
+                            continuationCallback(confirmation.Confirmed);
+                            this.eventAggregator.Publish(new DialogOpenEvent(false));
+                        });
+            }
+            else
+            {
+                continuationCallback(true);
+            }
+        }
+
+        public bool IsNavigationTarget(NavigationContext navigationContext)
+        {
+            return true;
+        }
+
+        public void NavigateToDetail(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                this.NavigateToDetailScreen();
+            }
+        }
+
+        public void NavigateToDetailDoubleClick()
+        {
+            this.NavigateToDetailScreen();
+        }
+
+        public void OnNavigatedFrom(NavigationContext navigationContext)
+        {
+            this.eventAggregator.Unsubscribe<SaveEvent>(this.Save);
+            this.eventAggregator.Unsubscribe<CreateEvent>(this.CreateMapping);
+            this.eventAggregator.Unsubscribe<EntitySelectedEvent>(this.EntitySelected);
+            this.eventAggregator.Unsubscribe<MappingUpdatedEvent>(this.MappingUpdated);
+            this.eventAggregator.Unsubscribe<MappingDeleteConfirmedEvent>(this.MappingDeleteConfirmed);
+
+            this.ShowPartyAccountabilitys = false;
+            this.applicationCommands.CloseView(
+                "PartyAccountabilityEmbeddedSearchResultsView", 
+                "Person-PartyAccountabilitySearchResultsRegion");
+
+            this.ShowSettlementContacts = false;
+            this.applicationCommands.CloseView(
+                "SettlementContactEmbeddedSearchResultsView", 
+                "Person-SettlementContactSearchResultsRegion");
+        }
+
+        public void OnNavigatedTo(NavigationContext navigationContext)
+        {
+            this.eventAggregator.Subscribe<SaveEvent>(this.Save);
+            this.eventAggregator.Subscribe<CreateEvent>(this.CreateMapping);
+            this.eventAggregator.Subscribe<MappingUpdatedEvent>(this.MappingUpdated);
+            this.eventAggregator.Subscribe<MappingDeleteConfirmedEvent>(this.MappingDeleteConfirmed);
+            this.eventAggregator.Subscribe<EntitySelectedEvent>(this.EntitySelected);
+            int idParam = int.Parse(navigationContext.Parameters[NavigationParameters.EntityId]);
+            DateTime validAtStringParam = DateTime.Parse(navigationContext.Parameters[NavigationParameters.ValidAtDate]);
+
+            if (this.Person == null || this.validAtString != validAtStringParam || this.Person.Id != idParam)
+            {
+                this.ShowPartyAccountabilitys = false;
+                this.applicationCommands.CloseView(
+                    "PartyAccountabilityEmbeddedSearchResultsView", 
+                    "Person-PartyAccountabilitySearchResultsRegion");
+
+                this.ShowSettlementContacts = false;
+                this.applicationCommands.CloseView(
+                    "SettlementContactEmbeddedSearchResultsView", 
+                    "Person-SettlementContactSearchResultsRegion");
+            }
+
+            this.validAtString = validAtStringParam;
+            this.LoadPersonFromService(idParam, validAtString);
+
+            this.applicationCommands.OpenView(
+                "PartyAccountabilityEmbeddedSearchResultsView", 
+                "Person-PartyAccountabilitySearchResultsRegion", 
+                idParam, 
+                validAtStringParam, 
+                "Person");
+
+            this.applicationCommands.OpenView(
+                "SettlementContactEmbeddedSearchResultsView", 
+                "Person-SettlementContactSearchResultsRegion", 
+                idParam, 
+                validAtStringParam, 
+                "Person");
+
+            this.eventAggregator.Publish(new CanCreateNewChangeEvent(CanAddMappings()));
+        }
+
+        public void Sorting()
+        {
+            this.SelectedMapping = null;
+        }
+
+        public void StartMinimum()
+        {
+            this.Person.Start = DateUtility.MinDate;
+        }
+
+        public void StartToday()
+        {
+            this.Person.Start = SystemTime.UtcNow().Date;
+        }
+
+        private static MdmId NewMapping(EntityWithETag<MdmId> entityWithETag, MappingUpdatedEvent updatedEvent)
+        {
+            return new MdmId
+                       {
+                           DefaultReverseInd = updatedEvent.IsDefault, 
+                           IsMdmId = false, 
+                           SourceSystemOriginated = updatedEvent.IsSourceSystemOriginated, 
+                           StartDate = updatedEvent.StartDate, 
+                           Identifier = updatedEvent.NewValue, 
+                           EndDate = entityWithETag.Object.EndDate, 
+                           SystemName = entityWithETag.Object.SystemName, 
+                       };
+        }
+
+        private bool CanAddMappings()
+        {
+            foreach (var system in mappingService.GetSourceSystemNames())
+            {
+                if (AuthorisationHelpers.HasMappingRights("Person", system))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        private bool CanEditOrDeleteMapping(object mapping)
+        {
+            var mappingViewModel = mapping as MappingViewModel;
+            if (mappingViewModel == null)
+            {
+                return false;
+            }
+
+            if (mappingViewModel.MappingId == null)
+            {
+                return false;
+            }
+
+            return CanEditOrDeleteMapping(mappingViewModel.MappingId.Value);
+        }
+
+        private bool CanEditOrDeleteMapping(int mappingId)
+        {
+            var system = Mappings.Where(x => x.MappingId == mappingId).Select(x => x.SystemName).FirstOrDefault();
+            return AuthorisationHelpers.HasMappingRights("Person", system);
+        }
+
+        private void CreateMapping(CreateEvent obj)
+        {
+            this.navigationService.NavigateMain(new MappingAddUri(this.Person.Id.Value, "Person", this.Person.Name));
+        }
+
+        private void DeleteMapping(object mapping)
+        {
+            var mappingViewModel = mapping as MappingViewModel;
+            if (mappingViewModel == null)
+            {
+                return;
+            }
+
+            if (mappingViewModel.MappingId == null)
+            {
+                return;
+            }
+
+            this.eventAggregator.Publish(
+                new ConfirmMappingDeleteEvent(
+                    mappingViewModel.MappingId.Value, 
+                    mappingViewModel.MappingString, 
+                    mappingViewModel.SystemName));
+        }
 
         private void EntitySelected(EntitySelectedEvent obj)
         {
         }
 
-
-        private void MappingUpdated(MappingUpdatedEvent updatedEvent)
+        private void LoadPersonFromService(int personId, DateTime validAt, bool publishChangeNotification = false)
         {
-            if (updatedEvent.Cancelled)
-                return;
+            this.entityService.ExecuteAsync(
+                () => this.entityService.Get<Person>(personId, validAt), 
+                response =>
+                    {
+                        this.Person = new PersonViewModel(
+                            new EntityWithETag<Person>(response.Message, response.Tag), 
+                            this.eventAggregator);
 
-            EntityWithETag<MdmId> entityWithETag;
-            if (!TryGetMapping("Person", updatedEvent, out entityWithETag))
-                return;
+                        this.Mappings =
+                            new ObservableCollection<MappingViewModel>(
+                                response.Message.Identifiers.Select(
+                                    nexusId =>
+                                    new MappingViewModel(new EntityWithETag<MdmId>(nexusId, null), this.eventAggregator)));
 
-            if (entityWithETag.Object.EndDate <= updatedEvent.StartDate)
-            {
-                var message = string.Format("The start date of the new mapping must be before {0}", entityWithETag.Object.EndDate);
-                this.eventAggregator.Publish(new ErrorEvent(message));
-                return;
-            }
-
-            var newMapping = NewMapping(entityWithETag, updatedEvent);
-
-            if (!TryCreateMapping("Person", newMapping, updatedEvent))
-                return;
-
-            if (!TryGetMapping("Person", updatedEvent, out entityWithETag))
-                return;
-
-            entityWithETag.Object.EndDate = updatedEvent.StartDate.AddSeconds(-1);
-
-            if (!TryUpdateMapping("Person", entityWithETag, updatedEvent))
-                return;
-
-            this.LoadPersonFromService(updatedEvent.EntityId, updatedEvent.StartDate, true);
-            this.eventAggregator.Publish(new StatusEvent(Message.MappingUpdated));
+                        this.RaisePropertyChanged(string.Empty);
+                    }, 
+                this.eventAggregator);
         }
 
         private void MappingDeleteConfirmed(MappingDeleteConfirmedEvent obj)
         {
             if (obj.Cancelled)
+            {
                 return;
+            }
 
-            var response = this.mappingService.DeleteMapping(
-                "Person",
-                obj.MappingId,
-                this.Person.Id.Value);
+            var response = this.mappingService.DeleteMapping("Person", obj.MappingId, this.Person.Id.Value);
 
             if (response.IsValid)
             {
@@ -418,42 +425,77 @@ namespace Admin.PersonModule.ViewModels
                 new ErrorEvent(response.Fault != null ? response.Fault.Message : "Unknown Error"));
         }
 
-        private bool TryGetMapping(string entityName, MappingUpdatedEvent updatedEvent, out EntityWithETag<MdmId> mapping)
+        private void MappingUpdated(MappingUpdatedEvent updatedEvent)
         {
-            mapping = mappingService.GetMapping(entityName, updatedEvent.EntityId, updatedEvent.MappingId);
-            if (mapping.Object == null)
+            if (updatedEvent.Cancelled)
             {
-                this.eventAggregator.Publish(
-                    new ErrorEvent("Unable to retrieve original mapping"));
-                return false;
+                return;
             }
-            return true;
+
+            EntityWithETag<MdmId> entityWithETag;
+            if (!TryGetMapping("Person", updatedEvent, out entityWithETag))
+            {
+                return;
+            }
+
+            if (entityWithETag.Object.EndDate <= updatedEvent.StartDate)
+            {
+                var message = string.Format(
+                    "The start date of the new mapping must be before {0}", 
+                    entityWithETag.Object.EndDate);
+                this.eventAggregator.Publish(new ErrorEvent(message));
+                return;
+            }
+
+            var newMapping = NewMapping(entityWithETag, updatedEvent);
+
+            if (!TryCreateMapping("Person", newMapping, updatedEvent))
+            {
+                return;
+            }
+
+            if (!TryGetMapping("Person", updatedEvent, out entityWithETag))
+            {
+                return;
+            }
+
+            entityWithETag.Object.EndDate = updatedEvent.StartDate.AddSeconds(-1);
+
+            if (!TryUpdateMapping("Person", entityWithETag, updatedEvent))
+            {
+                return;
+            }
+
+            this.LoadPersonFromService(updatedEvent.EntityId, updatedEvent.StartDate, true);
+            this.eventAggregator.Publish(new StatusEvent(Message.MappingUpdated));
         }
 
-        private static MdmId NewMapping(EntityWithETag<MdmId> entityWithETag, MappingUpdatedEvent updatedEvent)
+        private void NavigateToDetailScreen()
         {
-            return new MdmId
+            if (this.SelectedMapping != null && CanEditOrDeleteMapping(this.SelectedMapping))
+            {
+                if (!this.SelectedMapping.IsMdmId)
                 {
-                    DefaultReverseInd = updatedEvent.IsDefault,
-                    IsMdmId = false,
-                    SourceSystemOriginated = updatedEvent.IsSourceSystemOriginated,
-                    StartDate = updatedEvent.StartDate,
-                    Identifier = updatedEvent.NewValue,
-                    EndDate = entityWithETag.Object.EndDate,
-                    SystemName = entityWithETag.Object.SystemName,
-                };
+                    this.navigationService.NavigateMain(
+                        new MappingEditUri(
+                            this.Person.Id.Value, 
+                            "Person", 
+                            Convert.ToInt32(this.SelectedMapping.MappingId), 
+                            this.Person.Name));
+                    return;
+                }
+
+                this.eventAggregator.Publish(new StatusEvent("MdmSystemData ID cannot be edited"));
+            }
         }
 
-        private bool TryUpdateMapping(string entityName, EntityWithETag<MdmId> entityWithETag, MappingUpdatedEvent updatedEvent)
+        private void Save(SaveEvent saveEvent)
         {
-            var response = mappingService.UpdateMapping(entityName, updatedEvent.MappingId, updatedEvent.EntityId, entityWithETag);
-            if (!response.IsValid)
-            {
-                this.eventAggregator.Publish(
-                    new ErrorEvent(response.Fault != null ? response.Fault.Message : "Unknown Error"));
-                return false;
-            }
-            return true;
+            this.entityService.ExecuteAsync(
+                () => this.entityService.Update(this.Person.Id.Value, this.Person.Model(), this.Person.ETag), 
+                () => this.LoadPersonFromService(this.Person.Id.Value, this.Person.Start, true), 
+                string.Format(Message.EntityUpdatedFormatString, "Person"), 
+                this.eventAggregator);
         }
 
         private bool TryCreateMapping(string entityName, MdmId newMapping, MappingUpdatedEvent updatedEvent)
@@ -465,51 +507,67 @@ namespace Admin.PersonModule.ViewModels
                     new ErrorEvent(response.Fault != null ? response.Fault.Message : "Unknown Error"));
                 return false;
             }
+
             return true;
         }
 
-        private void CreateMapping(CreateEvent obj)
+        private bool TryGetMapping(
+            string entityName, 
+            MappingUpdatedEvent updatedEvent, 
+            out EntityWithETag<MdmId> mapping)
         {
-            this.navigationService.NavigateMain(new MappingAddUri(this.Person.Id.Value, "Person", this.Person.Name));
+            mapping = mappingService.GetMapping(entityName, updatedEvent.EntityId, updatedEvent.MappingId);
+            if (mapping.Object == null)
+            {
+                this.eventAggregator.Publish(new ErrorEvent("Unable to retrieve original mapping"));
+                return false;
+            }
+
+            return true;
         }
 
-        private void LoadPersonFromService(int personId, DateTime validAt, bool publishChangeNotification = false)
+        private bool TryUpdateMapping(
+            string entityName, 
+            EntityWithETag<MdmId> entityWithETag, 
+            MappingUpdatedEvent updatedEvent)
         {
-            this.entityService.ExecuteAsync(
-                () => this.entityService.Get<Person>(personId, validAt),
-                (response) =>
-                {
-                    this.Person = new PersonViewModel(new EntityWithETag<Person>(response.Message, response.Tag), this.eventAggregator);
+            var response = mappingService.UpdateMapping(
+                entityName, 
+                updatedEvent.MappingId, 
+                updatedEvent.EntityId, 
+                entityWithETag);
+            if (!response.IsValid)
+            {
+                this.eventAggregator.Publish(
+                    new ErrorEvent(response.Fault != null ? response.Fault.Message : "Unknown Error"));
+                return false;
+            }
 
-                    this.Mappings =
-                        new ObservableCollection<MappingViewModel>(
-                            response.Message.Identifiers.Select(
-                                nexusId =>
-                                new MappingViewModel(
-                                    new EntityWithETag<MdmId>(nexusId, null), this.eventAggregator)));
-
-                    this.RaisePropertyChanged(string.Empty);
-                },
-                this.eventAggregator);
+            return true;
         }
 
-        private void Save(SaveEvent saveEvent)
+        private void UpdateMapping(object mapping)
         {
-            this.entityService.ExecuteAsync(
-                         () => this.entityService.Update(this.Person.Id.Value, this.Person.Model(), this.Person.ETag),
-                         () => this.LoadPersonFromService(this.Person.Id.Value, this.Person.Start, true),
-                         string.Format(Message.EntityUpdatedFormatString, "Person"),
-                         this.eventAggregator);
-        }
+            var mappingViewModel = mapping as MappingViewModel;
+            if (mappingViewModel == null)
+            {
+                return;
+            }
 
-        public void StartToday()
-        {
-            this.Person.Start = SystemTime.UtcNow().Date;
-        }
+            if (mappingViewModel.MappingId == null)
+            {
+                return;
+            }
 
-        public void StartMinimum()
-        {
-            this.Person.Start = DateUtility.MinDate;
+            if (mappingViewModel != null)
+            {
+                this.eventAggregator.Publish(
+                    new MappingUpdateEvent(
+                        this.Person.Id.Value, 
+                        mappingViewModel.MappingId.Value, 
+                        mappingViewModel.MappingString, 
+                        "Person"));
+            }
         }
     }
 }

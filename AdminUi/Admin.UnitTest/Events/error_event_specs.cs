@@ -4,19 +4,20 @@ namespace Admin.UnitTest.Events
 
     using Common.Events;
     using Common.Extensions;
+
     using Microsoft.Practices.EnterpriseLibrary.Logging;
     using Microsoft.Practices.Prism.Events;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
+
     using Shell.ViewModels;
 
     [TestClass]
     public class when_an_status_event_is_published : TestBase<ShellViewModel>
     {
-        protected override void Establish_context()
+        [TestMethod]
+        public void should_update_the_stauts_message_on_the_shell()
         {
-            this.AddConcrete<IEventAggregator, EventAggregator>(new EventAggregator());
-            this.RegisterMock<LogWriter>();
-            base.Establish_context();
+            Assert.AreEqual(Sut.Status, "Status Changed");
         }
 
         protected override void Because_of()
@@ -24,10 +25,11 @@ namespace Admin.UnitTest.Events
             this.Concrete<IEventAggregator>().Publish(new StatusEvent("Status Changed"));
         }
 
-        [TestMethod]
-        public void should_update_the_stauts_message_on_the_shell()
+        protected override void Establish_context()
         {
-            Assert.AreEqual(Sut.Status, "Status Changed");
+            this.AddConcrete<IEventAggregator, EventAggregator>(new EventAggregator());
+            this.RegisterMock<LogWriter>();
+            base.Establish_context();
         }
     }
 }

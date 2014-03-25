@@ -3,16 +3,21 @@ namespace EnergyTrading.MDM.Services
     using System.Collections.Generic;
     using System.Linq;
 
-    using EnergyTrading.MDM.Extensions;
-    using EnergyTrading.Search;
     using EnergyTrading.Data;
     using EnergyTrading.Mapping;
+    using EnergyTrading.Search;
     using EnergyTrading.Validation;
 
-    public class CounterpartyService : MdmService<Contracts.Sample.Counterparty, Counterparty, PartyRoleMapping, CounterpartyDetails, Contracts.Sample.CounterpartyDetails>
+    public class CounterpartyService :
+        MdmService
+            <Contracts.Sample.Counterparty, Counterparty, PartyRoleMapping, CounterpartyDetails, 
+            Contracts.Sample.CounterpartyDetails>
     {
-
-        public CounterpartyService(IValidatorEngine validatorFactory, IMappingEngine mappingEngine, IRepository repository, ISearchCache searchCache)
+        public CounterpartyService(
+            IValidatorEngine validatorFactory, 
+            IMappingEngine mappingEngine, 
+            IRepository repository, 
+            ISearchCache searchCache)
             : base(validatorFactory, mappingEngine, repository, searchCache)
         {
         }

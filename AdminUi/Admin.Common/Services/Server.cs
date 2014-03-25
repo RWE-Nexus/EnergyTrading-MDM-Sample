@@ -10,26 +10,26 @@ namespace Common.Services
         {
             if (string.IsNullOrWhiteSpace(something))
             {
-                //use default
+                // use default
                 Name = ConfigurationManager.AppSettings[ConfigurationManager.AppSettings["default_service"]];
                 return;
             }
 
             if (something.StartsWith("http"))
             {
-                //server name
+                // server name
                 Name = something;
                 return;
             }
 
             if (something.StartsWith("service_"))
             {
-                //server id
+                // server id
                 Name = ConfigurationManager.AppSettings[something];
                 return;
             }
 
-            //assume server id without service_
+            // assume server id without service_
             Name = ConfigurationManager.AppSettings["service_" + something];
         }
     }

@@ -2,7 +2,6 @@
 namespace Admin.LegalEntityModule.ViewModels
 {
     using System;
-    using System.Collections.Generic;
     using System.Linq.Expressions;
 
     using Common.Events;
@@ -10,29 +9,67 @@ namespace Admin.LegalEntityModule.ViewModels
     using Common.Framework;
     using Common.Services;
 
+    using EnergyTrading.Mdm.Contracts;
+    using EnergyTrading.MDM.Contracts.Sample;
+
     using Microsoft.Practices.Prism.Events;
     using Microsoft.Practices.Prism.ViewModel;
-
-    using EnergyTrading.MDM.Contracts.Sample; using EnergyTrading.Mdm.Contracts;
 
     public class LegalEntityViewModel : NotificationObject
     {
         private readonly IEventAggregator eventAggregator;
+
         private readonly LegalEntity legalentity;
+
+        private string address;
+
         private bool canSave;
+
+        private string countryofincorporation;
+
+        private string customerAddress;
+
+        private string email;
 
         private DateTime end;
 
+        private string fax;
+
+        private string invoiceSetup;
+
+        private string name;
+
+        private int? partyId;
+
+        private string partyName;
+
+        private string partystatus;
+
+        private string phone;
+
+        private string registeredname;
+
+        private string registrationnumber;
+
         private DateTime start;
+
+        private string vendorAddress;
+
+        private string website;
 
         public LegalEntityViewModel(IEventAggregator eventAggregator)
         {
             this.eventAggregator = eventAggregator;
 
             this.legalentity = new LegalEntity
-            {
-                MdmSystemData = new SystemData { StartDate = DateUtility.MinDate, EndDate = DateUtility.MaxDate } 
-            };
+                                   {
+                                       MdmSystemData =
+                                           new SystemData
+                                               {
+                                                   StartDate = DateUtility.MinDate, 
+                                                   EndDate = DateUtility.MaxDate
+                                               }
+                                   };
 
             this.Start = this.legalentity.MdmSystemData.StartDate.Value;
 
@@ -62,7 +99,7 @@ namespace Admin.LegalEntityModule.ViewModels
             this.RegisteredName = this.legalentity.Details.RegisteredName;
 
             this.RegistrationNumber = this.legalentity.Details.RegistrationNumber;
-            
+
             this.Address = this.legalentity.Details.Address;
 
             this.Website = this.legalentity.Details.Website;
@@ -88,109 +125,17 @@ namespace Admin.LegalEntityModule.ViewModels
             this.VendorAddress = this.legalentity.Details.VendorAddress;
         }
 
-        private System.String name;
-        public System.String Name 
-        { 
-            get { return this.name; }
-            set { this.ChangeProperty(() => this.Name, ref this.name, value); }
-        }
-
-        private System.String registeredname;
-        public System.String RegisteredName 
-        { 
-            get { return this.registeredname; }
-            set { this.ChangeProperty(() => this.RegisteredName, ref this.registeredname, value); }
-        }
-
-        private System.String registrationnumber;
-        public System.String RegistrationNumber 
-        { 
-            get { return this.registrationnumber; }
-            set { this.ChangeProperty(() => this.RegistrationNumber, ref this.registrationnumber, value); }
-        }
-
-        private System.String address;
-        public System.String Address 
-        { 
-            get { return this.address; }
-            set { this.ChangeProperty(() => this.Address, ref this.address, value); }
-        }
-
-        private System.String website;
-        public System.String Website 
-        { 
-            get { return this.website; }
-            set { this.ChangeProperty(() => this.Website, ref this.website, value); }
-        }
-
-        private System.String email;
-        public System.String Email 
-        { 
-            get { return this.email; }
-            set { this.ChangeProperty(() => this.Email, ref this.email, value); }
-        }
-
-        private System.String fax;
-        public System.String Fax 
-        { 
-            get { return this.fax; }
-            set { this.ChangeProperty(() => this.Fax, ref this.fax, value); }
-        }
-
-        private System.String phone;
-        public System.String Phone 
-        { 
-            get { return this.phone; }
-            set { this.ChangeProperty(() => this.Phone, ref this.phone, value); }
-        }
-
-        private System.String countryofincorporation;
-        public System.String CountryOfIncorporation 
-        { 
-            get { return this.countryofincorporation; }
-            set { this.ChangeProperty(() => this.CountryOfIncorporation, ref this.countryofincorporation, value); }
-        }
-
-        private System.String partystatus;
-        public System.String PartyStatus 
-        { 
-            get { return this.partystatus; }
-            set { this.ChangeProperty(() => this.PartyStatus, ref this.partystatus, value); }
-        }
-
-        private int? partyId;
-        public int? PartyId 
+        public string Address
         {
-            get { return this.partyId; }
-            set { this.ChangeProperty(() => this.PartyId, ref this.partyId, value); }
-        }
+            get
+            {
+                return this.address;
+            }
 
-        private string partyName;
-        public string PartyName 
-        {
-            get { return this.partyName; }
-            set { this.partyName = value; this.RaisePropertyChanged(() => this.PartyName); }
-        }
-
-        private System.String invoiceSetup;
-        public System.String InvoiceSetup
-        {
-            get { return this.invoiceSetup; }
-            set { this.ChangeProperty(() => this.InvoiceSetup, ref this.invoiceSetup, value); }
-        }
-
-        private System.String customerAddress;
-        public System.String CustomerAddress
-        {
-            get { return this.customerAddress; }
-            set { this.ChangeProperty(() => this.CustomerAddress, ref this.customerAddress, value); }
-        }
-
-        private System.String vendorAddress;
-        public System.String VendorAddress
-        {
-            get { return this.vendorAddress; }
-            set { this.ChangeProperty(() => this.VendorAddress, ref this.vendorAddress, value); }
+            set
+            {
+                this.ChangeProperty(() => this.Address, ref this.address, value);
+            }
         }
 
         public bool CanSave
@@ -199,6 +144,7 @@ namespace Admin.LegalEntityModule.ViewModels
             {
                 return this.canSave;
             }
+
             set
             {
                 this.canSave = value;
@@ -206,7 +152,46 @@ namespace Admin.LegalEntityModule.ViewModels
             }
         }
 
+        public string CountryOfIncorporation
+        {
+            get
+            {
+                return this.countryofincorporation;
+            }
+
+            set
+            {
+                this.ChangeProperty(() => this.CountryOfIncorporation, ref this.countryofincorporation, value);
+            }
+        }
+
+        public string CustomerAddress
+        {
+            get
+            {
+                return this.customerAddress;
+            }
+
+            set
+            {
+                this.ChangeProperty(() => this.CustomerAddress, ref this.customerAddress, value);
+            }
+        }
+
         public string ETag { get; private set; }
+
+        public string Email
+        {
+            get
+            {
+                return this.email;
+            }
+
+            set
+            {
+                this.ChangeProperty(() => this.Email, ref this.email, value);
+            }
+        }
 
         public DateTime End
         {
@@ -214,13 +199,132 @@ namespace Admin.LegalEntityModule.ViewModels
             {
                 return this.end;
             }
+
             set
             {
                 this.ChangeProperty(() => this.End, ref this.end, value);
             }
         }
 
+        public string Fax
+        {
+            get
+            {
+                return this.fax;
+            }
+
+            set
+            {
+                this.ChangeProperty(() => this.Fax, ref this.fax, value);
+            }
+        }
+
         public int? Id { get; private set; }
+
+        public string InvoiceSetup
+        {
+            get
+            {
+                return this.invoiceSetup;
+            }
+
+            set
+            {
+                this.ChangeProperty(() => this.InvoiceSetup, ref this.invoiceSetup, value);
+            }
+        }
+
+        public string Name
+        {
+            get
+            {
+                return this.name;
+            }
+
+            set
+            {
+                this.ChangeProperty(() => this.Name, ref this.name, value);
+            }
+        }
+
+        public int? PartyId
+        {
+            get
+            {
+                return this.partyId;
+            }
+
+            set
+            {
+                this.ChangeProperty(() => this.PartyId, ref this.partyId, value);
+            }
+        }
+
+        public string PartyName
+        {
+            get
+            {
+                return this.partyName;
+            }
+
+            set
+            {
+                this.partyName = value;
+                this.RaisePropertyChanged(() => this.PartyName);
+            }
+        }
+
+        public string PartyStatus
+        {
+            get
+            {
+                return this.partystatus;
+            }
+
+            set
+            {
+                this.ChangeProperty(() => this.PartyStatus, ref this.partystatus, value);
+            }
+        }
+
+        public string Phone
+        {
+            get
+            {
+                return this.phone;
+            }
+
+            set
+            {
+                this.ChangeProperty(() => this.Phone, ref this.phone, value);
+            }
+        }
+
+        public string RegisteredName
+        {
+            get
+            {
+                return this.registeredname;
+            }
+
+            set
+            {
+                this.ChangeProperty(() => this.RegisteredName, ref this.registeredname, value);
+            }
+        }
+
+        public string RegistrationNumber
+        {
+            get
+            {
+                return this.registrationnumber;
+            }
+
+            set
+            {
+                this.ChangeProperty(() => this.RegistrationNumber, ref this.registrationnumber, value);
+            }
+        }
 
         public DateTime Start
         {
@@ -228,36 +332,74 @@ namespace Admin.LegalEntityModule.ViewModels
             {
                 return this.start;
             }
+
             set
             {
                 this.ChangeProperty(() => this.Start, ref this.start, value);
             }
         }
 
+        public string VendorAddress
+        {
+            get
+            {
+                return this.vendorAddress;
+            }
+
+            set
+            {
+                this.ChangeProperty(() => this.VendorAddress, ref this.vendorAddress, value);
+            }
+        }
+
+        public string Website
+        {
+            get
+            {
+                return this.website;
+            }
+
+            set
+            {
+                this.ChangeProperty(() => this.Website, ref this.website, value);
+            }
+        }
+
         public LegalEntity Model()
         {
             return new LegalEntity
-            {
-                Details = new LegalEntityDetails 
-                {
-                    Name = this.Name
-                    ,RegisteredName = this.RegisteredName
-                    ,RegistrationNumber = this.RegistrationNumber
-                    ,Address = this.Address
-                    ,Website = this.Website
-                    ,Email = this.Email
-                    ,Fax = this.Fax
-                    ,Phone = this.Phone
-                    ,CountryOfIncorporation = this.CountryOfIncorporation
-                    ,PartyStatus = this.PartyStatus,
-                    InvoiceSetup = this.InvoiceSetup,
-                    CustomerAddress = this.CustomerAddress,
-                    VendorAddress = this.VendorAddress
-                }, 
-                MdmSystemData = new SystemData { StartDate = this.Start, EndDate = this.End }
-                    ,Party = this.PartyId == null ? null :
-                        new EntityId { Identifier = new MdmId { IsMdmId = true, Identifier = this.PartyId.ToString() } }
-            };
+                       {
+                           Details =
+                               new LegalEntityDetails
+                                   {
+                                       Name = this.Name, 
+                                       RegisteredName = this.RegisteredName, 
+                                       RegistrationNumber = this.RegistrationNumber, 
+                                       Address = this.Address, 
+                                       Website = this.Website, 
+                                       Email = this.Email, 
+                                       Fax = this.Fax, 
+                                       Phone = this.Phone, 
+                                       CountryOfIncorporation = this.CountryOfIncorporation, 
+                                       PartyStatus = this.PartyStatus, 
+                                       InvoiceSetup = this.InvoiceSetup, 
+                                       CustomerAddress = this.CustomerAddress, 
+                                       VendorAddress = this.VendorAddress
+                                   }, 
+                           MdmSystemData = new SystemData { StartDate = this.Start, EndDate = this.End }, 
+                           Party =
+                               this.PartyId == null
+                                   ? null
+                                   : new EntityId
+                                         {
+                                             Identifier =
+                                                 new MdmId
+                                                     {
+                                                         IsMdmId = true, 
+                                                         Identifier = this.PartyId.ToString()
+                                                     }
+                                         }
+                       };
         }
 
         private void ChangeProperty<T>(Expression<Func<T>> property, ref T variable, T newValue)
@@ -271,24 +413,18 @@ namespace Admin.LegalEntityModule.ViewModels
         private bool HasChanges()
         {
             return
-                !(
-                    this.legalentity.MdmSystemData.StartDate == this.Start 
-                    && this.legalentity.MdmSystemData.EndDate == this.End
-                    && this.legalentity.Details.Name == this.Name 
-                    && this.legalentity.Details.RegisteredName == this.RegisteredName 
-                    && this.legalentity.Details.RegistrationNumber == this.RegistrationNumber 
-                    && this.legalentity.Details.Address == this.Address 
-                    && this.legalentity.Details.Website == this.Website 
-                    && this.legalentity.Details.Email == this.Email 
-                    && this.legalentity.Details.Fax == this.Fax 
-                    && this.legalentity.Details.Phone == this.Phone 
-                    && this.legalentity.Details.CountryOfIncorporation == this.CountryOfIncorporation 
-                    && this.legalentity.Details.PartyStatus == this.PartyStatus 
-                    && this.legalentity.Details.InvoiceSetup == this.InvoiceSetup
-                    && this.legalentity.Details.CustomerAddress == this.CustomerAddress
-                    && this.legalentity.Details.VendorAddress == this.VendorAddress
-                    && this.PartyHasNoChanges()
-                );
+                !(this.legalentity.MdmSystemData.StartDate == this.Start
+                  && this.legalentity.MdmSystemData.EndDate == this.End && this.legalentity.Details.Name == this.Name
+                  && this.legalentity.Details.RegisteredName == this.RegisteredName
+                  && this.legalentity.Details.RegistrationNumber == this.RegistrationNumber
+                  && this.legalentity.Details.Address == this.Address
+                  && this.legalentity.Details.Website == this.Website && this.legalentity.Details.Email == this.Email
+                  && this.legalentity.Details.Fax == this.Fax && this.legalentity.Details.Phone == this.Phone
+                  && this.legalentity.Details.CountryOfIncorporation == this.CountryOfIncorporation
+                  && this.legalentity.Details.PartyStatus == this.PartyStatus
+                  && this.legalentity.Details.InvoiceSetup == this.InvoiceSetup
+                  && this.legalentity.Details.CustomerAddress == this.CustomerAddress
+                  && this.legalentity.Details.VendorAddress == this.VendorAddress && this.PartyHasNoChanges());
         }
 
         private bool PartyHasNoChanges()

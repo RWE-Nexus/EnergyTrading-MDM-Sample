@@ -1,30 +1,17 @@
-﻿using Microsoft.Practices.Prism.ViewModel;
-
-namespace Common.UI.ViewModels
+﻿namespace Common.UI.ViewModels
 {
+    using Microsoft.Practices.Prism.ViewModel;
+
     public class SelectorViewModel : NotificationObject
     {
         public SelectorViewModel(int id, string name)
         {
-            this.id = id;
-            this.name = name;
+            this.Id = id;
+            this.Name = name;
         }
 
-        private string name;
+        public int Id { get; set; }
 
-        public string Name
-        {
-            get { return name; }
-            set { name = value; }
-        }
-
-        private int id;
-
-        public int Id
-        {
-            get { return id; }
-            set { id = value; }
-        }
-        
+        public string Name { get; set; }
     }
 }

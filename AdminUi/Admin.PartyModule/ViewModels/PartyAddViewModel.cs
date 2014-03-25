@@ -2,27 +2,25 @@
 namespace Admin.PartyModule.ViewModels
 {
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
 
-    
     using Common.Events;
     using Common.Extensions;
     using Common.UI;
+
+    using EnergyTrading;
+    using EnergyTrading.Mdm.Client.Services;
 
     using Microsoft.Practices.Prism.Events;
     using Microsoft.Practices.Prism.Interactivity.InteractionRequest;
     using Microsoft.Practices.Prism.Regions;
     using Microsoft.Practices.Prism.ViewModel;
 
-    using EnergyTrading;
-    using EnergyTrading.Mdm.Client.Services;
-
     public class PartyAddViewModel : NotificationObject, INavigationAware, IConfirmNavigationRequest
     {
         private readonly InteractionRequest<Confirmation> confirmationFromViewModelInteractionRequest;
+
         private readonly IMdmService entityService;
-        
+
         private readonly IEventAggregator eventAggregator;
 
         private PartyViewModel party;
@@ -32,9 +30,9 @@ namespace Admin.PartyModule.ViewModels
             this.eventAggregator = eventAggregator;
             this.confirmationFromViewModelInteractionRequest = new InteractionRequest<Confirmation>();
             this.entityService = entityService;
-            
-            this.Party = new PartyViewModel(this.eventAggregator);            
-                    }
+
+            this.Party = new PartyViewModel(this.eventAggregator);
+        }
 
         /// <summary>
         /// Gets the notification from view model interaction request. View binds to this property
@@ -60,16 +58,14 @@ namespace Admin.PartyModule.ViewModels
                 this.RaisePropertyChanged(() => this.Party);
             }
         }
-        
-        
-        
+
         public void ConfirmNavigationRequest(NavigationContext navigationContext, Action<bool> continuationCallback)
         {
             if (this.Party.CanSave)
             {
                 this.eventAggregator.Publish(new DialogOpenEvent(true));
                 this.confirmationFromViewModelInteractionRequest.Raise(
-                    new Confirmation { Content = Message.UnsavedChanges, Title = Message.UnsavedChangeTitle },
+                    new Confirmation { Content = Message.UnsavedChanges, Title = Message.UnsavedChangeTitle }, 
                     confirmation =>
                         {
                             continuationCallback(confirmation.Confirmed);
@@ -100,17 +96,9 @@ namespace Admin.PartyModule.ViewModels
             this.eventAggregator.Subscribe<EntitySelectedEvent>(this.EntitySelected);
         }
 
-        private void EntitySelected(EntitySelectedEvent obj)
+        public void StartMinimum()
         {
-        }
-
-        private void Save(SaveEvent saveEvent)
-        {
-            this.entityService.ExecuteAsync(
-                () => this.entityService.Create(this.Party.Model()),
-                () => { this.Party = new PartyViewModel(this.eventAggregator); },
-                string.Format(Message.EntityAddedFormatString, "Party"),
-                this.eventAggregator);
+            this.Party.Start = DateUtility.MinDate;
         }
 
         public void StartToday()
@@ -118,10 +106,17 @@ namespace Admin.PartyModule.ViewModels
             this.Party.Start = SystemTime.UtcNow().Date;
         }
 
-        public void StartMinimum()
+        private void EntitySelected(EntitySelectedEvent obj)
         {
-            this.Party.Start = DateUtility.MinDate;
+        }
+
+        private void Save(SaveEvent saveEvent)
+        {
+            this.entityService.ExecuteAsync(
+                () => this.entityService.Create(this.Party.Model()), 
+                () => { this.Party = new PartyViewModel(this.eventAggregator); }, 
+                string.Format(Message.EntityAddedFormatString, "Party"), 
+                this.eventAggregator);
         }
     }
 }
-    

@@ -2,8 +2,8 @@
 namespace Admin.LocationModule.ViewModels
 {
     using System;
-    using System.Collections.ObjectModel;
     using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     using System.Linq;
     using System.Windows.Input;
 
@@ -17,53 +17,64 @@ namespace Admin.LocationModule.ViewModels
     using Common.UI.Uris;
     using Common.UI.ViewModels;
 
+    using EnergyTrading;
+    using EnergyTrading.Mdm.Client.Services;
+    using EnergyTrading.Mdm.Client.WebClient;
+    using EnergyTrading.Mdm.Contracts;
+    using EnergyTrading.MDM.Contracts.Sample;
+
     using Microsoft.Practices.Prism.Events;
     using Microsoft.Practices.Prism.Interactivity.InteractionRequest;
     using Microsoft.Practices.Prism.Regions;
     using Microsoft.Practices.Prism.ViewModel;
 
-    using EnergyTrading;
-    using EnergyTrading.Mdm.Client.WebClient;
-    using EnergyTrading.MDM.Contracts.Sample; using EnergyTrading.Mdm.Contracts;
-    using EnergyTrading.Mdm.Client.Services;
-
     public class LocationEditCloneViewModel : NotificationObject, INavigationAware, IConfirmNavigationRequest
     {
-        private readonly InteractionRequest<Confirmation> confirmationFromViewModelInteractionRequest;
-        private readonly IMdmService entityService;
-        private readonly IEventAggregator eventAggregator;
-        private readonly INavigationService navigationService;
-        private readonly IMappingService mappingService;
-        private ObservableCollection<MappingViewModel> mappings;
-        private LocationViewModel location;
-        private MappingViewModel selectedMapping;
-        private ICommand deleteMappingCommand;
-        private DateTime validAtDate;
         private readonly IApplicationCommands applicationCommands;
 
-        private int? originalEntityId;
-        private int? newEntityId;
+        private readonly InteractionRequest<Confirmation> confirmationFromViewModelInteractionRequest;
+
+        private readonly IMdmService entityService;
+
+        private readonly IEventAggregator eventAggregator;
+
+        private readonly IMappingService mappingService;
+
+        private readonly INavigationService navigationService;
+
         private readonly List<MappingViewModel> originalMappings = new List<MappingViewModel>();
 
-                private bool showBusinessUnits;
-        
-                private bool showCurves;
-        
-                private bool showLocations;
-        
-                private bool showMarkets;
-        
-                private bool showShipperCodes;
-        
-                
+        private ICommand deleteMappingCommand;
+
+        private LocationViewModel location;
+
+        private ObservableCollection<MappingViewModel> mappings;
+
+        private int? newEntityId;
+
+        private int? originalEntityId;
+
+        private MappingViewModel selectedMapping;
+
+        private bool showBusinessUnits;
+
+        private bool showCurves;
+
+        private bool showLocations;
+
+        private bool showMarkets;
+
+        private bool showShipperCodes;
+
+        private DateTime validAtDate;
+
         public LocationEditCloneViewModel(
             IEventAggregator eventAggregator, 
-            IMdmService entityService,
-            INavigationService navigationService,
-            IMappingService mappingService,
-            IApplicationCommands applicationCommands
-                            ,IList<string> typeConfiguration
-          )
+            IMdmService entityService, 
+            INavigationService navigationService, 
+            IMappingService mappingService, 
+            IApplicationCommands applicationCommands, 
+            IList<string> typeConfiguration)
         {
             this.navigationService = navigationService;
             this.mappingService = mappingService;
@@ -73,42 +84,362 @@ namespace Admin.LocationModule.ViewModels
             this.confirmationFromViewModelInteractionRequest = new InteractionRequest<Confirmation>();
             this.CanEdit = AuthorisationHelpers.HasEntityRights("Location");
             this.eventAggregator.Subscribe<MappingClonedEvent>(this.MappingCloned);
-            
-                         this.TypeConfiguration = typeConfiguration;
-                   }
+
+            this.TypeConfiguration = typeConfiguration;
+        }
 
         public bool CanEdit { get; private set; }
-    
-                public IList<string> TypeConfiguration
+
+        /// <summary>
+        /// Gets the notification from view model interaction request. View binds to this property
+        /// </summary>
+        public IInteractionRequest ConfirmationFromViewModelInteractionRequest
         {
-            get;
-            set;
+            get
+            {
+                return this.confirmationFromViewModelInteractionRequest;
+            }
         }
-                   
+
         public ICommand DeleteMappingCommand
         {
             get
             {
                 if (this.deleteMappingCommand == null)
                 {
-                    this.deleteMappingCommand = new RelayCommand(param => this.DeleteMapping(param), param => CanEditOrDeleteMapping(param));
+                    this.deleteMappingCommand = new RelayCommand(
+                        param => this.DeleteMapping(param), 
+                        param => CanEditOrDeleteMapping(param));
                 }
 
                 return this.deleteMappingCommand;
             }
         }
 
-        private void MappingCloned(MappingClonedEvent mappingClonedEvent)
+        public LocationViewModel Location
         {
-            // if event pertains to a mapping belonging to our original entity, remove it from our original mappings list
-            if (originalEntityId.HasValue && originalEntityId.Value == mappingClonedEvent.EntityId)
+            get
             {
-                var mapping = originalMappings.FirstOrDefault(x => x.MappingId == mappingClonedEvent.MappingId);
-                if (mapping != null)
+                return this.location;
+            }
+
+            set
+            {
+                this.location = value;
+                this.RaisePropertyChanged(() => this.Location);
+            }
+        }
+
+        public ObservableCollection<MappingViewModel> Mappings
+        {
+            get
+            {
+                return this.mappings;
+            }
+
+            set
+            {
+                this.mappings = value;
+                this.RaisePropertyChanged(() => this.Mappings);
+            }
+        }
+
+        public MappingViewModel SelectedMapping
+        {
+            get
+            {
+                return this.selectedMapping;
+            }
+
+            set
+            {
+                this.selectedMapping = value;
+                this.RaisePropertyChanged(() => this.SelectedMapping);
+            }
+        }
+
+        public bool ShowBusinessUnits
+        {
+            get
+            {
+                return this.showBusinessUnits;
+            }
+
+            set
+            {
+                this.showBusinessUnits = value;
+                this.RaisePropertyChanged(() => this.ShowBusinessUnits);
+            }
+        }
+
+        public bool ShowCurves
+        {
+            get
+            {
+                return this.showCurves;
+            }
+
+            set
+            {
+                this.showCurves = value;
+                this.RaisePropertyChanged(() => this.ShowCurves);
+            }
+        }
+
+        public bool ShowLocations
+        {
+            get
+            {
+                return this.showLocations;
+            }
+
+            set
+            {
+                this.showLocations = value;
+                this.RaisePropertyChanged(() => this.ShowLocations);
+            }
+        }
+
+        public bool ShowMarkets
+        {
+            get
+            {
+                return this.showMarkets;
+            }
+
+            set
+            {
+                this.showMarkets = value;
+                this.RaisePropertyChanged(() => this.ShowMarkets);
+            }
+        }
+
+        public bool ShowShipperCodes
+        {
+            get
+            {
+                return this.showShipperCodes;
+            }
+
+            set
+            {
+                this.showShipperCodes = value;
+                this.RaisePropertyChanged(() => this.ShowShipperCodes);
+            }
+        }
+
+        public IList<string> TypeConfiguration { get; set; }
+
+        public void ConfirmNavigationRequest(NavigationContext navigationContext, Action<bool> continuationCallback)
+        {
+            if (this.Location.CanSave)
+            {
+                this.eventAggregator.Publish(new DialogOpenEvent(true));
+                this.confirmationFromViewModelInteractionRequest.Raise(
+                    new Confirmation { Content = Message.UnsavedChanges, Title = Message.UnsavedChangeTitle }, 
+                    confirmation =>
+                        {
+                            continuationCallback(confirmation.Confirmed);
+                            this.eventAggregator.Publish(new DialogOpenEvent(false));
+                        });
+            }
+            else
+            {
+                continuationCallback(true);
+            }
+        }
+
+        public void DeleteParent()
+        {
+            this.Location.ParentId = null;
+            this.Location.ParentName = string.Empty;
+        }
+
+        public bool IsNavigationTarget(NavigationContext navigationContext)
+        {
+            return true;
+        }
+
+        public void NavigateToDetail(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                this.NavigateToDetailScreen();
+            }
+        }
+
+        public void NavigateToDetailDoubleClick()
+        {
+            this.NavigateToDetailScreen();
+        }
+
+        public void NavigateToParent()
+        {
+            this.navigationService.NavigateMain(
+                new EntityEditUri("Location", this.Location.ParentId, this.Location.Start));
+        }
+
+        public void OnNavigatedFrom(NavigationContext navigationContext)
+        {
+            this.eventAggregator.Unsubscribe<SaveEvent>(this.Save);
+            this.eventAggregator.Unsubscribe<CreateEvent>(this.CreateMapping);
+            this.eventAggregator.Unsubscribe<EntitySelectedEvent>(this.EntitySelected);
+
+            this.ShowBusinessUnits = false;
+            this.applicationCommands.CloseView(
+                "BusinessUnitEmbeddedSearchResultsView", 
+                "ClonedLocation-BusinessUnitSearchResultsRegion");
+
+            this.ShowCurves = false;
+            this.applicationCommands.CloseView(
+                "CurveEmbeddedSearchResultsView", 
+                "ClonedLocation-CurveSearchResultsRegion");
+
+            this.ShowLocations = false;
+            this.applicationCommands.CloseView(
+                "LocationEmbeddedSearchResultsView", 
+                "ClonedLocation-LocationSearchResultsRegion");
+
+            this.ShowMarkets = false;
+            this.applicationCommands.CloseView(
+                "MarketEmbeddedSearchResultsView", 
+                "ClonedLocation-MarketSearchResultsRegion");
+
+            this.ShowShipperCodes = false;
+            this.applicationCommands.CloseView(
+                "ShipperCodeEmbeddedSearchResultsView", 
+                "ClonedLocation-ShipperCodeSearchResultsRegion");
+        }
+
+        public void OnNavigatedTo(NavigationContext navigationContext)
+        {
+            this.eventAggregator.Subscribe<SaveEvent>(this.Save);
+            this.eventAggregator.Subscribe<CreateEvent>(this.CreateMapping);
+            this.eventAggregator.Subscribe<EntitySelectedEvent>(this.EntitySelected);
+            var entityId = int.Parse(navigationContext.Parameters[NavigationParameters.EntityId]);
+            var validAtDateParam = DateTime.Parse(navigationContext.Parameters[NavigationParameters.ValidAtDate]);
+
+            if (this.Location == null || this.validAtDate != validAtDateParam || this.Location.Id != entityId)
+            {
+                this.ShowBusinessUnits = false;
+                this.applicationCommands.CloseView(
+                    "BusinessUnitEmbeddedSearchResultsView", 
+                    "ClonedLocation-BusinessUnitSearchResultsRegion");
+
+                this.ShowCurves = false;
+                this.applicationCommands.CloseView(
+                    "CurveEmbeddedSearchResultsView", 
+                    "ClonedLocation-CurveSearchResultsRegion");
+
+                this.ShowLocations = false;
+                this.applicationCommands.CloseView(
+                    "LocationEmbeddedSearchResultsView", 
+                    "ClonedLocation-LocationSearchResultsRegion");
+
+                this.ShowMarkets = false;
+                this.applicationCommands.CloseView(
+                    "MarketEmbeddedSearchResultsView", 
+                    "ClonedLocation-MarketSearchResultsRegion");
+
+                this.ShowShipperCodes = false;
+                this.applicationCommands.CloseView(
+                    "ShipperCodeEmbeddedSearchResultsView", 
+                    "ClonedLocation-ShipperCodeSearchResultsRegion");
+            }
+
+            this.validAtDate = validAtDateParam;
+
+            // if this is an entity we are already cloning then just reload it
+            if (this.newEntityId.HasValue && this.newEntityId.Value == entityId)
+            {
+                this.LoadLocationFromService(newEntityId.Value, this.validAtDate);
+            }
+                
+                // otherwise start a new session
+            else
+            {
+                this.newEntityId = entityId;
+                this.originalEntityId = int.Parse(navigationContext.Parameters[NavigationParameters.OriginalEntityId]);
+                DateTime originalValidAtDate =
+                    DateTime.Parse(navigationContext.Parameters[NavigationParameters.OriginalValidAtDate]);
+                this.originalMappings.Clear();
+
+                this.LoadLocationFromService(
+                    newEntityId.Value, 
+                    this.validAtDate, 
+                    this.originalEntityId.Value, 
+                    originalValidAtDate);
+            }
+
+            this.applicationCommands.OpenView(
+                "BusinessUnitEmbeddedSearchResultsView", 
+                "ClonedLocation-BusinessUnitSearchResultsRegion", 
+                entityId, 
+                validAtDate, 
+                "Location");
+
+            this.applicationCommands.OpenView(
+                "CurveEmbeddedSearchResultsView", 
+                "ClonedLocation-CurveSearchResultsRegion", 
+                entityId, 
+                validAtDate, 
+                "Location");
+
+            this.applicationCommands.OpenView(
+                "LocationEmbeddedSearchResultsView", 
+                "ClonedLocation-LocationSearchResultsRegion", 
+                entityId, 
+                validAtDate, 
+                "Location");
+
+            this.applicationCommands.OpenView(
+                "MarketEmbeddedSearchResultsView", 
+                "ClonedLocation-MarketSearchResultsRegion", 
+                entityId, 
+                validAtDate, 
+                "Location");
+
+            this.applicationCommands.OpenView(
+                "ShipperCodeEmbeddedSearchResultsView", 
+                "ClonedLocation-ShipperCodeSearchResultsRegion", 
+                entityId, 
+                validAtDate, 
+                "Location");
+
+            this.eventAggregator.Publish(new CanCreateNewChangeEvent(CanAddMappings()));
+        }
+
+        public void SelectParent()
+        {
+            this.eventAggregator.Publish(new EntitySelectEvent("Location", "Parent"));
+        }
+
+        public void Sorting()
+        {
+            this.SelectedMapping = null;
+        }
+
+        public void StartMinimum()
+        {
+            this.Location.Start = DateUtility.MinDate;
+        }
+
+        public void StartToday()
+        {
+            this.Location.Start = SystemTime.UtcNow().Date;
+        }
+
+        private bool CanAddMappings()
+        {
+            foreach (var system in mappingService.GetSourceSystemNames())
+            {
+                if (AuthorisationHelpers.HasMappingRights("Location", system))
                 {
-                    originalMappings.Remove(mapping);
+                    return true;
                 }
             }
+
+            return false;
         }
 
         private bool CanEditOrDeleteMapping(object mappingId)
@@ -127,9 +458,15 @@ namespace Admin.LocationModule.ViewModels
             return AuthorisationHelpers.HasMappingRights("Location", system);
         }
 
+        private void CreateMapping(CreateEvent obj)
+        {
+            this.navigationService.NavigateMain(
+                new MappingAddUri(this.Location.Id.Value, "Location", this.Location.Name));
+        }
+
         private void DeleteMapping(object mappingId)
         {
-            if(mappingId == null)
+            if (mappingId == null)
             {
                 this.eventAggregator.Publish(new StatusEvent("MdmSystemData ID cannot be deleted"));
                 return;
@@ -160,82 +497,102 @@ namespace Admin.LocationModule.ViewModels
                 new ErrorEvent(response.Fault != null ? response.Fault.Message : "Unkown Error"));
         }
 
-        private bool CanAddMappings()
+        private void EditClonedMapping()
         {
-            foreach (var system in mappingService.GetSourceSystemNames())
+            this.navigationService.NavigateMain(
+                new MappingCloneUri(
+                    this.Location.Id.Value, 
+                    "Location", 
+                    this.originalEntityId.Value, 
+                    Convert.ToInt32(this.SelectedMapping.MappingId), 
+                    this.Location.Name));
+        }
+
+        private void EditPersistedMapping()
+        {
+            this.navigationService.NavigateMain(
+                new MappingEditUri(
+                    this.Location.Id.Value, 
+                    "Location", 
+                    Convert.ToInt32(this.SelectedMapping.MappingId), 
+                    this.Location.Name));
+        }
+
+        private void EntitySelected(EntitySelectedEvent obj)
+        {
+            switch (obj.EntityKey)
             {
-                if (AuthorisationHelpers.HasMappingRights("Location", system))
+                case "Parent":
+                    this.Location.ParentId = obj.Id;
+                    this.Location.ParentName = obj.EntityValue;
+                    break;
+            }
+        }
+
+        private void LoadLocationFromService(
+            int locationId, 
+            DateTime validAt, 
+            int originalLocationId, 
+            DateTime originalValidAt)
+        {
+            this.entityService.ExecuteAsync(
+                () => this.entityService.Get<Location>(originalLocationId, originalValidAt), 
+                response =>
+                    {
+                        // retrieve the original entity and stash away its (non nexus) entity mappings
+                        this.originalMappings.AddRange(
+                            response.Message.Identifiers.Where(x => !x.IsMdmId)
+                                .Select(
+                                    x =>
+                                    new MappingViewModel(new EntityWithETag<MdmId>(x, null), this.eventAggregator)
+                                        {
+                                            IsClonedCopy
+                                                =
+                                                true
+                                        }));
+
+                        // now load the new entity
+                        LoadLocationFromService(locationId, validAt);
+                    }, 
+                this.eventAggregator);
+        }
+
+        private void LoadLocationFromService(int locationId, DateTime validAt)
+        {
+            this.entityService.ExecuteAsync(
+                () => this.entityService.Get<Location>(locationId, validAt), 
+                response =>
+                    {
+                        // load new entity
+                        this.Location =
+                            new LocationViewModel(
+                                new EntityWithETag<Location>(response.Message, response.Tag), 
+                                this.eventAggregator);
+
+                        // load any mappings
+                        this.Mappings =
+                            new ObservableCollection<MappingViewModel>(
+                                response.Message.Identifiers.Select(
+                                    nexusId =>
+                                    new MappingViewModel(new EntityWithETag<MdmId>(nexusId, null), this.eventAggregator)));
+
+                        // merge original mappings
+                        this.originalMappings.ForEach(x => this.Mappings.Add(x));
+                    }, 
+                this.eventAggregator);
+        }
+
+        private void MappingCloned(MappingClonedEvent mappingClonedEvent)
+        {
+            // if event pertains to a mapping belonging to our original entity, remove it from our original mappings list
+            if (originalEntityId.HasValue && originalEntityId.Value == mappingClonedEvent.EntityId)
+            {
+                var mapping = originalMappings.FirstOrDefault(x => x.MappingId == mappingClonedEvent.MappingId);
+                if (mapping != null)
                 {
-                    return true;
+                    originalMappings.Remove(mapping);
                 }
             }
-            return false;
-        }
-        
-        /// <summary>
-        /// Gets the notification from view model interaction request. View binds to this property
-        /// </summary>
-        public IInteractionRequest ConfirmationFromViewModelInteractionRequest
-        {
-            get
-            {
-                return this.confirmationFromViewModelInteractionRequest;
-            }
-        }
-
-        public ObservableCollection<MappingViewModel> Mappings
-        {
-            get
-            {
-                return this.mappings;
-            }
-
-            set
-            {
-                this.mappings = value;
-                this.RaisePropertyChanged(() => this.Mappings);
-            }
-        }
-
-        public LocationViewModel Location
-        {
-            get
-            {
-                return this.location;
-            }
-
-            set
-            {
-                this.location = value;
-                this.RaisePropertyChanged(() => this.Location);
-            }
-        }
-
-        public MappingViewModel SelectedMapping
-        {
-            get
-            {
-                return this.selectedMapping;
-            }
-
-            set
-            {
-                this.selectedMapping = value;
-                this.RaisePropertyChanged(() => this.SelectedMapping);
-            }
-        }
-
-        public void NavigateToDetail(object sender, KeyEventArgs e)
-        {
-            if (e.Key == Key.Enter)
-            {
-                this.NavigateToDetailScreen();
-            }
-        }
-
-        public void NavigateToDetailDoubleClick()
-        {
-            this.NavigateToDetailScreen();
         }
 
         private void NavigateToDetailScreen()
@@ -252,6 +609,7 @@ namespace Admin.LocationModule.ViewModels
                     {
                         EditPersistedMapping();
                     }
+
                     return;
                 }
 
@@ -259,305 +617,13 @@ namespace Admin.LocationModule.ViewModels
             }
         }
 
-        private void EditClonedMapping()
-        {
-            this.navigationService.NavigateMain(
-                new MappingCloneUri(
-                    this.Location.Id.Value, "Location",
-                    this.originalEntityId.Value,
-                    Convert.ToInt32(this.SelectedMapping.MappingId),
-                    this.Location.Name));
-        }
-
-        private void EditPersistedMapping()
-        {
-            this.navigationService.NavigateMain(
-                new MappingEditUri(
-                    this.Location.Id.Value, "Location",
-                    Convert.ToInt32(this.SelectedMapping.MappingId), 
-                    this.Location.Name));
-        }
-
-        public void Sorting()
-        {
-            this.SelectedMapping = null;
-        }
-
-        public void ConfirmNavigationRequest(NavigationContext navigationContext, Action<bool> continuationCallback)
-        {
-            if (this.Location.CanSave)
-            {
-                this.eventAggregator.Publish(new DialogOpenEvent(true));
-                this.confirmationFromViewModelInteractionRequest.Raise(
-                    new Confirmation { Content = Message.UnsavedChanges, Title = Message.UnsavedChangeTitle },
-                    confirmation =>
-                        {
-                            continuationCallback(confirmation.Confirmed);
-                            this.eventAggregator.Publish(new DialogOpenEvent(false));
-                        });
-            }
-            else
-            {
-                continuationCallback(true);
-            }
-        }
-
-        public bool IsNavigationTarget(NavigationContext navigationContext)
-        {
-            return true;
-        }
-
-        public void OnNavigatedFrom(NavigationContext navigationContext)
-        {
-            this.eventAggregator.Unsubscribe<SaveEvent>(this.Save);
-            this.eventAggregator.Unsubscribe<CreateEvent>(this.CreateMapping);
-            this.eventAggregator.Unsubscribe<EntitySelectedEvent>(this.EntitySelected);
-            
-                    this.ShowBusinessUnits = false;
-            this.applicationCommands.CloseView("BusinessUnitEmbeddedSearchResultsView", "ClonedLocation-BusinessUnitSearchResultsRegion");
-        
-                    this.ShowCurves = false;
-            this.applicationCommands.CloseView("CurveEmbeddedSearchResultsView", "ClonedLocation-CurveSearchResultsRegion");
-        
-                    this.ShowLocations = false;
-            this.applicationCommands.CloseView("LocationEmbeddedSearchResultsView", "ClonedLocation-LocationSearchResultsRegion");
-        
-                    this.ShowMarkets = false;
-            this.applicationCommands.CloseView("MarketEmbeddedSearchResultsView", "ClonedLocation-MarketSearchResultsRegion");
-        
-                    this.ShowShipperCodes = false;
-            this.applicationCommands.CloseView("ShipperCodeEmbeddedSearchResultsView", "ClonedLocation-ShipperCodeSearchResultsRegion");
-        
-                }
-
-        public void OnNavigatedTo(NavigationContext navigationContext)
-        {
-            this.eventAggregator.Subscribe<SaveEvent>(this.Save);
-            this.eventAggregator.Subscribe<CreateEvent>(this.CreateMapping);
-            this.eventAggregator.Subscribe<EntitySelectedEvent>(this.EntitySelected);
-            var entityId = int.Parse(navigationContext.Parameters[NavigationParameters.EntityId]);
-            var validAtDateParam = DateTime.Parse(navigationContext.Parameters[NavigationParameters.ValidAtDate]);
-
-            if (this.Location == null || this.validAtDate != validAtDateParam ||
-                this.Location.Id != entityId)
-            {
-							this.ShowBusinessUnits = false;
-				this.applicationCommands.CloseView("BusinessUnitEmbeddedSearchResultsView", "ClonedLocation-BusinessUnitSearchResultsRegion");
-        
-							this.ShowCurves = false;
-				this.applicationCommands.CloseView("CurveEmbeddedSearchResultsView", "ClonedLocation-CurveSearchResultsRegion");
-        
-							this.ShowLocations = false;
-				this.applicationCommands.CloseView("LocationEmbeddedSearchResultsView", "ClonedLocation-LocationSearchResultsRegion");
-        
-							this.ShowMarkets = false;
-				this.applicationCommands.CloseView("MarketEmbeddedSearchResultsView", "ClonedLocation-MarketSearchResultsRegion");
-        
-							this.ShowShipperCodes = false;
-				this.applicationCommands.CloseView("ShipperCodeEmbeddedSearchResultsView", "ClonedLocation-ShipperCodeSearchResultsRegion");
-        
-			            }
-
-            this.validAtDate = validAtDateParam;
-
-            // if this is an entity we are already cloning then just reload it
-            if (this.newEntityId.HasValue && this.newEntityId.Value == entityId)
-            {
-                this.LoadLocationFromService(newEntityId.Value, this.validAtDate);
-            }
-            // otherwise start a new session
-            else
-            {
-                this.newEntityId = entityId;
-                this.originalEntityId = int.Parse(navigationContext.Parameters[NavigationParameters.OriginalEntityId]);
-                DateTime originalValidAtDate = DateTime.Parse(navigationContext.Parameters[NavigationParameters.OriginalValidAtDate]);
-                this.originalMappings.Clear();
-
-                this.LoadLocationFromService(newEntityId.Value, this.validAtDate, this.originalEntityId.Value, originalValidAtDate);
-            }
-
-                    this.applicationCommands.OpenView("BusinessUnitEmbeddedSearchResultsView", "ClonedLocation-BusinessUnitSearchResultsRegion", entityId, validAtDate, "Location");
-        
-                    this.applicationCommands.OpenView("CurveEmbeddedSearchResultsView", "ClonedLocation-CurveSearchResultsRegion", entityId, validAtDate, "Location");
-        
-                    this.applicationCommands.OpenView("LocationEmbeddedSearchResultsView", "ClonedLocation-LocationSearchResultsRegion", entityId, validAtDate, "Location");
-        
-                    this.applicationCommands.OpenView("MarketEmbeddedSearchResultsView", "ClonedLocation-MarketSearchResultsRegion", entityId, validAtDate, "Location");
-        
-                    this.applicationCommands.OpenView("ShipperCodeEmbeddedSearchResultsView", "ClonedLocation-ShipperCodeSearchResultsRegion", entityId, validAtDate, "Location");
-        
-                    this.eventAggregator.Publish(new CanCreateNewChangeEvent(CanAddMappings()));
-        }
-
-                public bool ShowBusinessUnits
-        {
-            get
-            {
-                return this.showBusinessUnits;
-            }
-    
-            set
-            {
-                this.showBusinessUnits = value;
-                this.RaisePropertyChanged(() => this.ShowBusinessUnits);
-            }
-        }
-                public bool ShowCurves
-        {
-            get
-            {
-                return this.showCurves;
-            }
-    
-            set
-            {
-                this.showCurves = value;
-                this.RaisePropertyChanged(() => this.ShowCurves);
-            }
-        }
-                public bool ShowLocations
-        {
-            get
-            {
-                return this.showLocations;
-            }
-    
-            set
-            {
-                this.showLocations = value;
-                this.RaisePropertyChanged(() => this.ShowLocations);
-            }
-        }
-                public bool ShowMarkets
-        {
-            get
-            {
-                return this.showMarkets;
-            }
-    
-            set
-            {
-                this.showMarkets = value;
-                this.RaisePropertyChanged(() => this.ShowMarkets);
-            }
-        }
-                public bool ShowShipperCodes
-        {
-            get
-            {
-                return this.showShipperCodes;
-            }
-    
-            set
-            {
-                this.showShipperCodes = value;
-                this.RaisePropertyChanged(() => this.ShowShipperCodes);
-            }
-        }
-        
-
-        private void EntitySelected(EntitySelectedEvent obj)
-        {
-                            switch (obj.EntityKey)
-                {
-                                                case "Parent":
-                                this.Location.ParentId = obj.Id;
-                                this.Location.ParentName = obj.EntityValue;
-                                break;
-
-                                    }
-                        }
-
-        	
-        public void NavigateToParent()
-        {
-            this.navigationService.NavigateMain(new EntityEditUri("Location", this.Location.ParentId, this.Location.Start));
-        }
-
-        public void SelectParent()
-        {
-            this.eventAggregator.Publish(new EntitySelectEvent("Location", "Parent"));
-        }
-        
-        public void DeleteParent()
-        {
-            this.Location.ParentId = null;
-            this.Location.ParentName = string.Empty;
-        }
-
-        private void CreateMapping(CreateEvent obj)
-        {
-            this.navigationService.NavigateMain(new MappingAddUri(this.Location.Id.Value, "Location", this.Location.Name));
-        }
-
-
-
-
-
-        private void LoadLocationFromService(int locationId, DateTime validAt, int originalLocationId, DateTime originalValidAt)
-        {
-            this.entityService.ExecuteAsync(
-                () => this.entityService.Get<Location>(originalLocationId, originalValidAt),
-                (response) =>
-                {
-                    // retrieve the original entity and stash away its (non nexus) entity mappings
-                    this.originalMappings.AddRange(
-                        response.Message.Identifiers
-                            .Where(x => !x.IsMdmId)
-                            .Select(
-                                x =>
-                                new MappingViewModel(new EntityWithETag<MdmId>(x, null), this.eventAggregator) { IsClonedCopy = true }
-                                ));
-
-                    // now load the new entity
-                    LoadLocationFromService(locationId, validAt);
-                },
-                this.eventAggregator);
-        }
-        
-        private void LoadLocationFromService(int locationId, DateTime validAt)
-        {
-            this.entityService.ExecuteAsync(
-                () => this.entityService.Get<Location>(locationId, validAt),
-                (response) =>
-                {
-                    // load new entity
-                    this.Location =
-                        new LocationViewModel(
-                            new EntityWithETag<Location>(response.Message, response.Tag),
-                            this.eventAggregator);
-
-                    // load any mappings
-                    this.Mappings =
-                        new ObservableCollection<MappingViewModel>(
-                            response.Message.Identifiers.Select(
-                                nexusId =>
-                                new MappingViewModel(
-                                    new EntityWithETag<MdmId>(nexusId, null), this.eventAggregator)));
-
-                    // merge original mappings
-                    this.originalMappings.ForEach(x => this.Mappings.Add(x));
-                },
-                this.eventAggregator);
-        }
-
         private void Save(SaveEvent saveEvent)
         {
-   this.entityService.ExecuteAsync(
+            this.entityService.ExecuteAsync(
                 () => this.entityService.Update(this.Location.Id.Value, this.Location.Model(), this.Location.ETag), 
                 () => this.LoadLocationFromService(this.Location.Id.Value, this.Location.Start), 
-                string.Format(Message.EntityUpdatedFormatString, "Location"),
+                string.Format(Message.EntityUpdatedFormatString, "Location"), 
                 this.eventAggregator);
-        }
-
-        public void StartToday()
-        {
-            this.Location.Start = SystemTime.UtcNow().Date;
-        }
-
-        public void StartMinimum()
-        {
-            this.Location.Start = DateUtility.MinDate;
         }
     }
 }

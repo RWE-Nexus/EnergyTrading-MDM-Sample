@@ -134,7 +134,7 @@
                     </i:Interaction.Triggers>
                     </Button>
 
-            <TextBlock Width="100" Margin="2" Text="{Binding LegalEntity.PartyName}" TextTrimming="CharacterEllipsis"></TextBlock>
+            <TextBlock Width="100" Margin="2" Text="{Binding LegalEntity.PartyName}" TextTrimming="CharacterEllipsis" />
           </StackPanel>
                                                     <TextBlock Text="Invoice Setup" Style="{DynamicResource GenericLabel}" Grid.Row="11"  Grid.Column="0" Margin="2"/>
                                                     <TextBox Text="{Binding LegalEntity.InvoiceSetup, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, TargetNullValue={x:Static System:String.Empty}}" Grid.Row="11"  Grid.Column="1" Margin="2" />

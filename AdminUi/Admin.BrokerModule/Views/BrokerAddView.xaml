@@ -103,7 +103,7 @@
                     </i:Interaction.Triggers>
                     </Button>
 
-            <TextBlock Width="100" Margin="2" Text="{Binding Broker.PartyName}" TextTrimming="CharacterEllipsis"></TextBlock>
+            <TextBlock Width="100" Margin="2" Text="{Binding Broker.PartyName}" TextTrimming="CharacterEllipsis" />
           </StackPanel>
                                                         </Grid>
                                                 <Grid  Style="{DynamicResource TextBoxContainer}" Grid.Column="1">

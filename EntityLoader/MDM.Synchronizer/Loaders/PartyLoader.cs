@@ -2,11 +2,14 @@
 {
     using System.Collections.Generic;
     using System.Linq;
+
     using EnergyTrading.Contracts.Search;
     using EnergyTrading.Logging;
     using EnergyTrading.Mdm.Client.WebClient;
-    using OpenNexus.MDM.Contracts; using EnergyTrading.Mdm.Contracts;
+    using EnergyTrading.Mdm.Contracts;
     using EnergyTrading.Search;
+
+    using OpenNexus.MDM.Contracts;
 
     public class PartyLoader : MdmLoader<Party>
     {
@@ -17,14 +20,15 @@
         {
         }
 
-        public PartyLoader(IList<Party> entities, bool candidateData): base(entities, candidateData)
+        public PartyLoader(IList<Party> entities, bool candidateData)
+            : base(entities, candidateData)
         {
         }
 
         protected override WebResponse<Party> EntityFind(Party entity)
         {
             var search = SearchBuilder.CreateSearch();
-            
+
             var searchCriteria = search.AddSearchCriteria(SearchCombinator.And)
                 .AddCriteria("Name", SearchCondition.Equals, entity.Details.Name);
 
@@ -43,12 +47,7 @@
                 return Client.Get<Party>(se.ToMdmKey());
             }
 
-            return new WebResponse<Party>
-            {
-                Code = results.Code,
-                IsValid = results.IsValid,
-                Fault = results.Fault
-            };
+            return new WebResponse<Party> { Code = results.Code, IsValid = results.IsValid, Fault = results.Fault };
         }
-   }
+    }
 }

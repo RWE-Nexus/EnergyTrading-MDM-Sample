@@ -2,6 +2,7 @@
 namespace Admin.PersonModule.Views
 {
     using System.Windows.Controls;
+
     using Admin.PersonModule.ViewModels;
 
     /// <summary>
@@ -9,7 +10,8 @@ namespace Admin.PersonModule.Views
     /// </summary>
     public partial class PersonEmbeddedSearchResultsView : UserControl
     {
-        public PersonEmbeddedSearchResultsView(PersonEmbeddedSearchResultsViewModel personEmbeddedSearchResultsViewModel)
+        public PersonEmbeddedSearchResultsView(
+            PersonEmbeddedSearchResultsViewModel personEmbeddedSearchResultsViewModel)
         {
             this.DataContext = personEmbeddedSearchResultsViewModel;
             this.InitializeComponent();

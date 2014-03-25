@@ -2,27 +2,27 @@
 namespace Admin.LegalEntityModule
 {
     using System;
-    using System.Configuration;
     using System.Collections.Generic;
     using System.Linq;
 
     using Admin.LegalEntityModule.ViewModels;
     using Admin.LegalEntityModule.Views;
 
-    
     using Common.Services;
+
+    using EnergyTrading.Mdm.Client.Services;
+    using EnergyTrading.Mdm.Client.WebClient;
+    using EnergyTrading.Mdm.Contracts;
+    using EnergyTrading.MDM.Contracts.Sample;
 
     using Microsoft.Practices.Prism.Events;
     using Microsoft.Practices.Prism.Modularity;
     using Microsoft.Practices.Unity;
 
-    using EnergyTrading.Mdm.Client.Services;
-    using EnergyTrading.Mdm.Client.WebClient;
-    using EnergyTrading.MDM.Contracts.Sample; using EnergyTrading.Mdm.Contracts;
-
     public class ModuleInit : IModule
     {
         private readonly IUnityContainer container;
+
         private readonly IApplicationMenuRegistry menuRegistry;
 
         public ModuleInit(IUnityContainer container, IApplicationMenuRegistry menuRegistry)
@@ -36,59 +36,72 @@ namespace Admin.LegalEntityModule
             this.Register();
             this.PopulateReferenceData();
 
-            this.menuRegistry.RegisterMenuItem("LegalEntity", string.Empty, typeof(LegalEntitySearchResultsView), new Uri(LegalEntityViewNames.LegalEntityAddView, UriKind.Relative), "Name", "_Name", "PartyRole");
+            this.menuRegistry.RegisterMenuItem(
+                "LegalEntity", 
+                string.Empty, 
+                typeof(LegalEntitySearchResultsView), 
+                new Uri(LegalEntityViewNames.LegalEntityAddView, UriKind.Relative), 
+                "Name", 
+                "_Name", 
+                "PartyRole");
             this.menuRegistry.RegisterEntitySelector("LegalEntity", typeof(LegalEntitySelectorView));
+        }
+
+        private void PopulateReferenceData()
+        {
+            ReferenceDataList message = null;
+            message =
+                this.container.Resolve<IMessageRequester>()
+                    .Request<ReferenceDataList>(Server.Name + "ReferenceData/list/LEPartyStatus")
+                    .Message;
+            IList<string> partystatus = message != null
+                                            ? message.Select(data => data.Value).OrderBy(s => s).ToList()
+                                            : new List<string>();
+
+            this.container.RegisterInstance("partystatuss", partystatus, new ContainerControlledLifetimeManager());
         }
 
         private void Register()
         {
             this.container.RegisterType<IMdmEntityService<LegalEntity>, MdmEntityService<LegalEntity>>(
-                new ContainerControlledLifetimeManager(),
+                new ContainerControlledLifetimeManager(), 
                 new InjectionConstructor(Server.Name + "legalentity", new ResolvedParameter<IMessageRequester>()));
             this.container.RegisterType<object, LegalEntityEditView>(LegalEntityViewNames.LegalEntityEditView);
             this.container.RegisterType<object, LegalEntityAddView>(LegalEntityViewNames.LegalEntityAddView);
-            this.container.RegisterType<object, LegalEntitySearchResultsView>(LegalEntityViewNames.LegalEntitySearchResultsView);
-            this.container.RegisterType<object, LegalEntityEmbeddedSearchResultsView>(LegalEntityViewNames.LegalEntityEmbeddedSearchResultsView, new ContainerControlledLifetimeManager());
-                    
+            this.container.RegisterType<object, LegalEntitySearchResultsView>(
+                LegalEntityViewNames.LegalEntitySearchResultsView);
+            this.container.RegisterType<object, LegalEntityEmbeddedSearchResultsView>(
+                LegalEntityViewNames.LegalEntityEmbeddedSearchResultsView, 
+                new ContainerControlledLifetimeManager());
+
             this.container.RegisterType<LegalEntityAddViewModel>(
-                new ContainerControlledLifetimeManager(),
+                new ContainerControlledLifetimeManager(), 
                 new InjectionConstructor(
-                new ResolvedParameter<IEventAggregator>(),
-                new ResolvedParameter<IMdmService>()
-                          ,new ResolvedParameter<IList<string>>("partystatuss")));
+                    new ResolvedParameter<IEventAggregator>(), 
+                    new ResolvedParameter<IMdmService>(), 
+                    new ResolvedParameter<IList<string>>("partystatuss")));
 
             this.container.RegisterType<LegalEntityEditViewModel>(
-                new ContainerControlledLifetimeManager(),
+                new ContainerControlledLifetimeManager(), 
                 new InjectionConstructor(
-                new ResolvedParameter<IEventAggregator>(),
-                new ResolvedParameter<IMdmService>(),
-                new ResolvedParameter<INavigationService>(),
-                new ResolvedParameter<IMappingService>(),
-                new ResolvedParameter<IApplicationCommands>()
-                                ,new ResolvedParameter<IList<string>>("partystatuss")));
+                    new ResolvedParameter<IEventAggregator>(), 
+                    new ResolvedParameter<IMdmService>(), 
+                    new ResolvedParameter<INavigationService>(), 
+                    new ResolvedParameter<IMappingService>(), 
+                    new ResolvedParameter<IApplicationCommands>(), 
+                    new ResolvedParameter<IList<string>>("partystatuss")));
 
-                    
             this.container.RegisterType<LegalEntitySelectorView>();
             this.container.RegisterType<LegalEntitySelectorViewModel>();
-			
-            this.container.RegisterInstance<Func<int, IMdmEntity>>("LegalEntity",
-                (entityId) =>
+
+            this.container.RegisterInstance<Func<int, IMdmEntity>>(
+                "LegalEntity", 
+                entityId =>
                     {
                         var entityService = container.Resolve<IMdmEntityService<LegalEntity>>();
                         var response = entityService.Get(entityId);
                         return response.Message;
                     });
         }
-
-        private void PopulateReferenceData()
-        {
-                    ReferenceDataList message = null;
-                    message = this.container.Resolve<IMessageRequester>().Request<ReferenceDataList>(
-                    Server.Name + "ReferenceData/list/LEPartyStatus").Message;
-            IList<string> partystatus = message != null ?
-                message.Select(data => data.Value).OrderBy(s => s).ToList() : new List<string>();
-
-            this.container.RegisterInstance("partystatuss", partystatus, new ContainerControlledLifetimeManager());
-                  }
     }
 }

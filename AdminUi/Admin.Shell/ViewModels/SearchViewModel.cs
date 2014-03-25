@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Linq;
+
     using Common;
     using Common.Authorisation;
     using Common.Events;
@@ -11,33 +12,49 @@
     using Common.Services;
     using Common.UI;
 
-    using Microsoft.Practices.Prism.Events;
-    using Microsoft.Practices.Prism.Regions;
-    using Microsoft.Practices.Prism.ViewModel;
     using EnergyTrading;
     using EnergyTrading.Contracts.Search;
     using EnergyTrading.Search;
+
+    using Microsoft.Practices.Prism.Events;
+    using Microsoft.Practices.Prism.Regions;
+    using Microsoft.Practices.Prism.ViewModel;
 
     public class SearchViewModel : NotificationObject, INavigationAware
     {
         private const string NexusSourceSystem = "Nexus";
 
         private readonly IApplicationCommands applicationCommands;
-        private readonly INavigationService navigationService;
-        private readonly IMappingService mappingService;
+
         private readonly IEventAggregator eventAggregator;
+
+        private readonly IMappingService mappingService;
+
+        private readonly INavigationService navigationService;
+
         private DateTime asOf;
+
         private bool displayWelcome;
+
         private bool isMappingSearch;
-        private string nameSearch;
-        private int? searchCountFound;
+
         private string mappingNameSearch;
 
+        private string nameSearch;
+
+        private int? searchCountFound;
+
         private MenuItemViewModel selectedMenuItem;
-        private IList<string> sourceSystems;
+
         private string sourceSystem;
 
-        public SearchViewModel(IEventAggregator eventAggregator, IApplicationCommands applicationCommands, INavigationService navigationService, IMappingService mappingService)
+        private IList<string> sourceSystems;
+
+        public SearchViewModel(
+            IEventAggregator eventAggregator, 
+            IApplicationCommands applicationCommands, 
+            INavigationService navigationService, 
+            IMappingService mappingService)
         {
             this.eventAggregator = eventAggregator;
             this.applicationCommands = applicationCommands;
@@ -49,32 +66,9 @@
             this.AsOf = SystemTime.UtcNow().Date;
 
             this.SourceSystems = SourceSystemList(this.mappingService);
-          
+
             this.SourceSystem = string.Empty;
         }
-
-        private static IList<string> SourceSystemList(IMappingService mappingService)
-        {
-            var sourceSystemList = mappingService.GetSourceSystemNames();
-            sourceSystemList.Insert(0, string.Empty);
-            sourceSystemList.Add(NexusSourceSystem);
-            sourceSystemList = sourceSystemList.OrderBy(x => x).ToList();
-            return sourceSystemList;
-        }
-
-        public IList<string> SourceSystems
-        {
-            get
-            {
-                return this.sourceSystems;
-            } 
-            set
-            {
-                this.sourceSystems = value;
-                this.RaisePropertyChanged(() => this.SourceSystems);
-            }
-        }
-
 
         public DateTime AsOf
         {
@@ -104,20 +98,6 @@
             }
         }
 
-        public string SourceSystem
-        {
-            get
-            {
-                return this.sourceSystem;
-            }
-
-            set
-            {
-                this.sourceSystem = value;
-                this.RaisePropertyChanged(() => this.SourceSystem);
-            }
-        }
-
         public bool IsMappingSearch
         {
             get
@@ -137,6 +117,20 @@
             }
         }
 
+        public string MappingNameSearch
+        {
+            get
+            {
+                return this.mappingNameSearch;
+            }
+
+            set
+            {
+                this.mappingNameSearch = value;
+                this.RaisePropertyChanged(() => this.MappingNameSearch);
+            }
+        }
+
         public ObservableCollection<MenuItemViewModel> MenuItems { get; set; }
 
         public string NameSearch
@@ -150,20 +144,6 @@
             {
                 this.nameSearch = value;
                 this.RaisePropertyChanged(() => this.NameSearch);
-            }
-        }
-
-        public string MappingNameSearch
-        {
-            get
-            {
-                return this.mappingNameSearch;
-            }
-
-            set
-            {
-                this.mappingNameSearch = value;
-                this.RaisePropertyChanged(() => this.MappingNameSearch);
             }
         }
 
@@ -195,6 +175,34 @@
             }
         }
 
+        public string SourceSystem
+        {
+            get
+            {
+                return this.sourceSystem;
+            }
+
+            set
+            {
+                this.sourceSystem = value;
+                this.RaisePropertyChanged(() => this.SourceSystem);
+            }
+        }
+
+        public IList<string> SourceSystems
+        {
+            get
+            {
+                return this.sourceSystems;
+            }
+
+            set
+            {
+                this.sourceSystems = value;
+                this.RaisePropertyChanged(() => this.SourceSystems);
+            }
+        }
+
         public void AddMenuItem(MenuItemViewModel menuItem)
         {
             this.MenuItems.Add(menuItem);
@@ -202,7 +210,8 @@
             if (MenuItems.Count == 1 || SelectedMenuItem != MenuItems[0])
             {
                 this.SelectedMenuItem = this.MenuItems[0];
-                eventAggregator.Publish(new CanCreateNewChangeEvent(AuthorisationHelpers.HasEntityRights(SelectedMenuItem.Name)));
+                eventAggregator.Publish(
+                    new CanCreateNewChangeEvent(AuthorisationHelpers.HasEntityRights(SelectedMenuItem.Name)));
             }
         }
 
@@ -211,89 +220,8 @@
             this.SearchCountFound = null;
             this.navigationService.ClearHistory();
             this.SelectedMenuItem.OpenCommand.Execute();
-            eventAggregator.Publish(new CanCreateNewChangeEvent(AuthorisationHelpers.HasEntityRights(SelectedMenuItem.Name)));
-        }
-
-        public void Search()
-        {
-            var search = this.IsMappingSearch ? this.BuildMappingSearch() : this.BuildNameSearch();
-
-            this.SearchCountFound = null;
-            this.SelectedMenuItem.OpenCommand.Execute();
-            this.eventAggregator.Publish(new SearchRequestEvent(search, this.SelectedMenuItem.Name));
-        }
-
-        private Search BuildMappingSearch()
-        {
-            var search = SearchBuilder.CreateSearch(SearchCombinator.Or, isMappingSearch: true);
-            search.AsOf = this.AsOf;
-
-            if (this.ShouldAddMappingValueSearchCriteria())
-            {
-                this.AddMappingValueSearchCriteria(search);
-            }
-
-            if (this.ShouldAddMdmIdSearchCriteria())
-            {
-                this.AddMdmIdSearchCriteria(search);                
-            }
-
-            return search;
-        }
-
-        private bool ShouldAddMappingValueSearchCriteria()
-        {
-            // always add mapping value if no source system specified
-            // otherwise don't add it if source system is Nexus
-            return (string.IsNullOrEmpty(this.SourceSystem) || this.SourceSystem != NexusSourceSystem);
-        }
-
-        private void AddMappingValueSearchCriteria(Search search)
-        {
-            var searchCriteria = search.AddSearchCriteria(SearchCombinator.And).AddCriteria(
-                "MappingValue", SearchCondition.Contains, this.NameSearch);
-
-            if (!string.IsNullOrEmpty(this.SourceSystem))
-            {
-                searchCriteria.AddCriteria("System.Name", SearchCondition.Equals, this.SourceSystem);
-            }
-        }
-
-        private bool ShouldAddMdmIdSearchCriteria()
-        {
-            // don't do a nexus search if source system is not Nexus
-            if (!string.IsNullOrEmpty(this.SourceSystem) && this.SourceSystem != NexusSourceSystem) return false;
-
-            // otherwise do a nexus search if search value is numeric
-            int id;
-            return int.TryParse(this.NameSearch, out id);
-        }
-
-        private void AddMdmIdSearchCriteria(Search search)
-        {
-            search.AddSearchCriteria(SearchCombinator.And).AddCriteria(
-                this.EntityName() + ".Id", SearchCondition.NumericEquals, this.NameSearch);
-        }
-
-        private string EntityName()
-        {
-            return string.IsNullOrEmpty(this.SelectedMenuItem.BaseEntityName)
-                       ? this.SelectedMenuItem.Name
-                       : this.SelectedMenuItem.BaseEntityName;
-        }
-
-        private Search BuildNameSearch()
-        {
-            var search = SearchBuilder.CreateSearch();
-            search.AsOf = this.AsOf;
-
-            if (!string.IsNullOrEmpty(this.NameSearch))
-            {
-                search.AddSearchCriteria(SearchCombinator.And).AddCriteria(
-                    this.SelectedMenuItem.SearchKey, SearchCondition.Contains, this.NameSearch);
-            }
-
-            return search;
+            eventAggregator.Publish(
+                new CanCreateNewChangeEvent(AuthorisationHelpers.HasEntityRights(SelectedMenuItem.Name)));
         }
 
         public bool IsNavigationTarget(NavigationContext navigationContext)
@@ -316,9 +244,79 @@
             if (this.SelectedMenuItem != null)
             {
                 this.applicationCommands.OpenView(
-                    this.SelectedMenuItem.SearchResultsViewType, this.SelectedMenuItem.Name, RegionNames.MainSearchResultsRegion);
-                eventAggregator.Publish(new CanCreateNewChangeEvent(AuthorisationHelpers.HasEntityRights(SelectedMenuItem.Name)));
+                    this.SelectedMenuItem.SearchResultsViewType, 
+                    this.SelectedMenuItem.Name, 
+                    RegionNames.MainSearchResultsRegion);
+                eventAggregator.Publish(
+                    new CanCreateNewChangeEvent(AuthorisationHelpers.HasEntityRights(SelectedMenuItem.Name)));
             }
+        }
+
+        public void Search()
+        {
+            var search = this.IsMappingSearch ? this.BuildMappingSearch() : this.BuildNameSearch();
+
+            this.SearchCountFound = null;
+            this.SelectedMenuItem.OpenCommand.Execute();
+            this.eventAggregator.Publish(new SearchRequestEvent(search, this.SelectedMenuItem.Name));
+        }
+
+        private static IList<string> SourceSystemList(IMappingService mappingService)
+        {
+            var sourceSystemList = mappingService.GetSourceSystemNames();
+            sourceSystemList.Insert(0, string.Empty);
+            sourceSystemList.Add(NexusSourceSystem);
+            sourceSystemList = sourceSystemList.OrderBy(x => x).ToList();
+            return sourceSystemList;
+        }
+
+        private void AddMappingValueSearchCriteria(Search search)
+        {
+            var searchCriteria = search.AddSearchCriteria(SearchCombinator.And)
+                .AddCriteria("MappingValue", SearchCondition.Contains, this.NameSearch);
+
+            if (!string.IsNullOrEmpty(this.SourceSystem))
+            {
+                searchCriteria.AddCriteria("System.Name", SearchCondition.Equals, this.SourceSystem);
+            }
+        }
+
+        private void AddMdmIdSearchCriteria(Search search)
+        {
+            search.AddSearchCriteria(SearchCombinator.And)
+                .AddCriteria(this.EntityName() + ".Id", SearchCondition.NumericEquals, this.NameSearch);
+        }
+
+        private Search BuildMappingSearch()
+        {
+            var search = SearchBuilder.CreateSearch(SearchCombinator.Or, true);
+            search.AsOf = this.AsOf;
+
+            if (this.ShouldAddMappingValueSearchCriteria())
+            {
+                this.AddMappingValueSearchCriteria(search);
+            }
+
+            if (this.ShouldAddMdmIdSearchCriteria())
+            {
+                this.AddMdmIdSearchCriteria(search);
+            }
+
+            return search;
+        }
+
+        private Search BuildNameSearch()
+        {
+            var search = SearchBuilder.CreateSearch();
+            search.AsOf = this.AsOf;
+
+            if (!string.IsNullOrEmpty(this.NameSearch))
+            {
+                search.AddSearchCriteria(SearchCombinator.And)
+                    .AddCriteria(this.SelectedMenuItem.SearchKey, SearchCondition.Contains, this.NameSearch);
+            }
+
+            return search;
         }
 
         private void CreateEntity(CreateEvent obj)
@@ -330,6 +328,33 @@
             }
 
             this.eventAggregator.Publish(new StatusEvent(Message.CalendarAddNotSupported));
+        }
+
+        private string EntityName()
+        {
+            return string.IsNullOrEmpty(this.SelectedMenuItem.BaseEntityName)
+                       ? this.SelectedMenuItem.Name
+                       : this.SelectedMenuItem.BaseEntityName;
+        }
+
+        private bool ShouldAddMappingValueSearchCriteria()
+        {
+            // always add mapping value if no source system specified
+            // otherwise don't add it if source system is Nexus
+            return string.IsNullOrEmpty(this.SourceSystem) || this.SourceSystem != NexusSourceSystem;
+        }
+
+        private bool ShouldAddMdmIdSearchCriteria()
+        {
+            // don't do a nexus search if source system is not Nexus
+            if (!string.IsNullOrEmpty(this.SourceSystem) && this.SourceSystem != NexusSourceSystem)
+            {
+                return false;
+            }
+
+            // otherwise do a nexus search if search value is numeric
+            int id;
+            return int.TryParse(this.NameSearch, out id);
         }
 
         private void UpdateSearchResults(SearchResultsFound results)

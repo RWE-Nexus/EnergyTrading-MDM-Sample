@@ -1,18 +1,20 @@
-using System.Windows;
-using EnergyTrading.MDM.Contracts.Sample; using EnergyTrading.Mdm.Contracts;
-
 namespace Admin.ReferenceDataModule.ViewModels
 {
     using System;
+    using System.Collections.Generic;
+    using System.Windows;
+
     using Common.Events;
     using Common.Extensions;
     using Common.UI;
-	using System.Collections.Generic;
+
+    using EnergyTrading.Mdm.Client.Services;
+    using EnergyTrading.Mdm.Contracts;
+
     using Microsoft.Practices.Prism.Events;
     using Microsoft.Practices.Prism.Interactivity.InteractionRequest;
     using Microsoft.Practices.Prism.Regions;
     using Microsoft.Practices.Prism.ViewModel;
-    using EnergyTrading.Mdm.Client.Services;
 
     public class ReferenceDataAddViewModel : NotificationObject, INavigationAware, IConfirmNavigationRequest
     {
@@ -24,15 +26,13 @@ namespace Admin.ReferenceDataModule.ViewModels
 
         private ReferenceDataViewModel referenceData;
 
-        public ReferenceDataAddViewModel(IEventAggregator eventAggregator, IReferenceDataService entityService 
-		)
+        public ReferenceDataAddViewModel(IEventAggregator eventAggregator, IReferenceDataService entityService)
         {
             this.eventAggregator = eventAggregator;
             this.confirmationFromViewModelInteractionRequest = new InteractionRequest<Confirmation>();
             this.entityService = entityService;
             this.ReferenceData = new ReferenceDataViewModel(null, null, this.eventAggregator);
-			
-			        }
+        }
 
         /// <summary>
         /// Gets the notification from view model interaction request. View binds to this property
@@ -57,20 +57,20 @@ namespace Admin.ReferenceDataModule.ViewModels
                 this.referenceData = value;
                 this.RaisePropertyChanged(() => this.ReferenceData);
             }
-		}
+        }
 
         public void ConfirmNavigationRequest(NavigationContext navigationContext, Action<bool> continuationCallback)
         {
             if (this.ReferenceData.CanSave)
             {
                 this.eventAggregator.Publish(new DialogOpenEvent(true));
-			    this.confirmationFromViewModelInteractionRequest.Raise(
-			        new Confirmation { Content = Message.UnsavedChanges, Title = Message.UnsavedChangeTitle },
-			        confirmation =>
-			            {
-			                continuationCallback(confirmation.Confirmed);
+                this.confirmationFromViewModelInteractionRequest.Raise(
+                    new Confirmation { Content = Message.UnsavedChanges, Title = Message.UnsavedChangeTitle }, 
+                    confirmation =>
+                        {
+                            continuationCallback(confirmation.Confirmed);
                             this.eventAggregator.Publish(new DialogOpenEvent(false));
-			            });
+                        });
             }
             else
             {
@@ -103,19 +103,20 @@ namespace Admin.ReferenceDataModule.ViewModels
 
                 foreach (var rd in rds)
                 {
-                    listReferenceData.Add(new ReferenceData { ReferenceKey = this.ReferenceData.ReferenceKey, Value = rd });
+                    listReferenceData.Add(
+                        new ReferenceData { ReferenceKey = this.ReferenceData.ReferenceKey, Value = rd });
                 }
+
                 this.entityService.ExecuteAsyncRD(
-                             () => this.entityService.Create(this.ReferenceData.ReferenceKey, listReferenceData),
-                             () => this.ReferenceData = new ReferenceDataViewModel(this.eventAggregator),
-                             string.Format(Message.EntityUpdatedFormatString, "ReferenceData"),
-                             this.eventAggregator);
+                    () => this.entityService.Create(this.ReferenceData.ReferenceKey, listReferenceData), 
+                    () => this.ReferenceData = new ReferenceDataViewModel(this.eventAggregator), 
+                    string.Format(Message.EntityUpdatedFormatString, "ReferenceData"), 
+                    this.eventAggregator);
             }
             catch (Exception)
             {
                 MessageBox.Show("No values supplied", Application.Current.MainWindow.Title);
             }
         }
-	}
+    }
 }
-	

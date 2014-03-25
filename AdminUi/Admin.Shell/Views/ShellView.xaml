@@ -52,7 +52,7 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <ContentControl Focusable="False" Grid.Column="1">
-            <Views:MenuView></Views:MenuView>
+            <Views:MenuView />
         </ContentControl>
         <ContentControl Focusable="False"  prism:RegionManager.RegionName="MainRegion" Grid.Row="1" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch"/>
         <Grid Margin="5,0,5,0" Grid.Row="2" x:Name="FooterContainer">
@@ -78,7 +78,7 @@
         </Border>
         <Border Grid.RowSpan="3" BorderBrush="Black" BorderThickness="1" Background="#80000000" Visibility="{Binding Error, Converter={StaticResource StringToVisibility}}">
             <Grid>
-                <Views:ErrorView HorizontalAlignment="Center" VerticalAlignment="Center"></Views:ErrorView>
+                <Views:ErrorView HorizontalAlignment="Center" VerticalAlignment="Center" />
             </Grid>
         </Border>
         <Border Grid.RowSpan="3" BorderBrush="Black" BorderThickness="1" Background="#80000000" Visibility="{Binding IsBusy, Converter={StaticResource BoolToVisibility}}">

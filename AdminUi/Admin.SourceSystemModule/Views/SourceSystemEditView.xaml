@@ -88,8 +88,8 @@
                         </i:Interaction.Triggers>
                         </Button>
                             <Button Button.ToolTip="{Binding SourceSystem.ParentName}" Margin="5,2,2,2" IsEnabled="{Binding SourceSystem.ParentId, Converter={StaticResource NullToBoolean}}" Style="{DynamicResource LinkButtonStyle}">
-                    <TextBlock TextTrimming="CharacterEllipsis" Text="{Binding SourceSystem.ParentName}"></TextBlock>
-                    <i:Interaction.Triggers>
+                    <TextBlock TextTrimming="CharacterEllipsis" Text="{Binding SourceSystem.ParentName}" />
+                                <i:Interaction.Triggers>
                         <i:EventTrigger EventName="Click">
                             <Triggers:CallDataMethod Method="NavigateToParent" />
                         </i:EventTrigger>
@@ -161,7 +161,7 @@
                                                     <DataGridTextColumn Width="150" Binding="{Binding MappingString}" Header="Mapping String" IsReadOnly="True">
                                                         <DataGridTextColumn.CellStyle>
                                                             <Style TargetType="DataGridCell">
-                                                                <Setter Property="ToolTip" Value="{Binding MappingString}"></Setter>
+                                                                <Setter Property="ToolTip" Value="{Binding MappingString}" />
                                                             </Style>
                                                         </DataGridTextColumn.CellStyle>
                                                     </DataGridTextColumn>

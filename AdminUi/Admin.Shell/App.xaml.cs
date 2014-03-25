@@ -1,14 +1,16 @@
-﻿using Shell.Services;
-
-namespace Shell
+﻿namespace Shell
 {
     using System;
     using System.Globalization;
     using System.Windows;
     using System.Windows.Markup;
+
     using Common.Services;
+
     using Microsoft.Practices.EnterpriseLibrary.Logging;
     using Microsoft.Practices.ServiceLocation;
+
+    using Shell.Services;
 
     public partial class App : Application
     {
@@ -17,9 +19,8 @@ namespace Shell
         static App()
         {
             FrameworkElement.LanguageProperty.OverrideMetadata(
-                typeof(FrameworkElement),
-                new FrameworkPropertyMetadata(
-                    XmlLanguage.GetLanguage(CultureInfo.CurrentCulture.IetfLanguageTag)));
+                typeof(FrameworkElement), 
+                new FrameworkPropertyMetadata(XmlLanguage.GetLanguage(CultureInfo.CurrentCulture.IetfLanguageTag)));
         }
 
         protected override void OnStartup(StartupEventArgs e)
@@ -29,7 +30,11 @@ namespace Shell
             Server.Set(e.Args.Length > 0 ? e.Args[0] : null);
             if (e.Args.Length > 4)
             {
-                WindowPosition.SavePosition(double.Parse(e.Args[1]), double.Parse(e.Args[2]), double.Parse(e.Args[3]), double.Parse(e.Args[4]));
+                WindowPosition.SavePosition(
+                    double.Parse(e.Args[1]), 
+                    double.Parse(e.Args[2]), 
+                    double.Parse(e.Args[3]), 
+                    double.Parse(e.Args[4]));
             }
 
 #if (DEBUG)
@@ -58,7 +63,7 @@ namespace Shell
             catch (Exception e)
             {
                 MessageBox.Show("Application Initialisation Failed: " + e.Message + "\n" + ex.Message);
-            } 
+            }
 
             Environment.Exit(1);
         }

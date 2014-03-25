@@ -3,9 +3,8 @@ namespace Admin.LocationModule.ViewModels
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq;
 
-    using Uris;
+    using Admin.LocationModule.Uris;
 
     using Common;
     using Common.Events;
@@ -13,33 +12,40 @@ namespace Admin.LocationModule.ViewModels
     using Common.Services;
     using Common.UI;
 
+    using EnergyTrading;
+    using EnergyTrading.Mdm.Client.Services;
+    using EnergyTrading.MDM.Contracts.Sample;
+
     using Microsoft.Practices.Prism.Events;
     using Microsoft.Practices.Prism.Interactivity.InteractionRequest;
     using Microsoft.Practices.Prism.Regions;
     using Microsoft.Practices.Prism.ViewModel;
 
-    using EnergyTrading.Mdm.Client.Services;
-    using EnergyTrading;
-    using EnergyTrading.MDM.Contracts.Sample; using EnergyTrading.Mdm.Contracts;
-
     public class LocationAddCloneViewModel : NotificationObject, INavigationAware, IConfirmNavigationRequest
     {
         private readonly InteractionRequest<Confirmation> confirmationFromViewModelInteractionRequest;
+
         private readonly IMdmService entityService;
-        private readonly INavigationService navigationService;
+
         private readonly IEventAggregator eventAggregator;
+
+        private readonly INavigationService navigationService;
 
         private LocationViewModel location;
 
-        public LocationAddCloneViewModel(IEventAggregator eventAggregator, IMdmService entityService, INavigationService navigationService           ,IList<string> typeConfiguration)
+        public LocationAddCloneViewModel(
+            IEventAggregator eventAggregator, 
+            IMdmService entityService, 
+            INavigationService navigationService, 
+            IList<string> typeConfiguration)
         {
             this.eventAggregator = eventAggregator;
             this.confirmationFromViewModelInteractionRequest = new InteractionRequest<Confirmation>();
             this.entityService = entityService;
             this.navigationService = navigationService;
-            this.Location = new LocationViewModel(this.eventAggregator);            
-                         this.TypeConfiguration = typeConfiguration;
-                   }
+            this.Location = new LocationViewModel(this.eventAggregator);
+            this.TypeConfiguration = typeConfiguration;
+        }
 
         /// <summary>
         /// Gets the notification from view model interaction request. View binds to this property
@@ -65,32 +71,16 @@ namespace Admin.LocationModule.ViewModels
                 this.RaisePropertyChanged(() => this.Location);
             }
         }
-        
-        
-        public void SelectParent()
-        {
-            this.eventAggregator.Publish(new EntitySelectEvent("Location","Parent"));
-        }
-        
-        public void DeleteParent()
-        {
-            this.Location.ParentId = null;
-            this.Location.ParentName = string.Empty;
-        }
-        
-                public IList<string> TypeConfiguration
-        {
-            get;
-            set;
-        }
-           
+
+        public IList<string> TypeConfiguration { get; set; }
+
         public void ConfirmNavigationRequest(NavigationContext navigationContext, Action<bool> continuationCallback)
         {
             if (this.Location.CanSave)
             {
                 this.eventAggregator.Publish(new DialogOpenEvent(true));
                 this.confirmationFromViewModelInteractionRequest.Raise(
-                    new Confirmation { Content = Message.UnsavedChanges, Title = Message.UnsavedChangeTitle },
+                    new Confirmation { Content = Message.UnsavedChanges, Title = Message.UnsavedChangeTitle }, 
                     confirmation =>
                         {
                             continuationCallback(confirmation.Confirmed);
@@ -101,6 +91,12 @@ namespace Admin.LocationModule.ViewModels
             {
                 continuationCallback(true);
             }
+        }
+
+        public void DeleteParent()
+        {
+            this.Location.ParentId = null;
+            this.Location.ParentName = string.Empty;
         }
 
         public bool IsNavigationTarget(NavigationContext navigationContext)
@@ -125,20 +121,19 @@ namespace Admin.LocationModule.ViewModels
             this.LoadLocationFromService(idParam, validAtString);
         }
 
-        private void LoadLocationFromService(int entityId, DateTime validAt)
+        public void SelectParent()
         {
-            this.entityService.ExecuteAsync(
-                () => this.entityService.Get<Location>(entityId, validAt),
-                (response) =>
-                {
-                    this.Location =
-                        new LocationViewModel(
-                            new EntityWithETag<Location>(response.Message, response.Tag),
-                            this.eventAggregator);
+            this.eventAggregator.Publish(new EntitySelectEvent("Location", "Parent"));
+        }
 
-                    this.RaisePropertyChanged(string.Empty);
-                },
-                this.eventAggregator);
+        public void StartMinimum()
+        {
+            this.Location.Start = DateUtility.MinDate;
+        }
+
+        public void StartToday()
+        {
+            this.Location.Start = SystemTime.UtcNow().Date;
         }
 
         private void EntitySelected(EntitySelectedEvent obj)
@@ -149,38 +144,44 @@ namespace Admin.LocationModule.ViewModels
                     this.Location.ParentId = obj.Id;
                     this.Location.ParentName = obj.EntityValue;
                     break;
-          }
-                        }
+            }
+        }
+
+        private void LoadLocationFromService(int entityId, DateTime validAt)
+        {
+            this.entityService.ExecuteAsync(
+                () => this.entityService.Get<Location>(entityId, validAt), 
+                response =>
+                    {
+                        this.Location =
+                            new LocationViewModel(
+                                new EntityWithETag<Location>(response.Message, response.Tag), 
+                                this.eventAggregator);
+
+                        this.RaisePropertyChanged(string.Empty);
+                    }, 
+                this.eventAggregator);
+        }
 
         private void Save(SaveEvent saveEvent)
         {
             this.entityService.ExecuteAsync(
-                            () => this.entityService.Create(this.Location.Model()),
-                            response =>
-                                {
-                                    // clear down view model - this allows us to navigate away
-                                    var originalId = this.Location.Id.Value;
-                                    var originalStartDate = this.Location.Start;
-                                    this.Location = new LocationViewModel(this.eventAggregator);
+                () => this.entityService.Create(this.Location.Model()), 
+                response =>
+                    {
+                        // clear down view model - this allows us to navigate away
+                        var originalId = this.Location.Id.Value;
+                        var originalStartDate = this.Location.Start;
+                        this.Location = new LocationViewModel(this.eventAggregator);
 
-                                    this.navigationService.NavigateMain(new LocationEditCloneUri(
-                                        response.Message.MdmId().Value, 
-                                        response.Message.MdmSystemData.StartDate.Value,
-                                        originalId, 
-                                        originalStartDate));
-                                },
-                            this.eventAggregator);
-        }
-
-        public void StartToday()
-        {
-            this.Location.Start = SystemTime.UtcNow().Date;
-        }
-
-        public void StartMinimum()
-        {
-            this.Location.Start = DateUtility.MinDate;
+                        this.navigationService.NavigateMain(
+                            new LocationEditCloneUri(
+                                response.Message.MdmId().Value, 
+                                response.Message.MdmSystemData.StartDate.Value, 
+                                originalId, 
+                                originalStartDate));
+                    }, 
+                this.eventAggregator);
         }
     }
 }
-    

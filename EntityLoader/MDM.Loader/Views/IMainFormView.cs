@@ -2,7 +2,8 @@
 {
     public interface IMainFormView
     {
-        void SetStatusMesage(string message);
         void AppendLogText(string message);
+
+        void SetStatusMesage(string message);
     }
 }

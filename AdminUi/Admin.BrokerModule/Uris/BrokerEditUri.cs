@@ -2,15 +2,24 @@
 namespace Admin.BrokerModule.Uris
 {
     using System;
+
     using Admin.BrokerModule.Views;
+
     using Common;
 
     public class BrokerEditUri : Uri
     {
-        public BrokerEditUri(int brokerId, DateTime validAt) : 
-            base(BrokerViewNames.BrokerEditView + string.Format("?{0}={1}&{2}={3}", NavigationParameters.EntityId, brokerId, NavigationParameters.ValidAtDate, validAt), UriKind.Relative)
+        public BrokerEditUri(int brokerId, DateTime validAt)
+            : base(
+                BrokerViewNames.BrokerEditView
+                + string.Format(
+                    "?{0}={1}&{2}={3}", 
+                    NavigationParameters.EntityId, 
+                    brokerId, 
+                    NavigationParameters.ValidAtDate, 
+                    validAt), 
+                UriKind.Relative)
         {
         }
     }
 }
-    

@@ -3,10 +3,12 @@ namespace Admin.PartyModule.Views
 {
     public static class PartyViewNames
     {
-        public static string PartyEditView = "PartyEditView";
         public static string PartyAddView = "PartyAddView";
-        public static string PartySearchResultsView = "Party";
+
+        public static string PartyEditView = "PartyEditView";
+
         public static string PartyEmbeddedSearchResultsView = "PartyEmbeddedSearchResultsView";
-        }
+
+        public static string PartySearchResultsView = "Party";
+    }
 }
-    

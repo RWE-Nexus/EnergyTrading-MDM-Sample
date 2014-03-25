@@ -2,14 +2,22 @@
 {
     using System.Collections.Generic;
     using System.Linq;
-    using EnergyTrading.Search;
+
     using EnergyTrading.Data;
     using EnergyTrading.Mapping;
+    using EnergyTrading.Search;
     using EnergyTrading.Validation;
 
-    public class LegalEntityService : MdmService<Contracts.Sample.LegalEntity, LegalEntity, PartyRoleMapping, LegalEntityDetails, Contracts.Sample.LegalEntityDetails>
+    public class LegalEntityService :
+        MdmService
+            <Contracts.Sample.LegalEntity, LegalEntity, PartyRoleMapping, LegalEntityDetails, 
+            Contracts.Sample.LegalEntityDetails>
     {
-        public LegalEntityService(IValidatorEngine validatorFactory, IMappingEngine mappingEngine, IRepository repository, ISearchCache searchCache)
+        public LegalEntityService(
+            IValidatorEngine validatorFactory, 
+            IMappingEngine mappingEngine, 
+            IRepository repository, 
+            ISearchCache searchCache)
             : base(validatorFactory, mappingEngine, repository, searchCache)
         {
         }

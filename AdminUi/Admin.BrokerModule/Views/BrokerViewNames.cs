@@ -3,10 +3,12 @@ namespace Admin.BrokerModule.Views
 {
     public static class BrokerViewNames
     {
-        public static string BrokerEditView = "BrokerEditView";
         public static string BrokerAddView = "BrokerAddView";
-        public static string BrokerSearchResultsView = "Broker";
+
+        public static string BrokerEditView = "BrokerEditView";
+
         public static string BrokerEmbeddedSearchResultsView = "BrokerEmbeddedSearchResultsView";
-        }
+
+        public static string BrokerSearchResultsView = "Broker";
+    }
 }
-    

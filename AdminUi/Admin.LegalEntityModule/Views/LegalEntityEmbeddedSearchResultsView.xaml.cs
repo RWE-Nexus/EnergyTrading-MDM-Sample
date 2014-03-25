@@ -2,6 +2,7 @@
 namespace Admin.LegalEntityModule.Views
 {
     using System.Windows.Controls;
+
     using Admin.LegalEntityModule.ViewModels;
 
     /// <summary>
@@ -9,7 +10,8 @@ namespace Admin.LegalEntityModule.Views
     /// </summary>
     public partial class LegalEntityEmbeddedSearchResultsView : UserControl
     {
-        public LegalEntityEmbeddedSearchResultsView(LegalEntityEmbeddedSearchResultsViewModel legalentityEmbeddedSearchResultsViewModel)
+        public LegalEntityEmbeddedSearchResultsView(
+            LegalEntityEmbeddedSearchResultsViewModel legalentityEmbeddedSearchResultsViewModel)
         {
             this.DataContext = legalentityEmbeddedSearchResultsViewModel;
             this.InitializeComponent();

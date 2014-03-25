@@ -3,6 +3,7 @@ namespace Common.Events
     public class MappingClonedEvent
     {
         private readonly int entityId;
+
         private readonly int mappingId;
 
         public MappingClonedEvent(int entityId, int mappingId)
@@ -13,12 +14,18 @@ namespace Common.Events
 
         public int EntityId
         {
-            get { return entityId; }
+            get
+            {
+                return entityId;
+            }
         }
 
         public int MappingId
         {
-            get { return mappingId; }
+            get
+            {
+                return mappingId;
+            }
         }
     }
 }

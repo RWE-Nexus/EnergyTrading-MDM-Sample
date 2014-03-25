@@ -2,15 +2,24 @@
 namespace Admin.PersonModule.Uris
 {
     using System;
+
     using Admin.PersonModule.Views;
+
     using Common;
 
     public class PersonEditUri : Uri
     {
-        public PersonEditUri(int personId, DateTime validAt) : 
-            base(PersonViewNames.PersonEditView + string.Format("?{0}={1}&{2}={3}", NavigationParameters.EntityId, personId, NavigationParameters.ValidAtDate, validAt), UriKind.Relative)
+        public PersonEditUri(int personId, DateTime validAt)
+            : base(
+                PersonViewNames.PersonEditView
+                + string.Format(
+                    "?{0}={1}&{2}={3}", 
+                    NavigationParameters.EntityId, 
+                    personId, 
+                    NavigationParameters.ValidAtDate, 
+                    validAt), 
+                UriKind.Relative)
         {
         }
     }
 }
-    

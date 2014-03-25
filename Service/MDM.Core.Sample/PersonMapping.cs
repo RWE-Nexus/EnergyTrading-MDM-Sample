@@ -9,8 +9,15 @@
 
         protected override IEntity Entity
         {
-            get { return this.Person; }
-            set { this.Person = value as Person; }
+            get
+            {
+                return this.Person;
+            }
+
+            set
+            {
+                this.Person = value as Person;
+            }
         }
     }
 }

@@ -1,8 +1,5 @@
 ﻿namespace EnergyTrading.MDM
 {
-    using System;
-
-    using EnergyTrading;
     using EnergyTrading.Data;
     using EnergyTrading.MDM.Extensions;
 
@@ -14,30 +11,43 @@
             this.Timestamp = new byte[] { 0, 0, 0, 0, 0, 0, 0, 0 };
         }
 
-        public int Id { get; set; }
-
-        object IIdentifiable.Id
+        public IEntity Entity
         {
-            get { return this.Id; }
+            get
+            {
+                return this.PartyRole;
+            }
+
+            set
+            {
+                this.PartyRole = value as PartyRole;
+            }
         }
+
+        public int Id { get; set; }
 
         public virtual string Name { get; set; }
 
         public virtual PartyRole PartyRole { get; set; }
 
-        public IEntity Entity
-        {
-            get { return this.PartyRole; }
-            set { this.PartyRole = value as PartyRole; }
-        }
+        public byte[] Timestamp { get; set; }
 
         public DateRange Validity { get; set; }
 
-        public byte[] Timestamp { get; set; }
-
         public ulong Version
         {
-            get { return this.Timestamp.ToUnsignedLongVersion(); }
+            get
+            {
+                return this.Timestamp.ToUnsignedLongVersion();
+            }
+        }
+
+        object IIdentifiable.Id
+        {
+            get
+            {
+                return this.Id;
+            }
         }
     }
 }

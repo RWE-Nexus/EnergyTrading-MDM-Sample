@@ -2,6 +2,7 @@
 namespace Admin.LocationModule.Views
 {
     using System.Windows.Controls;
+
     using Admin.LocationModule.ViewModels;
 
     /// <summary>
@@ -9,7 +10,8 @@ namespace Admin.LocationModule.Views
     /// </summary>
     public partial class LocationEmbeddedSearchResultsView : UserControl
     {
-        public LocationEmbeddedSearchResultsView(LocationEmbeddedSearchResultsViewModel locationEmbeddedSearchResultsViewModel)
+        public LocationEmbeddedSearchResultsView(
+            LocationEmbeddedSearchResultsViewModel locationEmbeddedSearchResultsViewModel)
         {
             this.DataContext = locationEmbeddedSearchResultsViewModel;
             this.InitializeComponent();

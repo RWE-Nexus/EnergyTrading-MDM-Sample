@@ -4,15 +4,23 @@
     using System.Windows;
     using System.Windows.Controls;
     using System.Windows.Interactivity;
+
     using Microsoft.Practices.Prism.Interactivity.InteractionRequest;
 
     public class InteractionDialogAction : TriggerAction<Grid>
     {
         public static readonly DependencyProperty ContentTemplateProperty =
             DependencyProperty.Register(
-                "ContentTemplate", typeof(DataTemplate), typeof(InteractionDialogAction), new PropertyMetadata(null));
+                "ContentTemplate", 
+                typeof(DataTemplate), 
+                typeof(InteractionDialogAction), 
+                new PropertyMetadata(null));
+
         public static readonly DependencyProperty DialogProperty = DependencyProperty.Register(
-            "Dialog", typeof(InteractionDialogBase), typeof(InteractionDialogAction), new PropertyMetadata(null));
+            "Dialog", 
+            typeof(InteractionDialogBase), 
+            typeof(InteractionDialogAction), 
+            new PropertyMetadata(null));
 
         public DataTemplate ContentTemplate
         {

@@ -20,6 +20,7 @@ namespace Admin.BrokerModule
     public class ModuleInit : IModule
     {
         private readonly IUnityContainer container;
+
         private readonly IApplicationMenuRegistry menuRegistry;
 
         public ModuleInit(IUnityContainer container, IApplicationMenuRegistry menuRegistry)
@@ -33,50 +34,59 @@ namespace Admin.BrokerModule
             this.Register();
             this.PopulateReferenceData();
 
-            this.menuRegistry.RegisterMenuItem("Broker", string.Empty, typeof(BrokerSearchResultsView), new Uri(BrokerViewNames.BrokerAddView, UriKind.Relative), "Name", "_Name", "PartyRole");
+            this.menuRegistry.RegisterMenuItem(
+                "Broker", 
+                string.Empty, 
+                typeof(BrokerSearchResultsView), 
+                new Uri(BrokerViewNames.BrokerAddView, UriKind.Relative), 
+                "Name", 
+                "_Name", 
+                "PartyRole");
             this.menuRegistry.RegisterEntitySelector("Broker", typeof(BrokerSelectorView));
+        }
+
+        private void PopulateReferenceData()
+        {
         }
 
         private void Register()
         {
             this.container.RegisterType<IMdmEntityService<Broker>, MdmEntityService<Broker>>(
-                new ContainerControlledLifetimeManager(),
+                new ContainerControlledLifetimeManager(), 
                 new InjectionConstructor(Server.Name + "broker", new ResolvedParameter<IMessageRequester>()));
             this.container.RegisterType<object, BrokerEditView>(BrokerViewNames.BrokerEditView);
             this.container.RegisterType<object, BrokerAddView>(BrokerViewNames.BrokerAddView);
             this.container.RegisterType<object, BrokerSearchResultsView>(BrokerViewNames.BrokerSearchResultsView);
-            this.container.RegisterType<object, BrokerEmbeddedSearchResultsView>(BrokerViewNames.BrokerEmbeddedSearchResultsView, new ContainerControlledLifetimeManager());
-                    
+            this.container.RegisterType<object, BrokerEmbeddedSearchResultsView>(
+                BrokerViewNames.BrokerEmbeddedSearchResultsView, 
+                new ContainerControlledLifetimeManager());
+
             this.container.RegisterType<BrokerAddViewModel>(
-                new ContainerControlledLifetimeManager(),
+                new ContainerControlledLifetimeManager(), 
                 new InjectionConstructor(
-                new ResolvedParameter<IEventAggregator>(),
-                new ResolvedParameter<IMdmService>()));
+                    new ResolvedParameter<IEventAggregator>(), 
+                    new ResolvedParameter<IMdmService>()));
 
             this.container.RegisterType<BrokerEditViewModel>(
-                new ContainerControlledLifetimeManager(),
+                new ContainerControlledLifetimeManager(), 
                 new InjectionConstructor(
-                new ResolvedParameter<IEventAggregator>(),
-                new ResolvedParameter<IMdmService>(),
-                new ResolvedParameter<INavigationService>(),
-                new ResolvedParameter<IMappingService>(),
-                new ResolvedParameter<IApplicationCommands>()));
+                    new ResolvedParameter<IEventAggregator>(), 
+                    new ResolvedParameter<IMdmService>(), 
+                    new ResolvedParameter<INavigationService>(), 
+                    new ResolvedParameter<IMappingService>(), 
+                    new ResolvedParameter<IApplicationCommands>()));
 
-                    
             this.container.RegisterType<BrokerSelectorView>();
             this.container.RegisterType<BrokerSelectorViewModel>();
-			
-            this.container.RegisterInstance<Func<int, IMdmEntity>>("Broker",
-                (entityId) =>
+
+            this.container.RegisterInstance<Func<int, IMdmEntity>>(
+                "Broker", 
+                entityId =>
                     {
                         var entityService = container.Resolve<IMdmEntityService<Broker>>();
                         var response = entityService.Get(entityId);
                         return response.Message;
                     });
         }
-
-        private void PopulateReferenceData()
-        {
-                }
     }
 }

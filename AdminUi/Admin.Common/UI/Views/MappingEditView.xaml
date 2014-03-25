@@ -107,12 +107,12 @@
                                                 </Grid>
                                                 <Grid Style="{DynamicResource TextBoxContainer}" Grid.Row="2" Grid.ColumnSpan="2">
                                                 <Grid.RowDefinitions>
-                                                    <RowDefinition></RowDefinition>
-                                                    <RowDefinition></RowDefinition>
+                                                    <RowDefinition />
+                                                    <RowDefinition />
                                                 </Grid.RowDefinitions>
                                                     <Grid.ColumnDefinitions>
-                                                        <ColumnDefinition Width="1*"></ColumnDefinition>
-                                                        <ColumnDefinition Width="6*"></ColumnDefinition>
+                                                        <ColumnDefinition Width="1*" />
+                                                        <ColumnDefinition Width="6*" />
                                                     </Grid.ColumnDefinitions>
                                                     <TextBlock Text="System Name" Style="{DynamicResource GenericLabel}" />
                                                     <TextBlock Text="{Binding Mapping.SystemName, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" Grid.ColumnSpan="3" Margin="2" />
@@ -124,8 +124,7 @@
                                     </Expander>
                                 </DockPanel>
                                 <DockPanel>
-                                    <Expander Style="{DynamicResource PrimaryExpanderStyle}" Header="Audit" IsExpanded="True">
-                                    </Expander>
+                                    <Expander Style="{DynamicResource PrimaryExpanderStyle}" Header="Audit" IsExpanded="True" />
                                 </DockPanel>
 
                             </StackPanel>

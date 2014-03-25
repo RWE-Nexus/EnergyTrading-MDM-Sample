@@ -1,13 +1,12 @@
-﻿using System.IO;
-using System.Runtime.Serialization;
-using System.Xml;
-
-namespace MDM.Sync
+﻿namespace MDM.Sync
 {
+    using System.IO;
+    using System.Runtime.Serialization;
+    using System.Xml;
+
     public class ContractSerializer
     {
-        public static void SerializeToXml<T>(T entity, string outputPath)
-            where T : class
+        public static void SerializeToXml<T>(T entity, string outputPath) where T : class
         {
             using (var fileStream = new FileStream(outputPath, FileMode.Create, FileAccess.Write))
             {

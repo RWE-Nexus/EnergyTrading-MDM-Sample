@@ -2,6 +2,7 @@
 namespace Admin.BrokerModule.Views
 {
     using System.Windows.Controls;
+
     using Admin.BrokerModule.ViewModels;
 
     /// <summary>

@@ -2,6 +2,7 @@
 namespace Admin.PersonModule.Views
 {
     using System.Windows.Controls;
+
     using Admin.PersonModule.ViewModels;
 
     /// <summary>

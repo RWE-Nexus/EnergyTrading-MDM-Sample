@@ -6,8 +6,15 @@
 
         protected override IEntity Entity
         {
-            get { return this.PartyRole; }
-            set { this.PartyRole = value as PartyRole; }
+            get
+            {
+                return this.PartyRole;
+            }
+
+            set
+            {
+                this.PartyRole = value as PartyRole;
+            }
         }
     }
 }

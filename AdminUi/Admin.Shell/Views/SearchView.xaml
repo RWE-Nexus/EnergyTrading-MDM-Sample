@@ -42,7 +42,7 @@
                         <GridSplitter Focusable="False" Width="8.953" Height="Auto" HorizontalAlignment="Right" Margin="0,1,-0.807,1" Background="#00F0F0F0" Grid.Column="1" ResizeBehavior="CurrentAndNext" />
                         <StackPanel Grid.Column="1" Orientation="Horizontal" Visibility="{Binding SearchCountFound, Converter={StaticResource NullToVisibility}}">
                             <TextBlock Width="Auto" Margin="0,0,8.146,0" VerticalAlignment="Stretch" Height="Auto" HorizontalAlignment="Stretch" Text="{Binding SearchCountFound}" Style="{DynamicResource SearchResultsPaneTextBoxStyle}" />
-                            <TextBlock Text=" Search Results"></TextBlock>
+                            <TextBlock Text=" Search Results" />
                         </StackPanel>
                     </Grid>
                 </Grid>
@@ -84,7 +84,7 @@
                                     <ColumnDefinition />
                                 </Grid.ColumnDefinitions>
 
-                                <Label Grid.Row="0" Grid.Column="0" Margin="0,2,10,0" Style="{DynamicResource MenuItemHeaderLabelStyle}" Content="_Entity" Target="{Binding ElementName=cmbEntities}"></Label>
+                                <Label Grid.Row="0" Grid.Column="0" Margin="0,2,10,0" Style="{DynamicResource MenuItemHeaderLabelStyle}" Content="_Entity" Target="{Binding ElementName=cmbEntities}" />
                                 <ComboBox x:Name="cmbEntities" Grid.Row="0" Grid.Column="1" Width="190" Margin="0,0,10,0" VerticalAlignment="Stretch" ItemsSource="{Binding MenuItems}" SelectedItem="{Binding SelectedMenuItem}" DisplayMemberPath="SplitName">
                                     <i:Interaction.Triggers>
                                         <i:EventTrigger EventName="SelectionChanged">
@@ -98,17 +98,17 @@
                                     </ComboBox.ItemsPanel>
                                 </ComboBox>
 
-                                <Label Grid.Row="0" Grid.Column="2" Width="110" Margin="0,2,10,0" Visibility="{Binding ElementName=chkMappingSearch, Path=IsChecked, Converter={StaticResource InvertBooleanToVisibility}}" Style="{DynamicResource MenuItemHeaderLabelStyle}" Content="{Binding SelectedMenuItem.SearchLabel}" Target="{Binding ElementName=txtNameSearch}"></Label>
-                                <Label Grid.Row="0" Grid.Column="2" Width="110" Margin="0,2,10,0" Visibility="{Binding ElementName=chkMappingSearch, Path=IsChecked, Converter={StaticResource VisibilityOfBool}}" Style="{DynamicResource MenuItemHeaderLabelStyle}" Content="Mappi_ng" Target="{Binding ElementName=txtNameSearch}"></Label>
+                                <Label Grid.Row="0" Grid.Column="2" Width="110" Margin="0,2,10,0" Visibility="{Binding ElementName=chkMappingSearch, Path=IsChecked, Converter={StaticResource InvertBooleanToVisibility}}" Style="{DynamicResource MenuItemHeaderLabelStyle}" Content="{Binding SelectedMenuItem.SearchLabel}" Target="{Binding ElementName=txtNameSearch}" />
+                                <Label Grid.Row="0" Grid.Column="2" Width="110" Margin="0,2,10,0" Visibility="{Binding ElementName=chkMappingSearch, Path=IsChecked, Converter={StaticResource VisibilityOfBool}}" Style="{DynamicResource MenuItemHeaderLabelStyle}" Content="Mappi_ng" Target="{Binding ElementName=txtNameSearch}" />
                                 <TextBox x:Name="txtNameSearch" Grid.Row="0" Grid.Column="3" Margin="0,5,10,0" Text="{Binding NameSearch, UpdateSourceTrigger=PropertyChanged}" Style="{DynamicResource SearchCriteriaTextBoxStyle}" />
 
-                                <Label Grid.Row="0" Grid.Column="4" Margin="0,2,10,0" Style="{DynamicResource MenuItemHeaderLabelStyle}" Content="_Date" Target="{Binding ElementName=dateTimePicker}"></Label>
+                                <Label Grid.Row="0" Grid.Column="4" Margin="0,2,10,0" Style="{DynamicResource MenuItemHeaderLabelStyle}" Content="_Date" Target="{Binding ElementName=dateTimePicker}" />
                                 <Controls:DateTimePicker x:Name="dateTimePicker" Grid.Row="0" Grid.Column="5" Margin="0,5,10,0" FormatValue="dd MMM yyyy HH:mm:ss" Culture="en-GB" SelectedDate="{Binding AsOf, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
 
-                                <Label Grid.Row="1" Grid.Column="0" Margin="0,2,10,0" Style="{DynamicResource MenuItemHeaderLabelStyle}" Content="_Mapping" Target="{Binding ElementName=chkMappingSearch}"></Label>
-                                <CheckBox x:Name="chkMappingSearch" Grid.Row="1" Grid.Column="1" Margin="0,10,0,0" IsChecked="{Binding IsMappingSearch}"></CheckBox>
+                                <Label Grid.Row="1" Grid.Column="0" Margin="0,2,10,0" Style="{DynamicResource MenuItemHeaderLabelStyle}" Content="_Mapping" Target="{Binding ElementName=chkMappingSearch}" />
+                                <CheckBox x:Name="chkMappingSearch" Grid.Row="1" Grid.Column="1" Margin="0,10,0,0" IsChecked="{Binding IsMappingSearch}" />
 
-                                <Label Grid.Row="1" Grid.Column="2" Margin="0,2,10,0" Style="{DynamicResource MenuItemHeaderLabelStyle}" IsEnabled="{Binding ElementName=chkMappingSearch, Path=IsChecked}" Content="Sys_tem" Target="{Binding ElementName=cmbSourceSystem}"></Label>
+                                <Label Grid.Row="1" Grid.Column="2" Margin="0,2,10,0" Style="{DynamicResource MenuItemHeaderLabelStyle}" IsEnabled="{Binding ElementName=chkMappingSearch, Path=IsChecked}" Content="Sys_tem" Target="{Binding ElementName=cmbSourceSystem}" />
                                 <ComboBox x:Name="cmbSourceSystem" Grid.Row="1" Grid.Column="3" Width="150" Margin="0,0,10,0" IsEnabled="{Binding ElementName=chkMappingSearch, Path=IsChecked}" VerticalAlignment="Stretch" ItemsSource="{Binding SourceSystems}" SelectedItem="{Binding SourceSystem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, TargetNullValue={x:Static System:String.Empty}}">
                                     <ComboBox.ItemsPanel>
                                         <ItemsPanelTemplate>

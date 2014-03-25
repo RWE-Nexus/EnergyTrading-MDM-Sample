@@ -3,11 +3,11 @@
     using System;
     using System.Collections.Generic;
 
+    using EnergyTrading.Configuration;
+
     using MDM.Loader.NexusClient;
 
     using Microsoft.Practices.Unity;
-
-    using EnergyTrading.Configuration;
 
     public class ServiceConfiguration : IGlobalConfigurationTask
     {
@@ -22,16 +22,16 @@
         {
             get
             {
-                return new List<Type> { };
+                return new List<Type>();
             }
         }
 
         public void Configure()
         {
             // Logging
-            //this.container.RegisterType<ILogger, DebugLogger>(
-            //    new ContainerControlledLifetimeManager(),
-            //    new InjectionConstructor(new ResolvedParameter<ILogger>("mdmLoaderLogger")));
+            // this.container.RegisterType<ILogger, DebugLogger>(
+            // new ContainerControlledLifetimeManager(),
+            // new InjectionConstructor(new ResolvedParameter<ILogger>("mdmLoaderLogger")));
 
             // Loader MDM client
             this.container.RegisterType<IMdmClient, MdmClient>();

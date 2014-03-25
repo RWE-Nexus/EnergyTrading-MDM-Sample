@@ -2,26 +2,39 @@
 {
     using System;
     using System.Linq.Expressions;
+
     using Common.Events;
     using Common.Extensions;
     using Common.Services;
-    using Microsoft.Practices.Prism.Events;
-    using Microsoft.Practices.Prism.ViewModel;
+
     using EnergyTrading;
     using EnergyTrading.Mdm.Contracts;
+
+    using Microsoft.Practices.Prism.Events;
+    using Microsoft.Practices.Prism.ViewModel;
 
     public class MappingViewModel : NotificationObject
     {
         private readonly IEventAggregator eventAggregator;
+
         private readonly MdmId nexusId;
+
         private bool defaultReverseInd;
+
         private DateTime endDate;
+
         private bool identifier;
+
         private bool isMdmId;
+
         private int? mappingId;
+
         private string mappingString;
+
         private bool sourceSystemOriginated;
+
         private DateTime startDate;
+
         private string systemName;
 
         public MappingViewModel(IEventAggregator eventAggregator)
@@ -74,6 +87,16 @@
             }
         }
 
+        public bool DefaultReverseIndChanged
+        {
+            get
+            {
+                return this.nexusId.DefaultReverseInd == null
+                           ? false
+                           : this.defaultReverseInd != this.nexusId.DefaultReverseInd;
+            }
+        }
+
         public string ETag { get; set; }
 
         public DateTime EndDate
@@ -101,6 +124,8 @@
                 this.ChangeProperty(() => this.Identifier, ref this.identifier, value);
             }
         }
+
+        public bool IsClonedCopy { get; set; }
 
         public bool IsMdmId
         {
@@ -137,10 +162,18 @@
 
             set
             {
-                //the following checks removed as it became necessary to enter en-dash
-                //value = value.Replace('\x00A0', '\x0020');    //no-break space to space
-                //value = value.Replace('\x2013', '\x002D');    //en-dash to hyphen
+                // the following checks removed as it became necessary to enter en-dash
+                // value = value.Replace('\x00A0', '\x0020');    //no-break space to space
+                // value = value.Replace('\x2013', '\x002D');    //en-dash to hyphen
                 this.ChangeProperty(() => this.MappingString, ref this.mappingString, value);
+            }
+        }
+
+        public bool MappingStringChanged
+        {
+            get
+            {
+                return this.mappingString != this.nexusId.Identifier;
             }
         }
 
@@ -183,43 +216,25 @@
             }
         }
 
-        public bool MappingStringChanged
+        public MdmId Model()
         {
-            get
-            {
-                return this.mappingString != this.nexusId.Identifier;
-            }
+            return new MdmId
+                       {
+                           DefaultReverseInd = this.DefaultReverseInd, 
+                           IsMdmId = this.IsMdmId, 
+                           EndDate = this.EndDate, 
+                           StartDate = this.StartDate, 
+                           MappingId = this.MappingId, 
+                           SourceSystemOriginated = this.SourceSystemOriginated, 
+                           SystemName = this.SystemName, 
+                           Identifier = this.MappingString
+                       };
         }
-
-        public bool DefaultReverseIndChanged
-        {
-            get
-            {
-                return this.nexusId.DefaultReverseInd == null ? false : this.defaultReverseInd != this.nexusId.DefaultReverseInd;
-            }
-        }
-
-        public bool IsClonedCopy { get; set; }
 
         public MdmId OriginalModel()
         {
             this.nexusId.MappingId = null;
             return this.nexusId;
-        }
-
-        public MdmId Model()
-        {
-            return new MdmId
-                {
-                    DefaultReverseInd = this.DefaultReverseInd,
-                    IsMdmId = this.IsMdmId,
-                    EndDate = this.EndDate,
-                    StartDate = this.StartDate,
-                    MappingId = this.MappingId,
-                    SourceSystemOriginated = this.SourceSystemOriginated,
-                    SystemName = this.SystemName,
-                    Identifier = this.MappingString
-                };
         }
 
         private void ChangeProperty<T>(Expression<Func<T>> property, ref T variable, T newValue)
@@ -238,23 +253,22 @@
             }
 
             return
-                !(this.nexusId.DefaultReverseInd == this.DefaultReverseInd && this.nexusId.EndDate == this.EndDate &&
-                  this.nexusId.Identifier == this.MappingString && this.nexusId.IsMdmId == this.IsMdmId &&
-                  this.nexusId.SourceSystemOriginated == this.SourceSystemOriginated &&
-                  this.nexusId.StartDate == this.StartDate && this.nexusId.SystemName == this.SystemName);
+                !(this.nexusId.DefaultReverseInd == this.DefaultReverseInd && this.nexusId.EndDate == this.EndDate
+                  && this.nexusId.Identifier == this.MappingString && this.nexusId.IsMdmId == this.IsMdmId
+                  && this.nexusId.SourceSystemOriginated == this.SourceSystemOriginated
+                  && this.nexusId.StartDate == this.StartDate && this.nexusId.SystemName == this.SystemName);
         }
-
 
         private MdmId NewMdmId()
         {
             return new MdmId
-                {
-                    StartDate = DateUtility.MinDate,
-                    EndDate = DateUtility.MaxDate,
-                    DefaultReverseInd = false,
-                    SystemName = string.Empty,
-                    Identifier = string.Empty
-                };
+                       {
+                           StartDate = DateUtility.MinDate, 
+                           EndDate = DateUtility.MaxDate, 
+                           DefaultReverseInd = false, 
+                           SystemName = string.Empty, 
+                           Identifier = string.Empty
+                       };
         }
     }
 }

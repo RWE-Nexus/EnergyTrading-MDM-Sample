@@ -2,8 +2,8 @@
 namespace Admin.SourceSystemModule.ViewModels
 {
     using System;
-    using System.Collections.ObjectModel;
     using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     using System.Linq;
     using System.Windows.Input;
 
@@ -17,44 +17,54 @@ namespace Admin.SourceSystemModule.ViewModels
     using Common.UI.Uris;
     using Common.UI.ViewModels;
 
+    using EnergyTrading;
+    using EnergyTrading.Mdm.Client.Services;
+    using EnergyTrading.Mdm.Client.WebClient;
+    using EnergyTrading.Mdm.Contracts;
+
     using Microsoft.Practices.Prism.Events;
     using Microsoft.Practices.Prism.Interactivity.InteractionRequest;
     using Microsoft.Practices.Prism.Regions;
     using Microsoft.Practices.Prism.ViewModel;
 
-    using EnergyTrading;
-    using EnergyTrading.Mdm.Client.WebClient;
-    using EnergyTrading.MDM.Contracts.Sample; using EnergyTrading.Mdm.Contracts;
-    using EnergyTrading.Mdm.Client.Services;
-
     public class SourceSystemEditCloneViewModel : NotificationObject, INavigationAware, IConfirmNavigationRequest
     {
-        private readonly InteractionRequest<Confirmation> confirmationFromViewModelInteractionRequest;
-        private readonly IMdmService entityService;
-        private readonly IEventAggregator eventAggregator;
-        private readonly INavigationService navigationService;
-        private readonly IMappingService mappingService;
-        private ObservableCollection<MappingViewModel> mappings;
-        private SourceSystemViewModel sourcesystem;
-        private MappingViewModel selectedMapping;
-        private ICommand deleteMappingCommand;
-        private DateTime validAtDate;
         private readonly IApplicationCommands applicationCommands;
 
-        private int? originalEntityId;
-        private int? newEntityId;
+        private readonly InteractionRequest<Confirmation> confirmationFromViewModelInteractionRequest;
+
+        private readonly IMdmService entityService;
+
+        private readonly IEventAggregator eventAggregator;
+
+        private readonly IMappingService mappingService;
+
+        private readonly INavigationService navigationService;
+
         private readonly List<MappingViewModel> originalMappings = new List<MappingViewModel>();
 
-                private bool showSourceSystems;
-        
-                
+        private ICommand deleteMappingCommand;
+
+        private ObservableCollection<MappingViewModel> mappings;
+
+        private int? newEntityId;
+
+        private int? originalEntityId;
+
+        private MappingViewModel selectedMapping;
+
+        private bool showSourceSystems;
+
+        private SourceSystemViewModel sourcesystem;
+
+        private DateTime validAtDate;
+
         public SourceSystemEditCloneViewModel(
             IEventAggregator eventAggregator, 
-            IMdmService entityService,
-            INavigationService navigationService,
-            IMappingService mappingService,
-            IApplicationCommands applicationCommands
-            )
+            IMdmService entityService, 
+            INavigationService navigationService, 
+            IMappingService mappingService, 
+            IApplicationCommands applicationCommands)
         {
             this.navigationService = navigationService;
             this.mappingService = mappingService;
@@ -64,36 +74,234 @@ namespace Admin.SourceSystemModule.ViewModels
             this.confirmationFromViewModelInteractionRequest = new InteractionRequest<Confirmation>();
             this.CanEdit = AuthorisationHelpers.HasEntityRights("SourceSystem");
             this.eventAggregator.Subscribe<MappingClonedEvent>(this.MappingCloned);
-            
-                    }
+        }
 
         public bool CanEdit { get; private set; }
-    
-                
+
+        /// <summary>
+        /// Gets the notification from view model interaction request. View binds to this property
+        /// </summary>
+        public IInteractionRequest ConfirmationFromViewModelInteractionRequest
+        {
+            get
+            {
+                return this.confirmationFromViewModelInteractionRequest;
+            }
+        }
+
         public ICommand DeleteMappingCommand
         {
             get
             {
                 if (this.deleteMappingCommand == null)
                 {
-                    this.deleteMappingCommand = new RelayCommand(param => this.DeleteMapping(param), param => CanEditOrDeleteMapping(param));
+                    this.deleteMappingCommand = new RelayCommand(
+                        param => this.DeleteMapping(param), 
+                        param => CanEditOrDeleteMapping(param));
                 }
 
                 return this.deleteMappingCommand;
             }
         }
 
-        private void MappingCloned(MappingClonedEvent mappingClonedEvent)
+        public ObservableCollection<MappingViewModel> Mappings
         {
-            // if event pertains to a mapping belonging to our original entity, remove it from our original mappings list
-            if (originalEntityId.HasValue && originalEntityId.Value == mappingClonedEvent.EntityId)
+            get
             {
-                var mapping = originalMappings.FirstOrDefault(x => x.MappingId == mappingClonedEvent.MappingId);
-                if (mapping != null)
+                return this.mappings;
+            }
+
+            set
+            {
+                this.mappings = value;
+                this.RaisePropertyChanged(() => this.Mappings);
+            }
+        }
+
+        public MappingViewModel SelectedMapping
+        {
+            get
+            {
+                return this.selectedMapping;
+            }
+
+            set
+            {
+                this.selectedMapping = value;
+                this.RaisePropertyChanged(() => this.SelectedMapping);
+            }
+        }
+
+        public bool ShowSourceSystems
+        {
+            get
+            {
+                return this.showSourceSystems;
+            }
+
+            set
+            {
+                this.showSourceSystems = value;
+                this.RaisePropertyChanged(() => this.ShowSourceSystems);
+            }
+        }
+
+        public SourceSystemViewModel SourceSystem
+        {
+            get
+            {
+                return this.sourcesystem;
+            }
+
+            set
+            {
+                this.sourcesystem = value;
+                this.RaisePropertyChanged(() => this.SourceSystem);
+            }
+        }
+
+        public void ConfirmNavigationRequest(NavigationContext navigationContext, Action<bool> continuationCallback)
+        {
+            if (this.SourceSystem.CanSave)
+            {
+                this.eventAggregator.Publish(new DialogOpenEvent(true));
+                this.confirmationFromViewModelInteractionRequest.Raise(
+                    new Confirmation { Content = Message.UnsavedChanges, Title = Message.UnsavedChangeTitle }, 
+                    confirmation =>
+                        {
+                            continuationCallback(confirmation.Confirmed);
+                            this.eventAggregator.Publish(new DialogOpenEvent(false));
+                        });
+            }
+            else
+            {
+                continuationCallback(true);
+            }
+        }
+
+        public void DeleteParent()
+        {
+            this.SourceSystem.ParentId = null;
+            this.SourceSystem.ParentName = string.Empty;
+        }
+
+        public bool IsNavigationTarget(NavigationContext navigationContext)
+        {
+            return true;
+        }
+
+        public void NavigateToDetail(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                this.NavigateToDetailScreen();
+            }
+        }
+
+        public void NavigateToDetailDoubleClick()
+        {
+            this.NavigateToDetailScreen();
+        }
+
+        public void NavigateToParent()
+        {
+            this.navigationService.NavigateMain(
+                new EntityEditUri("SourceSystem", this.SourceSystem.ParentId, this.SourceSystem.Start));
+        }
+
+        public void OnNavigatedFrom(NavigationContext navigationContext)
+        {
+            this.eventAggregator.Unsubscribe<SaveEvent>(this.Save);
+            this.eventAggregator.Unsubscribe<CreateEvent>(this.CreateMapping);
+            this.eventAggregator.Unsubscribe<EntitySelectedEvent>(this.EntitySelected);
+
+            this.ShowSourceSystems = false;
+            this.applicationCommands.CloseView(
+                "SourceSystemEmbeddedSearchResultsView", 
+                "ClonedSourceSystem-SourceSystemSearchResultsRegion");
+        }
+
+        public void OnNavigatedTo(NavigationContext navigationContext)
+        {
+            this.eventAggregator.Subscribe<SaveEvent>(this.Save);
+            this.eventAggregator.Subscribe<CreateEvent>(this.CreateMapping);
+            this.eventAggregator.Subscribe<EntitySelectedEvent>(this.EntitySelected);
+            var entityId = int.Parse(navigationContext.Parameters[NavigationParameters.EntityId]);
+            var validAtDateParam = DateTime.Parse(navigationContext.Parameters[NavigationParameters.ValidAtDate]);
+
+            if (this.SourceSystem == null || this.validAtDate != validAtDateParam || this.SourceSystem.Id != entityId)
+            {
+                this.ShowSourceSystems = false;
+                this.applicationCommands.CloseView(
+                    "SourceSystemEmbeddedSearchResultsView", 
+                    "ClonedSourceSystem-SourceSystemSearchResultsRegion");
+            }
+
+            this.validAtDate = validAtDateParam;
+
+            // if this is an entity we are already cloning then just reload it
+            if (this.newEntityId.HasValue && this.newEntityId.Value == entityId)
+            {
+                this.LoadSourceSystemFromService(newEntityId.Value, this.validAtDate);
+            }
+                
+                // otherwise start a new session
+            else
+            {
+                this.newEntityId = entityId;
+                this.originalEntityId = int.Parse(navigationContext.Parameters[NavigationParameters.OriginalEntityId]);
+                DateTime originalValidAtDate =
+                    DateTime.Parse(navigationContext.Parameters[NavigationParameters.OriginalValidAtDate]);
+                this.originalMappings.Clear();
+
+                this.LoadSourceSystemFromService(
+                    newEntityId.Value, 
+                    this.validAtDate, 
+                    this.originalEntityId.Value, 
+                    originalValidAtDate);
+            }
+
+            this.applicationCommands.OpenView(
+                "SourceSystemEmbeddedSearchResultsView", 
+                "ClonedSourceSystem-SourceSystemSearchResultsRegion", 
+                entityId, 
+                validAtDate, 
+                "SourceSystem");
+
+            this.eventAggregator.Publish(new CanCreateNewChangeEvent(CanAddMappings()));
+        }
+
+        public void SelectParent()
+        {
+            this.eventAggregator.Publish(new EntitySelectEvent("SourceSystem", "Parent"));
+        }
+
+        public void Sorting()
+        {
+            this.SelectedMapping = null;
+        }
+
+        public void StartMinimum()
+        {
+            this.SourceSystem.Start = DateUtility.MinDate;
+        }
+
+        public void StartToday()
+        {
+            this.SourceSystem.Start = SystemTime.UtcNow().Date;
+        }
+
+        private bool CanAddMappings()
+        {
+            foreach (var system in mappingService.GetSourceSystemNames())
+            {
+                if (AuthorisationHelpers.HasMappingRights("SourceSystem", system))
                 {
-                    originalMappings.Remove(mapping);
+                    return true;
                 }
             }
+
+            return false;
         }
 
         private bool CanEditOrDeleteMapping(object mappingId)
@@ -112,9 +320,15 @@ namespace Admin.SourceSystemModule.ViewModels
             return AuthorisationHelpers.HasMappingRights("SourceSystem", system);
         }
 
+        private void CreateMapping(CreateEvent obj)
+        {
+            this.navigationService.NavigateMain(
+                new MappingAddUri(this.SourceSystem.Id.Value, "SourceSystem", this.SourceSystem.Name));
+        }
+
         private void DeleteMapping(object mappingId)
         {
-            if(mappingId == null)
+            if (mappingId == null)
             {
                 this.eventAggregator.Publish(new StatusEvent("MdmSystemData ID cannot be deleted"));
                 return;
@@ -145,82 +359,102 @@ namespace Admin.SourceSystemModule.ViewModels
                 new ErrorEvent(response.Fault != null ? response.Fault.Message : "Unkown Error"));
         }
 
-        private bool CanAddMappings()
+        private void EditClonedMapping()
         {
-            foreach (var system in mappingService.GetSourceSystemNames())
+            this.navigationService.NavigateMain(
+                new MappingCloneUri(
+                    this.SourceSystem.Id.Value, 
+                    "SourceSystem", 
+                    this.originalEntityId.Value, 
+                    Convert.ToInt32(this.SelectedMapping.MappingId), 
+                    this.SourceSystem.Name));
+        }
+
+        private void EditPersistedMapping()
+        {
+            this.navigationService.NavigateMain(
+                new MappingEditUri(
+                    this.SourceSystem.Id.Value, 
+                    "SourceSystem", 
+                    Convert.ToInt32(this.SelectedMapping.MappingId), 
+                    this.SourceSystem.Name));
+        }
+
+        private void EntitySelected(EntitySelectedEvent obj)
+        {
+            switch (obj.EntityKey)
             {
-                if (AuthorisationHelpers.HasMappingRights("SourceSystem", system))
+                case "Parent":
+                    this.SourceSystem.ParentId = obj.Id;
+                    this.SourceSystem.ParentName = obj.EntityValue;
+                    break;
+            }
+        }
+
+        private void LoadSourceSystemFromService(
+            int sourcesystemId, 
+            DateTime validAt, 
+            int originalSourceSystemId, 
+            DateTime originalValidAt)
+        {
+            this.entityService.ExecuteAsync(
+                () => this.entityService.Get<SourceSystem>(originalSourceSystemId, originalValidAt), 
+                response =>
+                    {
+                        // retrieve the original entity and stash away its (non nexus) entity mappings
+                        this.originalMappings.AddRange(
+                            response.Message.Identifiers.Where(x => !x.IsMdmId)
+                                .Select(
+                                    x =>
+                                    new MappingViewModel(new EntityWithETag<MdmId>(x, null), this.eventAggregator)
+                                        {
+                                            IsClonedCopy
+                                                =
+                                                true
+                                        }));
+
+                        // now load the new entity
+                        LoadSourceSystemFromService(sourcesystemId, validAt);
+                    }, 
+                this.eventAggregator);
+        }
+
+        private void LoadSourceSystemFromService(int sourcesystemId, DateTime validAt)
+        {
+            this.entityService.ExecuteAsync(
+                () => this.entityService.Get<SourceSystem>(sourcesystemId, validAt), 
+                response =>
+                    {
+                        // load new entity
+                        this.SourceSystem =
+                            new SourceSystemViewModel(
+                                new EntityWithETag<SourceSystem>(response.Message, response.Tag), 
+                                this.eventAggregator);
+
+                        // load any mappings
+                        this.Mappings =
+                            new ObservableCollection<MappingViewModel>(
+                                response.Message.Identifiers.Select(
+                                    nexusId =>
+                                    new MappingViewModel(new EntityWithETag<MdmId>(nexusId, null), this.eventAggregator)));
+
+                        // merge original mappings
+                        this.originalMappings.ForEach(x => this.Mappings.Add(x));
+                    }, 
+                this.eventAggregator);
+        }
+
+        private void MappingCloned(MappingClonedEvent mappingClonedEvent)
+        {
+            // if event pertains to a mapping belonging to our original entity, remove it from our original mappings list
+            if (originalEntityId.HasValue && originalEntityId.Value == mappingClonedEvent.EntityId)
+            {
+                var mapping = originalMappings.FirstOrDefault(x => x.MappingId == mappingClonedEvent.MappingId);
+                if (mapping != null)
                 {
-                    return true;
+                    originalMappings.Remove(mapping);
                 }
             }
-            return false;
-        }
-        
-        /// <summary>
-        /// Gets the notification from view model interaction request. View binds to this property
-        /// </summary>
-        public IInteractionRequest ConfirmationFromViewModelInteractionRequest
-        {
-            get
-            {
-                return this.confirmationFromViewModelInteractionRequest;
-            }
-        }
-
-        public ObservableCollection<MappingViewModel> Mappings
-        {
-            get
-            {
-                return this.mappings;
-            }
-
-            set
-            {
-                this.mappings = value;
-                this.RaisePropertyChanged(() => this.Mappings);
-            }
-        }
-
-        public SourceSystemViewModel SourceSystem
-        {
-            get
-            {
-                return this.sourcesystem;
-            }
-
-            set
-            {
-                this.sourcesystem = value;
-                this.RaisePropertyChanged(() => this.SourceSystem);
-            }
-        }
-
-        public MappingViewModel SelectedMapping
-        {
-            get
-            {
-                return this.selectedMapping;
-            }
-
-            set
-            {
-                this.selectedMapping = value;
-                this.RaisePropertyChanged(() => this.SelectedMapping);
-            }
-        }
-
-        public void NavigateToDetail(object sender, KeyEventArgs e)
-        {
-            if (e.Key == Key.Enter)
-            {
-                this.NavigateToDetailScreen();
-            }
-        }
-
-        public void NavigateToDetailDoubleClick()
-        {
-            this.NavigateToDetailScreen();
         }
 
         private void NavigateToDetailScreen()
@@ -237,6 +471,7 @@ namespace Admin.SourceSystemModule.ViewModels
                     {
                         EditPersistedMapping();
                     }
+
                     return;
                 }
 
@@ -244,221 +479,14 @@ namespace Admin.SourceSystemModule.ViewModels
             }
         }
 
-        private void EditClonedMapping()
-        {
-            this.navigationService.NavigateMain(
-                new MappingCloneUri(
-                    this.SourceSystem.Id.Value, "SourceSystem",
-                    this.originalEntityId.Value,
-                    Convert.ToInt32(this.SelectedMapping.MappingId),
-                    this.SourceSystem.Name));
-        }
-
-        private void EditPersistedMapping()
-        {
-            this.navigationService.NavigateMain(
-                new MappingEditUri(
-                    this.SourceSystem.Id.Value, "SourceSystem",
-                    Convert.ToInt32(this.SelectedMapping.MappingId), 
-                    this.SourceSystem.Name));
-        }
-
-        public void Sorting()
-        {
-            this.SelectedMapping = null;
-        }
-
-        public void ConfirmNavigationRequest(NavigationContext navigationContext, Action<bool> continuationCallback)
-        {
-            if (this.SourceSystem.CanSave)
-            {
-                this.eventAggregator.Publish(new DialogOpenEvent(true));
-                this.confirmationFromViewModelInteractionRequest.Raise(
-                    new Confirmation { Content = Message.UnsavedChanges, Title = Message.UnsavedChangeTitle },
-                    confirmation =>
-                        {
-                            continuationCallback(confirmation.Confirmed);
-                            this.eventAggregator.Publish(new DialogOpenEvent(false));
-                        });
-            }
-            else
-            {
-                continuationCallback(true);
-            }
-        }
-
-        public bool IsNavigationTarget(NavigationContext navigationContext)
-        {
-            return true;
-        }
-
-        public void OnNavigatedFrom(NavigationContext navigationContext)
-        {
-            this.eventAggregator.Unsubscribe<SaveEvent>(this.Save);
-            this.eventAggregator.Unsubscribe<CreateEvent>(this.CreateMapping);
-            this.eventAggregator.Unsubscribe<EntitySelectedEvent>(this.EntitySelected);
-            
-                    this.ShowSourceSystems = false;
-            this.applicationCommands.CloseView("SourceSystemEmbeddedSearchResultsView", "ClonedSourceSystem-SourceSystemSearchResultsRegion");
-        
-                }
-
-        public void OnNavigatedTo(NavigationContext navigationContext)
-        {
-            this.eventAggregator.Subscribe<SaveEvent>(this.Save);
-            this.eventAggregator.Subscribe<CreateEvent>(this.CreateMapping);
-            this.eventAggregator.Subscribe<EntitySelectedEvent>(this.EntitySelected);
-            var entityId = int.Parse(navigationContext.Parameters[NavigationParameters.EntityId]);
-            var validAtDateParam = DateTime.Parse(navigationContext.Parameters[NavigationParameters.ValidAtDate]);
-
-            if (this.SourceSystem == null || this.validAtDate != validAtDateParam ||
-                this.SourceSystem.Id != entityId)
-            {
-							this.ShowSourceSystems = false;
-				this.applicationCommands.CloseView("SourceSystemEmbeddedSearchResultsView", "ClonedSourceSystem-SourceSystemSearchResultsRegion");
-        
-			            }
-
-            this.validAtDate = validAtDateParam;
-
-            // if this is an entity we are already cloning then just reload it
-            if (this.newEntityId.HasValue && this.newEntityId.Value == entityId)
-            {
-                this.LoadSourceSystemFromService(newEntityId.Value, this.validAtDate);
-            }
-            // otherwise start a new session
-            else
-            {
-                this.newEntityId = entityId;
-                this.originalEntityId = int.Parse(navigationContext.Parameters[NavigationParameters.OriginalEntityId]);
-                DateTime originalValidAtDate = DateTime.Parse(navigationContext.Parameters[NavigationParameters.OriginalValidAtDate]);
-                this.originalMappings.Clear();
-
-                this.LoadSourceSystemFromService(newEntityId.Value, this.validAtDate, this.originalEntityId.Value, originalValidAtDate);
-            }
-
-                    this.applicationCommands.OpenView("SourceSystemEmbeddedSearchResultsView", "ClonedSourceSystem-SourceSystemSearchResultsRegion", entityId, validAtDate, "SourceSystem");
-        
-                    this.eventAggregator.Publish(new CanCreateNewChangeEvent(CanAddMappings()));
-        }
-
-                public bool ShowSourceSystems
-        {
-            get
-            {
-                return this.showSourceSystems;
-            }
-    
-            set
-            {
-                this.showSourceSystems = value;
-                this.RaisePropertyChanged(() => this.ShowSourceSystems);
-            }
-        }
-        
-
-        private void EntitySelected(EntitySelectedEvent obj)
-        {
-                            switch (obj.EntityKey)
-                {
-                                                case "Parent":
-                                this.SourceSystem.ParentId = obj.Id;
-                                this.SourceSystem.ParentName = obj.EntityValue;
-                                break;
-
-                                    }
-                        }
-
-        	
-        public void NavigateToParent()
-        {
-            this.navigationService.NavigateMain(new EntityEditUri("SourceSystem", this.SourceSystem.ParentId, this.SourceSystem.Start));
-        }
-
-        public void SelectParent()
-        {
-            this.eventAggregator.Publish(new EntitySelectEvent("SourceSystem", "Parent"));
-        }
-        
-        public void DeleteParent()
-        {
-            this.SourceSystem.ParentId = null;
-            this.SourceSystem.ParentName = string.Empty;
-        }
-
-        private void CreateMapping(CreateEvent obj)
-        {
-            this.navigationService.NavigateMain(new MappingAddUri(this.SourceSystem.Id.Value, "SourceSystem", this.SourceSystem.Name));
-        }
-
-
-
-
-
-        private void LoadSourceSystemFromService(int sourcesystemId, DateTime validAt, int originalSourceSystemId, DateTime originalValidAt)
-        {
-            this.entityService.ExecuteAsync(
-                () => this.entityService.Get<SourceSystem>(originalSourceSystemId, originalValidAt),
-                (response) =>
-                {
-                    // retrieve the original entity and stash away its (non nexus) entity mappings
-                    this.originalMappings.AddRange(
-                        response.Message.Identifiers
-                            .Where(x => !x.IsMdmId)
-                            .Select(
-                                x =>
-                                new MappingViewModel(new EntityWithETag<MdmId>(x, null), this.eventAggregator) { IsClonedCopy = true }
-                                ));
-
-                    // now load the new entity
-                    LoadSourceSystemFromService(sourcesystemId, validAt);
-                },
-                this.eventAggregator);
-        }
-        
-        private void LoadSourceSystemFromService(int sourcesystemId, DateTime validAt)
-        {
-            this.entityService.ExecuteAsync(
-                () => this.entityService.Get<SourceSystem>(sourcesystemId, validAt),
-                (response) =>
-                {
-                    // load new entity
-                    this.SourceSystem =
-                        new SourceSystemViewModel(
-                            new EntityWithETag<SourceSystem>(response.Message, response.Tag),
-                            this.eventAggregator);
-
-                    // load any mappings
-                    this.Mappings =
-                        new ObservableCollection<MappingViewModel>(
-                            response.Message.Identifiers.Select(
-                                nexusId =>
-                                new MappingViewModel(
-                                    new EntityWithETag<MdmId>(nexusId, null), this.eventAggregator)));
-
-                    // merge original mappings
-                    this.originalMappings.ForEach(x => this.Mappings.Add(x));
-                },
-                this.eventAggregator);
-        }
-
         private void Save(SaveEvent saveEvent)
         {
-   this.entityService.ExecuteAsync(
-                () => this.entityService.Update(this.SourceSystem.Id.Value, this.SourceSystem.Model(), this.SourceSystem.ETag), 
+            this.entityService.ExecuteAsync(
+                () =>
+                this.entityService.Update(this.SourceSystem.Id.Value, this.SourceSystem.Model(), this.SourceSystem.ETag), 
                 () => this.LoadSourceSystemFromService(this.SourceSystem.Id.Value, this.SourceSystem.Start), 
-                string.Format(Message.EntityUpdatedFormatString, "SourceSystem"),
+                string.Format(Message.EntityUpdatedFormatString, "SourceSystem"), 
                 this.eventAggregator);
-        }
-
-        public void StartToday()
-        {
-            this.SourceSystem.Start = SystemTime.UtcNow().Date;
-        }
-
-        public void StartMinimum()
-        {
-            this.SourceSystem.Start = DateUtility.MinDate;
         }
     }
 }

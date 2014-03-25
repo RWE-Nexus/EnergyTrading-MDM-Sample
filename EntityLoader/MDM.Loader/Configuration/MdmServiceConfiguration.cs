@@ -22,7 +22,7 @@
         {
             get
             {
-                return new List<Type> { };
+                return new List<Type>();
             }
         }
 

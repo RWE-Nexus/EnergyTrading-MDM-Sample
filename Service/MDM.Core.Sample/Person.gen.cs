@@ -2,7 +2,6 @@
 {
     using System.Collections.Generic;
 
-    using EnergyTrading;
     using EnergyTrading.Data;
     using EnergyTrading.MDM.Extensions;
 
@@ -14,25 +13,26 @@
             this.Details = new List<PersonDetails>();
         }
 
+        public virtual IList<PersonDetails> Details { get; private set; }
+
         public int Id { get; set; }
 
-        object IIdentifiable.Id
+        public PersonDetails LatestDetails
         {
-            get { return this.Id; }
+            get
+            {
+                return this.Details.Latest();
+            }
         }
 
         public virtual IList<PersonMapping> Mappings { get; private set; }
 
-        public virtual IList<PersonDetails> Details { get; private set; }
-
-        public PersonDetails LatestDetails
-        {
-            get { return this.Details.Latest(); }
-        }
-
         public DateRange Validity
         {
-            get { return this.Details.GetEntityValidity(); }
+            get
+            {
+                return this.Details.GetEntityValidity();
+            }
         }
 
         /// <remarks>
@@ -45,6 +45,14 @@
             {
                 var version = this.Details.LatestVersion(this.Mappings.LatestVersion());
                 return version;
+            }
+        }
+
+        object IIdentifiable.Id
+        {
+            get
+            {
+                return this.Id;
             }
         }
 
@@ -68,11 +76,6 @@
         }
 
         /// <summary>
-        /// Perform the field by field copy operation
-        /// </summary>
-        partial void CopyDetails(PersonDetails details);
-
-        /// <summary>
         /// Add or update a mapping, checking that it exists and that the details are compatible.
         /// </summary>
         /// <param name="mapping"></param>
@@ -90,5 +93,10 @@
         {
             this.ProcessMapping(mapping as PersonMapping);
         }
+
+        /// <summary>
+        /// Perform the field by field copy operation
+        /// </summary>
+        partial void CopyDetails(PersonDetails details);
     }
 }

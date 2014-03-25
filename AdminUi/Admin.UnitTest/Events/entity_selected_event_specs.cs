@@ -4,19 +4,20 @@ namespace Admin.UnitTest.Events
 
     using Common.Events;
     using Common.Extensions;
+
     using Microsoft.Practices.EnterpriseLibrary.Logging;
     using Microsoft.Practices.Prism.Events;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
+
     using Shell.ViewModels;
 
     [TestClass]
     public class when_an_entity_selected_event_is_published : TestBase<ShellViewModel>
     {
-        protected override void Establish_context()
+        [TestMethod]
+        public void should_tell_the_shell_that_an_entity_has_been_selected()
         {
-            this.AddConcrete<IEventAggregator, EventAggregator>(new EventAggregator());
-            this.RegisterMock<LogWriter>();
-            base.Establish_context();
+            Assert.AreEqual(false, this.Sut.SelectEntity);
         }
 
         protected override void Because_of()
@@ -24,10 +25,11 @@ namespace Admin.UnitTest.Events
             this.Concrete<IEventAggregator>().Publish(new EntitySelectedEvent("Party", 1, "value"));
         }
 
-        [TestMethod]
-        public void should_tell_the_shell_that_an_entity_has_been_selected()
+        protected override void Establish_context()
         {
-            Assert.AreEqual(false, this.Sut.SelectEntity);
+            this.AddConcrete<IEventAggregator, EventAggregator>(new EventAggregator());
+            this.RegisterMock<LogWriter>();
+            base.Establish_context();
         }
     }
 }

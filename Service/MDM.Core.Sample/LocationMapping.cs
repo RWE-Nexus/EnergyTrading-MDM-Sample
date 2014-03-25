@@ -9,8 +9,15 @@ namespace EnergyTrading.MDM
 
         protected override IEntity Entity
         {
-            get { return this.Location; }
-            set { this.Location = value as Location; }
+            get
+            {
+                return this.Location;
+            }
+
+            set
+            {
+                this.Location = value as Location;
+            }
         }
     }
 }

@@ -17,8 +17,13 @@ namespace Common.Services
 
         void OpenView(string viewType, string regionName, int producttypeId, DateTime? validAtString);
 
-        void OpenView(string viewType, string regionName, int producttypeId, DateTime? validAtString, string contextType);
+        void OpenView(
+            string viewType, 
+            string regionName, 
+            int producttypeId, 
+            DateTime? validAtString, 
+            string contextType);
 
-        void OpenView(Type viewType, string regionName, IDictionary<String, String> parameters);
+        void OpenView(Type viewType, string regionName, IDictionary<string, string> parameters);
     }
 }

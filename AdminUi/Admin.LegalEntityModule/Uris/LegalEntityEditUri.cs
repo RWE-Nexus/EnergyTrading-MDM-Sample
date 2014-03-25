@@ -2,15 +2,24 @@
 namespace Admin.LegalEntityModule.Uris
 {
     using System;
+
     using Admin.LegalEntityModule.Views;
+
     using Common;
 
     public class LegalEntityEditUri : Uri
     {
-        public LegalEntityEditUri(int legalentityId, DateTime validAt) : 
-            base(LegalEntityViewNames.LegalEntityEditView + string.Format("?{0}={1}&{2}={3}", NavigationParameters.EntityId, legalentityId, NavigationParameters.ValidAtDate, validAt), UriKind.Relative)
+        public LegalEntityEditUri(int legalentityId, DateTime validAt)
+            : base(
+                LegalEntityViewNames.LegalEntityEditView
+                + string.Format(
+                    "?{0}={1}&{2}={3}", 
+                    NavigationParameters.EntityId, 
+                    legalentityId, 
+                    NavigationParameters.ValidAtDate, 
+                    validAt), 
+                UriKind.Relative)
         {
         }
     }
 }
-    

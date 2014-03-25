@@ -3,12 +3,16 @@ namespace Admin.SourceSystemModule.Views
 {
     public static class SourceSystemViewNames
     {
-        public static string SourceSystemEditView = "SourceSystemEditView";
-        public static string SourceSystemAddView = "SourceSystemAddView";
-        public static string SourceSystemSearchResultsView = "SourceSystem";
-        public static string SourceSystemEmbeddedSearchResultsView = "SourceSystemEmbeddedSearchResultsView";
-            public static string SourceSystemEditCloneView = "SourceSystemEditCloneView";
         public static string SourceSystemAddCloneView = "SourceSystemAddCloneView";
-        }
+
+        public static string SourceSystemAddView = "SourceSystemAddView";
+
+        public static string SourceSystemEditCloneView = "SourceSystemEditCloneView";
+
+        public static string SourceSystemEditView = "SourceSystemEditView";
+
+        public static string SourceSystemEmbeddedSearchResultsView = "SourceSystemEmbeddedSearchResultsView";
+
+        public static string SourceSystemSearchResultsView = "SourceSystem";
+    }
 }
-    

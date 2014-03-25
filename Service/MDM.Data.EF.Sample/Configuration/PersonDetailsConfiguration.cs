@@ -2,8 +2,6 @@
 {
     using System.Data.Entity.ModelConfiguration;
 
-    
-
     public class PersonDetailsConfiguration : EntityTypeConfiguration<PersonDetails>
     {
         public PersonDetailsConfiguration()

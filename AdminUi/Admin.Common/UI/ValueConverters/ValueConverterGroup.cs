@@ -23,6 +23,7 @@ namespace Common.UI.ValueConverters
     {
         private readonly Dictionary<IValueConverter, ValueConversionAttribute> cachedAttributes =
             new Dictionary<IValueConverter, ValueConversionAttribute>();
+
         private readonly ObservableCollection<IValueConverter> converters = new ObservableCollection<IValueConverter>();
 
         public ValueConverterGroup()
@@ -100,8 +101,8 @@ namespace Common.UI.ValueConverters
                     if (nextConverter == null)
                     {
                         throw new InvalidOperationException(
-                            "The Converters collection of the ValueConverterGroup contains a null reference at index: " +
-                            (converterIndex + 1));
+                            "The Converters collection of the ValueConverterGroup contains a null reference at index: "
+                            + (converterIndex + 1));
                     }
                 }
             }
@@ -113,8 +114,8 @@ namespace Common.UI.ValueConverters
                     if (nextConverter == null)
                     {
                         throw new InvalidOperationException(
-                            "The Converters collection of the ValueConverterGroup contains a null reference at index: " +
-                            (converterIndex - 1));
+                            "The Converters collection of the ValueConverterGroup contains a null reference at index: "
+                            + (converterIndex - 1));
                     }
                 }
             }
@@ -158,8 +159,8 @@ namespace Common.UI.ValueConverters
             {
                 foreach (IValueConverter converter in convertersToProcess)
                 {
-                    object[] attributes = converter.GetType().GetCustomAttributes(
-                        typeof(ValueConversionAttribute), false);
+                    object[] attributes = converter.GetType()
+                        .GetCustomAttributes(typeof(ValueConversionAttribute), false);
 
                     if (attributes.Length != 1)
                     {

@@ -2,6 +2,7 @@
 namespace Admin.ExchangeModule.Views
 {
     using System.Windows.Controls;
+
     using Admin.ExchangeModule.ViewModels;
 
     /// <summary>

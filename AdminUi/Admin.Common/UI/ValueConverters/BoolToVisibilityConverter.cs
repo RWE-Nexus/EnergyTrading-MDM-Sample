@@ -15,10 +15,8 @@ namespace Common.UI.ValueConverters
             {
                 return visible.Value ? Visibility.Visible : Visibility.Collapsed;
             }
-            else
-            {
-                return null;
-            }
+
+            return null;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

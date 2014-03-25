@@ -100,9 +100,53 @@
             worker.RunWorkerAsync();
         }
 
+        public static void ExecuteAsyncRD(
+            this IReferenceDataService mdmService, 
+            Func<WebResponse<IList<ReferenceData>>> serviceCall, 
+            Action success, 
+            string statusUpate, 
+            IEventAggregator eventAggregator)
+        {
+            var worker = new BackgroundWorker();
+
+            worker.DoWork += (sender, args) =>
+                {
+                    WebResponse<IList<ReferenceData>> response = serviceCall();
+                    args.Result = response;
+                };
+
+            worker.RunWorkerCompleted += (o, eventArgs) =>
+                {
+                    var response = (WebResponse<IList<ReferenceData>>)eventArgs.Result;
+
+                    if (eventArgs.Error != null)
+                    {
+                        eventAggregator.Publish(new BusyEvent(false));
+                        eventAggregator.Publish(new ErrorEvent(eventArgs.Error));
+                        return;
+                    }
+
+                    if (!response.IsValid)
+                    {
+                        eventAggregator.Publish(new BusyEvent(false));
+                        eventAggregator.Publish(new ErrorEvent(response.Fault));
+                        return;
+                    }
+
+                    success();
+                    eventAggregator.Publish(new BusyEvent(false));
+                    eventAggregator.Publish(new StatusEvent(statusUpate));
+                };
+
+            worker.RunWorkerAsync();
+        }
+
         public static void ExecuteAsyncSearch<T>(
-            this IMdmService mdmService, Search search, Action<IList<T>> success, IEventAggregator eventAggregator, bool limited = true)
-            where T : IMdmEntity
+            this IMdmService mdmService, 
+            Search search, 
+            Action<IList<T>> success, 
+            IEventAggregator eventAggregator, 
+            bool limited = true) where T : IMdmEntity
         {
             var worker = new BackgroundWorker();
 
@@ -111,9 +155,15 @@
                     var start = SystemTime.UtcNow();
                     eventAggregator.Publish(new BusyEvent(true));
                     if (limited)
-                        search.NotMultiPage().MaxPageSize(int.Parse(ConfigurationManager.AppSettings["maxSearchResults"]));
+                    {
+                        search.NotMultiPage()
+                            .MaxPageSize(int.Parse(ConfigurationManager.AppSettings["maxSearchResults"]));
+                    }
                     else
+                    {
                         search.NotMultiPage().MaxPageSize(int.MaxValue);
+                    }
+
                     WebResponse<IList<T>> response = mdmService.Search<T>(search);
                     var responseAndTime = new Tuple<WebResponse<IList<T>>, DateTime>(response, start);
                     args.Result = responseAndTime;
@@ -169,11 +219,21 @@
                     var start = SystemTime.UtcNow();
                     eventAggregator.Publish(new BusyEvent(true));
                     if (limited)
-                        search.NotMultiPage().MaxPageSize(int.Parse(ConfigurationManager.AppSettings["maxSearchResults"]));
+                    {
+                        search.NotMultiPage()
+                            .MaxPageSize(int.Parse(ConfigurationManager.AppSettings["maxSearchResults"]));
+                    }
                     else
+                    {
                         search.NotMultiPage().MaxPageSize(int.MaxValue);
-//                    WebResponse<IList<ReferenceData>> response = mdmService.Search(search);
-                    WebResponse<ReferenceDataList> response = mdmService.List(search.SearchFields.Criterias.Count == 0 ? "{}" : search.SearchFields.Criterias[0].Criteria[0].ComparisonValue);
+                    }
+
+                    // WebResponse<IList<ReferenceData>> response = mdmService.Search(search);
+                    WebResponse<ReferenceDataList> response =
+                        mdmService.List(
+                            search.SearchFields.Criterias.Count == 0
+                                ? "{}"
+                                : search.SearchFields.Criterias[0].Criteria[0].ComparisonValue);
                     var responseAndTime = new Tuple<WebResponse<ReferenceDataList>, DateTime>(response, start);
                     args.Result = responseAndTime;
                 };
@@ -210,47 +270,6 @@
                     eventAggregator.Publish(new BusyEvent(false));
                     eventAggregator.Publish(new StatusEvent("Query Execution: " + duration.TotalSeconds));
                 };
-
-            worker.RunWorkerAsync();
-        }
-
-        public static void ExecuteAsyncRD(
-            this IReferenceDataService mdmService,
-            Func<WebResponse<IList<ReferenceData>>> serviceCall,
-            Action success,
-            string statusUpate,
-            IEventAggregator eventAggregator)
-        {
-            var worker = new BackgroundWorker();
-
-            worker.DoWork += (sender, args) =>
-            {
-                WebResponse<IList<ReferenceData>> response = serviceCall();
-                args.Result = response;
-            };
-
-            worker.RunWorkerCompleted += (o, eventArgs) =>
-            {
-                var response = (WebResponse<IList<ReferenceData>>)eventArgs.Result;
-
-                if (eventArgs.Error != null)
-                {
-                    eventAggregator.Publish(new BusyEvent(false));
-                    eventAggregator.Publish(new ErrorEvent(eventArgs.Error));
-                    return;
-                }
-
-                if (!response.IsValid)
-                {
-                    eventAggregator.Publish(new BusyEvent(false));
-                    eventAggregator.Publish(new ErrorEvent(response.Fault));
-                    return;
-                }
-
-                success();
-                eventAggregator.Publish(new BusyEvent(false));
-                eventAggregator.Publish(new StatusEvent(statusUpate));
-            };
 
             worker.RunWorkerAsync();
         }

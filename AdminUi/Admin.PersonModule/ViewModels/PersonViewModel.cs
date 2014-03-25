@@ -2,7 +2,6 @@
 namespace Admin.PersonModule.ViewModels
 {
     using System;
-    using System.Collections.Generic;
     using System.Linq.Expressions;
 
     using Common.Events;
@@ -10,29 +9,49 @@ namespace Admin.PersonModule.ViewModels
     using Common.Framework;
     using Common.Services;
 
+    using EnergyTrading.Mdm.Contracts;
+    using EnergyTrading.MDM.Contracts.Sample;
+
     using Microsoft.Practices.Prism.Events;
     using Microsoft.Practices.Prism.ViewModel;
-
-    using EnergyTrading.MDM.Contracts.Sample; using EnergyTrading.Mdm.Contracts;
 
     public class PersonViewModel : NotificationObject
     {
         private readonly IEventAggregator eventAggregator;
+
         private readonly Person person;
+
         private bool canSave;
+
+        private string email;
 
         private DateTime end;
 
+        private string faxnumber;
+
+        private string forename;
+
+        private string role;
+
         private DateTime start;
+
+        private string surname;
+
+        private string telephonenumber;
 
         public PersonViewModel(IEventAggregator eventAggregator)
         {
             this.eventAggregator = eventAggregator;
 
             this.person = new Person
-            {
-                MdmSystemData = new SystemData { StartDate = DateUtility.MinDate, EndDate = DateUtility.MaxDate } 
-            };
+                              {
+                                  MdmSystemData =
+                                      new SystemData
+                                          {
+                                              StartDate = DateUtility.MinDate, 
+                                              EndDate = DateUtility.MaxDate
+                                          }
+                              };
 
             this.Start = this.person.MdmSystemData.StartDate.Value;
 
@@ -70,54 +89,13 @@ namespace Admin.PersonModule.ViewModels
             this.Email = this.person.Details.Email;
         }
 
-        private System.String forename;
-        public System.String Forename 
-        { 
-            get { return this.forename; }
-            set { this.ChangeProperty(() => this.Forename, ref this.forename, value); }
-        }
-
-        private System.String surname;
-        public System.String Surname 
-        { 
-            get { return this.surname; }
-            set { this.ChangeProperty(() => this.Surname, ref this.surname, value); }
-        }
-
-        private System.String faxnumber;
-        public System.String FaxNumber 
-        { 
-            get { return this.faxnumber; }
-            set { this.ChangeProperty(() => this.FaxNumber, ref this.faxnumber, value); }
-        }
-
-        private System.String telephonenumber;
-        public System.String TelephoneNumber 
-        { 
-            get { return this.telephonenumber; }
-            set { this.ChangeProperty(() => this.TelephoneNumber, ref this.telephonenumber, value); }
-        }
-
-        private System.String role;
-        public System.String Role 
-        { 
-            get { return this.role; }
-            set { this.ChangeProperty(() => this.Role, ref this.role, value); }
-        }
-
-        private System.String email;
-        public System.String Email 
-        { 
-            get { return this.email; }
-            set { this.ChangeProperty(() => this.Email, ref this.email, value); }
-        }
-
         public bool CanSave
         {
             get
             {
                 return this.canSave;
             }
+
             set
             {
                 this.canSave = value;
@@ -127,19 +105,80 @@ namespace Admin.PersonModule.ViewModels
 
         public string ETag { get; private set; }
 
+        public string Email
+        {
+            get
+            {
+                return this.email;
+            }
+
+            set
+            {
+                this.ChangeProperty(() => this.Email, ref this.email, value);
+            }
+        }
+
         public DateTime End
         {
             get
             {
                 return this.end;
             }
+
             set
             {
                 this.ChangeProperty(() => this.End, ref this.end, value);
             }
         }
 
+        public string FaxNumber
+        {
+            get
+            {
+                return this.faxnumber;
+            }
+
+            set
+            {
+                this.ChangeProperty(() => this.FaxNumber, ref this.faxnumber, value);
+            }
+        }
+
+        public string Forename
+        {
+            get
+            {
+                return this.forename;
+            }
+
+            set
+            {
+                this.ChangeProperty(() => this.Forename, ref this.forename, value);
+            }
+        }
+
         public int? Id { get; private set; }
+
+        public string Name
+        {
+            get
+            {
+                return Surname + ", " + Forename;
+            }
+        }
+
+        public string Role
+        {
+            get
+            {
+                return this.role;
+            }
+
+            set
+            {
+                this.ChangeProperty(() => this.Role, ref this.role, value);
+            }
+        }
 
         public DateTime Start
         {
@@ -147,27 +186,55 @@ namespace Admin.PersonModule.ViewModels
             {
                 return this.start;
             }
+
             set
             {
                 this.ChangeProperty(() => this.Start, ref this.start, value);
             }
         }
 
+        public string Surname
+        {
+            get
+            {
+                return this.surname;
+            }
+
+            set
+            {
+                this.ChangeProperty(() => this.Surname, ref this.surname, value);
+            }
+        }
+
+        public string TelephoneNumber
+        {
+            get
+            {
+                return this.telephonenumber;
+            }
+
+            set
+            {
+                this.ChangeProperty(() => this.TelephoneNumber, ref this.telephonenumber, value);
+            }
+        }
+
         public Person Model()
         {
             return new Person
-            {
-                Details = new PersonDetails 
-                {
-                    Forename = this.Forename
-                    ,Surname = this.Surname
-                    ,FaxNumber = this.FaxNumber
-                    ,TelephoneNumber = this.TelephoneNumber
-                    ,Role = this.Role
-                    ,Email = this.Email
-                }, 
-                MdmSystemData = new SystemData { StartDate = this.Start, EndDate = this.End }
-            };
+                       {
+                           Details =
+                               new PersonDetails
+                                   {
+                                       Forename = this.Forename, 
+                                       Surname = this.Surname, 
+                                       FaxNumber = this.FaxNumber, 
+                                       TelephoneNumber = this.TelephoneNumber, 
+                                       Role = this.Role, 
+                                       Email = this.Email
+                                   }, 
+                           MdmSystemData = new SystemData { StartDate = this.Start, EndDate = this.End }
+                       };
         }
 
         private void ChangeProperty<T>(Expression<Func<T>> property, ref T variable, T newValue)
@@ -181,21 +248,11 @@ namespace Admin.PersonModule.ViewModels
         private bool HasChanges()
         {
             return
-                !(
-                    this.person.MdmSystemData.StartDate == this.Start 
-                    && this.person.MdmSystemData.EndDate == this.End
-                    && this.person.Details.Forename == this.Forename 
-                    && this.person.Details.Surname == this.Surname 
-                    && this.person.Details.FaxNumber == this.FaxNumber 
-                    && this.person.Details.TelephoneNumber == this.TelephoneNumber 
-                    && this.person.Details.Role == this.Role 
-                    && this.person.Details.Email == this.Email 
-                );
-        }
-
-        public System.String Name
-        {
-            get { return Surname + ", " + Forename; }
+                !(this.person.MdmSystemData.StartDate == this.Start && this.person.MdmSystemData.EndDate == this.End
+                  && this.person.Details.Forename == this.Forename && this.person.Details.Surname == this.Surname
+                  && this.person.Details.FaxNumber == this.FaxNumber
+                  && this.person.Details.TelephoneNumber == this.TelephoneNumber
+                  && this.person.Details.Role == this.Role && this.person.Details.Email == this.Email);
         }
     }
 }

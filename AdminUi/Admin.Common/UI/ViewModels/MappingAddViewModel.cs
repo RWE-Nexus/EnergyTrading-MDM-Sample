@@ -21,19 +21,27 @@
     public class MappingAddViewModel : NotificationObject, IConfirmNavigationRequest
     {
         private readonly InteractionRequest<Confirmation> confirmationFromViewModelInteractionRequest;
+
+        private readonly IEventAggregator eventAggregator;
+
         private readonly IMappingService mappingService;
 
         private readonly INavigationService navigationService;
 
-        private readonly IEventAggregator eventAggregator;
         private string entityId;
-        private MappingViewModel mapping;
-        private string entityName;
-        private IList<string> sourceSystems;
+
         private string entityInstanceName;
 
+        private string entityName;
+
+        private MappingViewModel mapping;
+
+        private IList<string> sourceSystems;
+
         public MappingAddViewModel(
-            IEventAggregator eventAggregator, IMappingService mappingService, INavigationService navigationService)
+            IEventAggregator eventAggregator, 
+            IMappingService mappingService, 
+            INavigationService navigationService)
         {
             this.eventAggregator = eventAggregator;
             this.mappingService = mappingService;
@@ -41,7 +49,7 @@
             this.confirmationFromViewModelInteractionRequest = new InteractionRequest<Confirmation>();
 
             this.SourceSystems = mappingService.GetSourceSystemNames().OrderBy(x => x).ToList();
-            this.SourceSystems.Insert(0,string.Empty);
+            this.SourceSystems.Insert(0, string.Empty);
         }
 
         /// <summary>
@@ -55,16 +63,11 @@
             }
         }
 
-        public IList<string> SourceSystems
+        public string Context
         {
             get
             {
-                return this.sourceSystems;
-            } 
-            set
-            {
-                this.sourceSystems = value;
-                this.RaisePropertyChanged(() => this.SourceSystems);
+                return this.entityName + ": " + this.entityInstanceName;
             }
         }
 
@@ -79,6 +82,20 @@
             {
                 this.mapping = value;
                 this.RaisePropertyChanged(() => this.Mapping);
+            }
+        }
+
+        public IList<string> SourceSystems
+        {
+            get
+            {
+                return this.sourceSystems;
+            }
+
+            set
+            {
+                this.sourceSystems = value;
+                this.RaisePropertyChanged(() => this.SourceSystems);
             }
         }
 
@@ -114,15 +131,32 @@
             this.entityName = navigationContext.Parameters[NavigationParameters.EntityName];
             this.entityInstanceName = navigationContext.Parameters[NavigationParameters.EntityInstanceName];
             this.eventAggregator.Subscribe<SaveEvent>(this.Save);
-            this.SourceSystems = mappingService.GetSourceSystemNames().Where(x => AuthorisationHelpers.HasMappingRights(this.entityName, x)).OrderBy(x => x).ToList();
+            this.SourceSystems =
+                mappingService.GetSourceSystemNames()
+                    .Where(x => AuthorisationHelpers.HasMappingRights(this.entityName, x))
+                    .OrderBy(x => x)
+                    .ToList();
             this.SourceSystems.Insert(0, string.Empty);
 
             RaisePropertyChanged("Context");
         }
 
+        public void StartMinimum()
+        {
+            this.Mapping.StartDate = DateUtility.MinDate;
+        }
+
+        public void StartToday()
+        {
+            this.Mapping.StartDate = SystemTime.UtcNow().Date;
+        }
+
         private void Save(SaveEvent saveEvent)
         {
-            WebResponse<MdmId> response = this.mappingService.CreateMapping(this.entityName, int.Parse(this.entityId), this.Mapping.Model());
+            WebResponse<MdmId> response = this.mappingService.CreateMapping(
+                this.entityName, 
+                int.Parse(this.entityId), 
+                this.Mapping.Model());
 
             if (response.IsValid)
             {
@@ -132,25 +166,8 @@
                 return;
             }
 
-            this.eventAggregator.Publish(new ErrorEvent(response.Fault != null ? response.Fault.Message : "Unknown Error"));
+            this.eventAggregator.Publish(
+                new ErrorEvent(response.Fault != null ? response.Fault.Message : "Unknown Error"));
         }
-
-        public void StartToday()
-        {
-            this.Mapping.StartDate = SystemTime.UtcNow().Date;
-        }
-
-        public void StartMinimum()
-        {
-            this.Mapping.StartDate = DateUtility.MinDate;
-        }
-
-        public string Context
-        {
-            get
-            {
-                return this.entityName + ": " + this.entityInstanceName;
-            }
-        } 
     }
 }

@@ -2,6 +2,7 @@
 namespace Admin.SourceSystemModule.Views
 {
     using System.Windows.Controls;
+
     using Admin.SourceSystemModule.ViewModels;
 
     /// <summary>
@@ -9,7 +10,8 @@ namespace Admin.SourceSystemModule.Views
     /// </summary>
     public partial class SourceSystemEmbeddedSearchResultsView : UserControl
     {
-        public SourceSystemEmbeddedSearchResultsView(SourceSystemEmbeddedSearchResultsViewModel sourcesystemEmbeddedSearchResultsViewModel)
+        public SourceSystemEmbeddedSearchResultsView(
+            SourceSystemEmbeddedSearchResultsViewModel sourcesystemEmbeddedSearchResultsViewModel)
         {
             this.DataContext = sourcesystemEmbeddedSearchResultsViewModel;
             this.InitializeComponent();

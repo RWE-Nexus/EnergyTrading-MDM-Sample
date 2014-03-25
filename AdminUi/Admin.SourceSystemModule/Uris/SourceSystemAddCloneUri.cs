@@ -2,15 +2,24 @@
 namespace Admin.SourceSystemModule.Uris
 {
     using System;
+
     using Admin.SourceSystemModule.Views;
+
     using Common;
 
     public class SourceSystemAddCloneUri : Uri
     {
-        public SourceSystemAddCloneUri(int sourcesystemId, DateTime validAt) : 
-            base(SourceSystemViewNames.SourceSystemAddCloneView + string.Format("?{0}={1}&{2}={3}", NavigationParameters.EntityId, sourcesystemId, NavigationParameters.ValidAtDate, validAt), UriKind.Relative)
+        public SourceSystemAddCloneUri(int sourcesystemId, DateTime validAt)
+            : base(
+                SourceSystemViewNames.SourceSystemAddCloneView
+                + string.Format(
+                    "?{0}={1}&{2}={3}", 
+                    NavigationParameters.EntityId, 
+                    sourcesystemId, 
+                    NavigationParameters.ValidAtDate, 
+                    validAt), 
+                UriKind.Relative)
         {
         }
     }
 }
-    

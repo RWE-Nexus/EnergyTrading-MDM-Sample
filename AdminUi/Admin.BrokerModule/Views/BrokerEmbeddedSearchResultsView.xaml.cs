@@ -2,6 +2,7 @@
 namespace Admin.BrokerModule.Views
 {
     using System.Windows.Controls;
+
     using Admin.BrokerModule.ViewModels;
 
     /// <summary>
@@ -9,7 +10,8 @@ namespace Admin.BrokerModule.Views
     /// </summary>
     public partial class BrokerEmbeddedSearchResultsView : UserControl
     {
-        public BrokerEmbeddedSearchResultsView(BrokerEmbeddedSearchResultsViewModel brokerEmbeddedSearchResultsViewModel)
+        public BrokerEmbeddedSearchResultsView(
+            BrokerEmbeddedSearchResultsViewModel brokerEmbeddedSearchResultsViewModel)
         {
             this.DataContext = brokerEmbeddedSearchResultsViewModel;
             this.InitializeComponent();

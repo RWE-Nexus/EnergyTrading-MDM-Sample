@@ -2,6 +2,7 @@
 namespace Admin.LocationModule.Views
 {
     using System.Windows.Controls;
+
     using Admin.LocationModule.ViewModels;
 
     /// <summary>

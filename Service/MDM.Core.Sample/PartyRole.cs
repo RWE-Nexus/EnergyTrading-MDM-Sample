@@ -2,7 +2,6 @@
 {
     using System.Collections.Generic;
 
-    using EnergyTrading;
     using EnergyTrading.Data;
 
     public class PartyRole : IIdentifiable, IEntity
@@ -13,25 +12,23 @@
             this.Details = new List<PartyRoleDetails>();
         }
 
+        public virtual IList<PartyRoleDetails> Details { get; private set; }
+
         public int Id { get; set; }
 
-        public virtual Party Party { get; set; }
-
-        public virtual string PartyRoleType { get; set; }
-
-        object IIdentifiable.Id
+        public PartyRoleDetails LatestDetails
         {
-            get { return this.Id; }
+            get
+            {
+                return this.Details.Latest();
+            }
         }
 
         public virtual IList<PartyRoleMapping> Mappings { get; private set; }
 
-        public virtual IList<PartyRoleDetails> Details { get; private set; }
+        public virtual Party Party { get; set; }
 
-        public PartyRoleDetails LatestDetails
-        {
-            get { return this.Details.Latest(); }
-        }
+        public virtual string PartyRoleType { get; set; }
 
         public DateRange Validity
         {
@@ -56,6 +53,14 @@
             {
                 var version = this.Details.LatestVersion(this.Mappings.LatestVersion());
                 return version;
+            }
+        }
+
+        object IIdentifiable.Id
+        {
+            get
+            {
+                return this.Id;
             }
         }
 
@@ -84,7 +89,7 @@
         /// <param name="mapping"></param>
         public void ProcessMapping(PartyRoleMapping mapping)
         {
-            this.ProcessMapping(this.Mappings, mapping, this.Validity.Finish);     
+            this.ProcessMapping(this.Mappings, mapping, this.Validity.Finish);
         }
 
         void IEntity.AddDetails(IEntityDetail details)
@@ -97,21 +102,22 @@
             this.ProcessMapping(mapping as PartyRoleMapping);
         }
 
+        protected virtual void CopyAdditionalDetails(PartyRoleDetails details)
+        {
+            // Implement in child classes
+        }
+
         protected virtual void CopyDetails(PartyRoleDetails details)
         {
             // force the load of related entiies to make sure that updating these to null deletes the relationship in EF
             var forceLoadOfPartyRole = this.LatestDetails.PartyRole;
 
             this.LatestDetails.Name = details.Name;
-            this.LatestDetails.Validity = this.LatestDetails.Validity.ChangeStart(details.Validity.Start).ChangeFinish(details.Validity.Finish);
+            this.LatestDetails.Validity =
+                this.LatestDetails.Validity.ChangeStart(details.Validity.Start).ChangeFinish(details.Validity.Finish);
             this.LatestDetails.PartyRole = this;
 
             CopyAdditionalDetails(details);
-        }
-
-        protected virtual void CopyAdditionalDetails(PartyRoleDetails details)
-        {
-            //Implement in child classes
         }
     }
 }

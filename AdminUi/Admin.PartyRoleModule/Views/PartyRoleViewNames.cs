@@ -3,10 +3,12 @@ namespace Admin.PartyRoleModule.Views
 {
     public static class PartyRoleViewNames
     {
-        public static string PartyRoleEditView = "PartyRoleEditView";
         public static string PartyRoleAddView = "PartyRoleAddView";
-        public static string PartyRoleSearchResultsView = "PartyRole";
+
+        public static string PartyRoleEditView = "PartyRoleEditView";
+
         public static string PartyRoleEmbeddedSearchResultsView = "PartyRoleEmbeddedSearchResultsView";
-        }
+
+        public static string PartyRoleSearchResultsView = "PartyRole";
+    }
 }
-    

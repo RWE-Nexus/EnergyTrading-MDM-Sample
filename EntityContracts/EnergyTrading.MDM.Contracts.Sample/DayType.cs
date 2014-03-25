@@ -11,13 +11,17 @@
     public enum DayType
     {
         [EnumMember]
-        Working,
+        Working, 
+
         [EnumMember]
-        Weekend,
+        Weekend, 
+
         [EnumMember]
-        Holiday,
+        Holiday, 
+
         [EnumMember]
-        Long,
+        Long, 
+
         [EnumMember]
         Short
     }

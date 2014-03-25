@@ -2,7 +2,8 @@ namespace Common.Events
 {
     public class EntitySelectEvent
     {
-        public EntitySelectEvent(string entityName) : this(entityName, entityName)
+        public EntitySelectEvent(string entityName)
+            : this(entityName, entityName)
         {
         }
 

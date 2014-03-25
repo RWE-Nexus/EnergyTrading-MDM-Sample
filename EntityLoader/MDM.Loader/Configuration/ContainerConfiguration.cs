@@ -1,9 +1,9 @@
 ﻿namespace MDM.Loader.Configuration
 {
+    using EnergyTrading.Container.Unity;
+
     using Microsoft.Practices.ServiceLocation;
     using Microsoft.Practices.Unity;
-
-    using EnergyTrading.Container.Unity;
 
     public static class ContainerConfiguration
     {

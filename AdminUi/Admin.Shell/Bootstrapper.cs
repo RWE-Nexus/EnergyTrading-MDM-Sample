@@ -32,7 +32,7 @@
         protected override void ConfigureContainer()
         {
             base.ConfigureContainer();
-            
+
             this.Container.RegisterType<string>(Server.Name);
 
             this.Container.RegisterType<ShellViewModel>(new ContainerControlledLifetimeManager());
@@ -46,40 +46,28 @@
             this.Container.RegisterType<IHttpClientFactory, HttpClientFactory>();
             this.Container.RegisterType<IMessageRequester, MessageRequester>();
             this.Container.RegisterType<INavigationService, NavigationService>();
-             
+
             this.Container.RegisterType<object, MappingEditView>(ViewNames.MappingEditView);
             this.Container.RegisterType<object, MappingAddView>(ViewNames.MappingAddView);
             this.Container.RegisterType<object, MappingCloneView>(ViewNames.MappingCloneView);
-            //this.Container.RegisterType<MappingUpdateView>();
+
+            // this.Container.RegisterType<MappingUpdateView>();
             this.Container.RegisterType<MappingEditViewModel>();
             this.Container.RegisterType<MappingAddViewModel>();
             this.Container.RegisterType<MappingCloneViewModel>();
-            //this.Container.RegisterType<MappingUpdateViewModel>();
 
+            // this.Container.RegisterType<MappingUpdateViewModel>();
             this.Container.RegisterType<IMdmService, MdmService>();
             this.Container.RegisterType<IMdmEntityServiceFactory, LocatorMdmEntityServiceFactory>();
             this.Container.RegisterInstance<IMappingService>(
-                new MappingService(Server.Name, this.Container.Resolve<IMessageRequester>(), this.Container.Resolve<IEventAggregator>()));
+                new MappingService(
+                    Server.Name, 
+                    this.Container.Resolve<IMessageRequester>(), 
+                    this.Container.Resolve<IEventAggregator>()));
             this.ConfigureForEnterpriseLibraryLogging();
 
             this.SetupSelfRegistration();
             this.CreateServiceLocator();
-        }
-
-        private void CreateServiceLocator()
-        {
-            var locator = new UnityServiceLocator(this.Container);
-            ServiceLocator.SetLocatorProvider(() => locator);
-        }
-
-        private void SetupSelfRegistration()
-        {
-            this.Container.RegisterInstance(this.Container);
-        }
-
-        private void ConfigureForEnterpriseLibraryLogging()
-        {
-            this.Container.AddNewExtension<EnterpriseLibraryCoreExtension>();
         }
 
         protected override IModuleCatalog CreateModuleCatalog()
@@ -106,6 +94,22 @@
 
             var regionManager = this.Container.Resolve<IRegionManager>();
             regionManager.RequestNavigate(RegionNames.MainRegion, ViewNames.SearchView);
+        }
+
+        private void ConfigureForEnterpriseLibraryLogging()
+        {
+            this.Container.AddNewExtension<EnterpriseLibraryCoreExtension>();
+        }
+
+        private void CreateServiceLocator()
+        {
+            var locator = new UnityServiceLocator(this.Container);
+            ServiceLocator.SetLocatorProvider(() => locator);
+        }
+
+        private void SetupSelfRegistration()
+        {
+            this.Container.RegisterInstance(this.Container);
         }
     }
 }

@@ -2,7 +2,6 @@
 namespace Admin.LocationModule.ViewModels
 {
     using System;
-    using System.Collections.Generic;
     using System.Linq.Expressions;
 
     using Common.Events;
@@ -10,29 +9,45 @@ namespace Admin.LocationModule.ViewModels
     using Common.Framework;
     using Common.Services;
 
+    using EnergyTrading.Mdm.Contracts;
+    using EnergyTrading.MDM.Contracts.Sample;
+
     using Microsoft.Practices.Prism.Events;
     using Microsoft.Practices.Prism.ViewModel;
-
-    using EnergyTrading.MDM.Contracts.Sample; using EnergyTrading.Mdm.Contracts;
 
     public class LocationViewModel : NotificationObject
     {
         private readonly IEventAggregator eventAggregator;
+
         private readonly Location location;
+
         private bool canSave;
 
         private DateTime end;
 
+        private string name;
+
+        private int? parentId;
+
+        private string parentName;
+
         private DateTime start;
+
+        private string type;
 
         public LocationViewModel(IEventAggregator eventAggregator)
         {
             this.eventAggregator = eventAggregator;
 
             this.location = new Location
-            {
-                MdmSystemData = new SystemData { StartDate = DateUtility.MinDate, EndDate = DateUtility.MaxDate } 
-            };
+                                {
+                                    MdmSystemData =
+                                        new SystemData
+                                            {
+                                                StartDate = DateUtility.MinDate, 
+                                                EndDate = DateUtility.MaxDate
+                                            }
+                                };
 
             this.Start = this.location.MdmSystemData.StartDate.Value;
 
@@ -66,40 +81,13 @@ namespace Admin.LocationModule.ViewModels
             this.ParentName = this.location.Details.Parent != null ? this.location.Details.Parent.Name : null;
         }
 
-        private System.String type;
-        public System.String Type 
-        { 
-            get { return this.type; }
-            set { this.ChangeProperty(() => this.Type, ref this.type, value); }
-        }
-
-        private System.String name;
-        public System.String Name 
-        { 
-            get { return this.name; }
-            set { this.ChangeProperty(() => this.Name, ref this.name, value); }
-        }
-
-        private int? parentId;
-        public int? ParentId 
-        {
-            get { return this.parentId; }
-            set { this.ChangeProperty(() => this.ParentId, ref this.parentId, value); }
-        }
-
-        private string parentName;
-        public string ParentName 
-        {
-            get { return this.parentName; }
-            set { this.parentName = value; this.RaisePropertyChanged(() => this.ParentName); }
-        }
-
         public bool CanSave
         {
             get
             {
                 return this.canSave;
             }
+
             set
             {
                 this.canSave = value;
@@ -115,6 +103,7 @@ namespace Admin.LocationModule.ViewModels
             {
                 return this.end;
             }
+
             set
             {
                 this.ChangeProperty(() => this.End, ref this.end, value);
@@ -123,31 +112,99 @@ namespace Admin.LocationModule.ViewModels
 
         public int? Id { get; private set; }
 
+        public string Name
+        {
+            get
+            {
+                return this.name;
+            }
+
+            set
+            {
+                this.ChangeProperty(() => this.Name, ref this.name, value);
+            }
+        }
+
+        public int? ParentId
+        {
+            get
+            {
+                return this.parentId;
+            }
+
+            set
+            {
+                this.ChangeProperty(() => this.ParentId, ref this.parentId, value);
+            }
+        }
+
+        public string ParentName
+        {
+            get
+            {
+                return this.parentName;
+            }
+
+            set
+            {
+                this.parentName = value;
+                this.RaisePropertyChanged(() => this.ParentName);
+            }
+        }
+
         public DateTime Start
         {
             get
             {
                 return this.start;
             }
+
             set
             {
                 this.ChangeProperty(() => this.Start, ref this.start, value);
             }
         }
 
+        public string Type
+        {
+            get
+            {
+                return this.type;
+            }
+
+            set
+            {
+                this.ChangeProperty(() => this.Type, ref this.type, value);
+            }
+        }
+
         public Location Model()
         {
             return new Location
-            {
-                Details = new LocationDetails 
-                {
-                    Type = this.Type
-                    ,Name = this.Name
-                    ,Parent = this.ParentId == null ? null :
-                        new EntityId { Identifier = new MdmId { IsMdmId = true, Identifier = this.ParentId.ToString() } }
-                }, 
-                MdmSystemData = new SystemData { StartDate = this.Start, EndDate = this.End }
-            };
+                       {
+                           Details =
+                               new LocationDetails
+                                   {
+                                       Type = this.Type, 
+                                       Name = this.Name, 
+                                       Parent =
+                                           this.ParentId == null
+                                               ? null
+                                               : new EntityId
+                                                     {
+                                                         Identifier =
+                                                             new MdmId
+                                                                 {
+                                                                     IsMdmId = true, 
+                                                                     Identifier =
+                                                                         this
+                                                                         .ParentId
+                                                                         .ToString()
+                                                                 }
+                                                     }
+                                   }, 
+                           MdmSystemData = new SystemData { StartDate = this.Start, EndDate = this.End }
+                       };
         }
 
         private void ChangeProperty<T>(Expression<Func<T>> property, ref T variable, T newValue)
@@ -161,13 +218,9 @@ namespace Admin.LocationModule.ViewModels
         private bool HasChanges()
         {
             return
-                !(
-                    this.location.MdmSystemData.StartDate == this.Start 
-                    && this.location.MdmSystemData.EndDate == this.End
-                    && this.location.Details.Type == this.Type 
-                    && this.location.Details.Name == this.Name 
-                    && this.ParentHasNoChanges()
-                );
+                !(this.location.MdmSystemData.StartDate == this.Start && this.location.MdmSystemData.EndDate == this.End
+                  && this.location.Details.Type == this.Type && this.location.Details.Name == this.Name
+                  && this.ParentHasNoChanges());
         }
 
         private bool ParentHasNoChanges()

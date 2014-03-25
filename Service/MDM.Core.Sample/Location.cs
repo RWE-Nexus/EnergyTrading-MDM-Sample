@@ -1,10 +1,10 @@
 namespace EnergyTrading.MDM
 {
-    public partial class Location 
+    public partial class Location
     {
-        public virtual Location Parent { get; set; }
-
         public string Name { get; set; }
+
+        public virtual Location Parent { get; set; }
 
         public string Type { get; set; }
 

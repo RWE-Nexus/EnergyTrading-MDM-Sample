@@ -1,36 +1,49 @@
 ﻿namespace Common.UI.ViewModels
 {
     using System;
+
     using Common.Events;
     using Common.Extensions;
     using Common.Services;
     using Common.UI.Uris;
-    using Microsoft.Practices.Prism.Events;
-    using Microsoft.Practices.Prism.Interactivity.InteractionRequest;
-    using Microsoft.Practices.Prism.Regions;
-    using Microsoft.Practices.Prism.ViewModel;
+
     using EnergyTrading;
     using EnergyTrading.Mdm.Client.WebClient;
     using EnergyTrading.Mdm.Contracts;
 
+    using Microsoft.Practices.Prism.Events;
+    using Microsoft.Practices.Prism.Interactivity.InteractionRequest;
+    using Microsoft.Practices.Prism.Regions;
+    using Microsoft.Practices.Prism.ViewModel;
+
     public class MappingCloneViewModel : NotificationObject, INavigationAware, IConfirmNavigationRequest
     {
         private readonly InteractionRequest<Confirmation> confirmationFromViewModelInteractionRequest;
-        private readonly IMappingService mappingService;
+
         private readonly IEventAggregator eventAggregator;
-        private readonly IRegionManager regionManager;
+
+        private readonly IMappingService mappingService;
+
         private readonly INavigationService navigationService;
-        private MappingViewModel mapping;
+
+        private readonly IRegionManager regionManager;
+
         private int entityId;
-        private string entityName;
+
         private string entityInstanceName;
+
+        private string entityName;
+
+        private MappingViewModel mapping;
+
         private int originalEntityId;
+
         private int originalMappingId;
 
         public MappingCloneViewModel(
-            IEventAggregator eventAggregator,
-            IMappingService mappingService,
-            IRegionManager regionManager,
+            IEventAggregator eventAggregator, 
+            IMappingService mappingService, 
+            IRegionManager regionManager, 
             INavigationService navigationService)
         {
             this.eventAggregator = eventAggregator;
@@ -48,6 +61,14 @@
             get
             {
                 return this.confirmationFromViewModelInteractionRequest;
+            }
+        }
+
+        public string Context
+        {
+            get
+            {
+                return this.entityName + ": " + this.entityInstanceName;
             }
         }
 
@@ -70,7 +91,7 @@
             if (this.Mapping.CanSave)
             {
                 this.confirmationFromViewModelInteractionRequest.Raise(
-                    new Confirmation { Content = Message.UnsavedChanges, Title = Message.UnsavedChangeTitle },
+                    new Confirmation { Content = Message.UnsavedChanges, Title = Message.UnsavedChangeTitle }, 
                     confirmation => continuationCallback(confirmation.Confirmed));
             }
             else
@@ -103,14 +124,19 @@
             this.LoadMappingFromService(this.originalEntityId, this.originalMappingId, this.entityName);
         }
 
+        public void StartMinimum()
+        {
+            this.Mapping.StartDate = DateUtility.MinDate;
+        }
+
         public void StartToday()
         {
             this.Mapping.StartDate = SystemTime.UtcNow().Date;
         }
 
-        public void StartMinimum()
+        private void CreateMapping(CreateEvent obj)
         {
-            this.Mapping.StartDate = DateUtility.MinDate;
+            this.regionManager.RequestNavigate(RegionNames.MainRegion, ViewNames.MappingAddView);
         }
 
         private void LoadMappingFromService(int pid, int mappingId, string entityName)
@@ -124,14 +150,12 @@
             this.RaisePropertyChanged(string.Empty);
         }
 
-        private void CreateMapping(CreateEvent obj)
-        {
-            this.regionManager.RequestNavigate(RegionNames.MainRegion, ViewNames.MappingAddView);
-        }
-
         private void Save(SaveEvent saveEvent)
         {
-            WebResponse<MdmId> response = this.mappingService.CreateMapping(this.entityName, this.entityId, this.Mapping.Model());
+            WebResponse<MdmId> response = this.mappingService.CreateMapping(
+                this.entityName, 
+                this.entityId, 
+                this.Mapping.Model());
 
             if (response.IsValid)
             {
@@ -142,15 +166,8 @@
                 return;
             }
 
-            this.eventAggregator.Publish(new ErrorEvent(response.Fault != null ? response.Fault.Message : "Unkown Error"));
-        }
-
-        public string Context
-        {
-            get
-            {
-                return this.entityName + ": " + this.entityInstanceName;
-            }
+            this.eventAggregator.Publish(
+                new ErrorEvent(response.Fault != null ? response.Fault.Message : "Unkown Error"));
         }
     }
 }

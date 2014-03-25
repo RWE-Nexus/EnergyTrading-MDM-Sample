@@ -4,14 +4,6 @@ namespace Common.Events
 
     public class MappingUpdatedEvent
     {
-        public static MappingUpdatedEvent ForCancellation()
-        {
-            return new MappingUpdatedEvent(0, 0, string.Empty, DateTime.MinValue)
-            {
-                Cancelled = true
-            };
-        }
-
         public MappingUpdatedEvent(int entityId, int mappingId, string newValue, DateTime startDate)
         {
             this.EntityId = entityId;
@@ -20,7 +12,13 @@ namespace Common.Events
             this.StartDate = startDate;
         }
 
-        public MappingUpdatedEvent(int entityId, int mappingId, string newValue, DateTime startDate, bool isDefault, bool isSourceSystemOriginated)
+        public MappingUpdatedEvent(
+            int entityId, 
+            int mappingId, 
+            string newValue, 
+            DateTime startDate, 
+            bool isDefault, 
+            bool isSourceSystemOriginated)
         {
             this.EntityId = entityId;
             this.MappingId = mappingId;
@@ -30,7 +28,13 @@ namespace Common.Events
             this.IsSourceSystemOriginated = isSourceSystemOriginated;
         }
 
+        public bool Cancelled { get; private set; }
+
         public int EntityId { get; private set; }
+
+        public bool IsDefault { get; private set; }
+
+        public bool IsSourceSystemOriginated { get; private set; }
 
         public int MappingId { get; private set; }
 
@@ -38,10 +42,9 @@ namespace Common.Events
 
         public DateTime StartDate { get; private set; }
 
-        public bool Cancelled { get; private set; }
-
-        public bool IsDefault { get; private set; }
-
-        public bool IsSourceSystemOriginated { get; private set; }
+        public static MappingUpdatedEvent ForCancellation()
+        {
+            return new MappingUpdatedEvent(0, 0, string.Empty, DateTime.MinValue) { Cancelled = true };
+        }
     }
 }

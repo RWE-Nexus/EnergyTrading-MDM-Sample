@@ -2,6 +2,7 @@
 namespace Admin.PartyModule.Views
 {
     using System.Windows.Controls;
+
     using Admin.PartyModule.ViewModels;
 
     /// <summary>

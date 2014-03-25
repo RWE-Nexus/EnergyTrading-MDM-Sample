@@ -1,6 +1,7 @@
 namespace Admin.ReferenceDataModule.Views
 {
     using System.Windows.Controls;
+
     using Admin.ReferenceDataModule.ViewModels;
 
     /// <summary>

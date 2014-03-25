@@ -1,7 +1,5 @@
 namespace EnergyTrading.MDM
 {
-    using System;
-
     using EnergyTrading.Data;
 
     public class Broker : PartyRole, IIdentifiable, IEntity

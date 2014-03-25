@@ -145,7 +145,7 @@
                                                     <DataGridTextColumn Width="150" Binding="{Binding MappingString}" Header="Mapping String" IsReadOnly="True">
                                                         <DataGridTextColumn.CellStyle>
                                                             <Style TargetType="DataGridCell">
-                                                                <Setter Property="ToolTip" Value="{Binding MappingString}"></Setter>
+                                                                <Setter Property="ToolTip" Value="{Binding MappingString}" />
                                                             </Style>
                                                         </DataGridTextColumn.CellStyle>
                                                     </DataGridTextColumn>

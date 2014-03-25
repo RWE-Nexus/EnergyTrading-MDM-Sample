@@ -40,9 +40,9 @@
                                         <ScrollViewer Style="{DynamicResource MainSectionScrollViewer}" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
                                             <Grid x:Name="DetailsSubContentGrid1" Grid.Row="1" ClipToBounds="True" Height="Auto">
                                                 <Grid.RowDefinitions>
-                                                    <RowDefinition></RowDefinition>
-                                                    <RowDefinition></RowDefinition>
-                                                    <RowDefinition></RowDefinition>
+                                                    <RowDefinition />
+                                                    <RowDefinition />
+                                                    <RowDefinition />
                                                 </Grid.RowDefinitions>
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="300" /><!--Change this width value to safely increase 1st column Textbox Column width-->
@@ -109,12 +109,12 @@
                                                 </Grid>
                                                 <Grid Style="{DynamicResource TextBoxContainer}" Grid.Row="2" Grid.ColumnSpan="2">
                                                 <Grid.RowDefinitions>
-                                                    <RowDefinition></RowDefinition>
-                                                    <RowDefinition></RowDefinition>
+                                                    <RowDefinition />
+                                                    <RowDefinition />
                                                 </Grid.RowDefinitions>
                                                     <Grid.ColumnDefinitions>
-                                                        <ColumnDefinition Width="1*"></ColumnDefinition>
-                                                        <ColumnDefinition Width="6*"></ColumnDefinition>
+                                                        <ColumnDefinition Width="1*" />
+                                                        <ColumnDefinition Width="6*" />
                                                     </Grid.ColumnDefinitions>
                                                     <TextBlock Text="System Name" Style="{DynamicResource GenericLabel}" />
                                                     <ComboBox HorizontalAlignment="Left" Grid.Column="1" Margin="2" Width="250"
@@ -128,8 +128,7 @@
                                     </Expander>
                                 </DockPanel>
                                 <DockPanel>
-                                    <Expander Style="{DynamicResource PrimaryExpanderStyle}" Header="Audit" IsExpanded="True">
-                                    </Expander>
+                                    <Expander Style="{DynamicResource PrimaryExpanderStyle}" Header="Audit" IsExpanded="True" />
                                 </DockPanel>
 
                             </StackPanel>

@@ -2,6 +2,7 @@
 namespace Admin.PartyRoleModule.Views
 {
     using System.Windows.Controls;
+
     using Admin.PartyRoleModule.ViewModels;
 
     /// <summary>
@@ -9,7 +10,8 @@ namespace Admin.PartyRoleModule.Views
     /// </summary>
     public partial class PartyRoleEmbeddedSearchResultsView : UserControl
     {
-        public PartyRoleEmbeddedSearchResultsView(PartyRoleEmbeddedSearchResultsViewModel partyroleEmbeddedSearchResultsViewModel)
+        public PartyRoleEmbeddedSearchResultsView(
+            PartyRoleEmbeddedSearchResultsViewModel partyroleEmbeddedSearchResultsViewModel)
         {
             this.DataContext = partyroleEmbeddedSearchResultsViewModel;
             this.InitializeComponent();

@@ -7,6 +7,7 @@
     public class Synchronizer<T>
     {
         private readonly ISource<T> source;
+
         private readonly IEntitySynchronizer<T> synchronizer;
 
         public Synchronizer(ISource<T> source, IEntitySynchronizer<T> synchronizer)

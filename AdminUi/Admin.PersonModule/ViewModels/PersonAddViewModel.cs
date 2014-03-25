@@ -3,39 +3,41 @@ namespace Admin.PersonModule.ViewModels
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq;
 
-    
     using Common.Events;
     using Common.Extensions;
     using Common.UI;
+
+    using EnergyTrading;
+    using EnergyTrading.Mdm.Client.Services;
 
     using Microsoft.Practices.Prism.Events;
     using Microsoft.Practices.Prism.Interactivity.InteractionRequest;
     using Microsoft.Practices.Prism.Regions;
     using Microsoft.Practices.Prism.ViewModel;
 
-    using EnergyTrading;
-    using EnergyTrading.Mdm.Client.Services;
-
     public class PersonAddViewModel : NotificationObject, INavigationAware, IConfirmNavigationRequest
     {
         private readonly InteractionRequest<Confirmation> confirmationFromViewModelInteractionRequest;
+
         private readonly IMdmService entityService;
-        
+
         private readonly IEventAggregator eventAggregator;
 
         private PersonViewModel person;
 
-        public PersonAddViewModel(IEventAggregator eventAggregator, IMdmService entityService, IList<string> roleConfiguration)
+        public PersonAddViewModel(
+            IEventAggregator eventAggregator, 
+            IMdmService entityService, 
+            IList<string> roleConfiguration)
         {
             this.eventAggregator = eventAggregator;
             this.confirmationFromViewModelInteractionRequest = new InteractionRequest<Confirmation>();
             this.entityService = entityService;
-            
-            this.Person = new PersonViewModel(this.eventAggregator);            
-                         this.RoleConfiguration = roleConfiguration;
-                   }
+
+            this.Person = new PersonViewModel(this.eventAggregator);
+            this.RoleConfiguration = roleConfiguration;
+        }
 
         /// <summary>
         /// Gets the notification from view model interaction request. View binds to this property
@@ -61,21 +63,16 @@ namespace Admin.PersonModule.ViewModels
                 this.RaisePropertyChanged(() => this.Person);
             }
         }
-        
-        
-                public IList<string> RoleConfiguration
-        {
-            get;
-            set;
-        }
-           
+
+        public IList<string> RoleConfiguration { get; set; }
+
         public void ConfirmNavigationRequest(NavigationContext navigationContext, Action<bool> continuationCallback)
         {
             if (this.Person.CanSave)
             {
                 this.eventAggregator.Publish(new DialogOpenEvent(true));
                 this.confirmationFromViewModelInteractionRequest.Raise(
-                    new Confirmation { Content = Message.UnsavedChanges, Title = Message.UnsavedChangeTitle },
+                    new Confirmation { Content = Message.UnsavedChanges, Title = Message.UnsavedChangeTitle }, 
                     confirmation =>
                         {
                             continuationCallback(confirmation.Confirmed);
@@ -106,17 +103,9 @@ namespace Admin.PersonModule.ViewModels
             this.eventAggregator.Subscribe<EntitySelectedEvent>(this.EntitySelected);
         }
 
-        private void EntitySelected(EntitySelectedEvent obj)
+        public void StartMinimum()
         {
-        }
-
-        private void Save(SaveEvent saveEvent)
-        {
-            this.entityService.ExecuteAsync(
-                () => this.entityService.Create(this.Person.Model()),
-                () => { this.Person = new PersonViewModel(this.eventAggregator); },
-                string.Format(Message.EntityAddedFormatString, "Person"),
-                this.eventAggregator);
+            this.Person.Start = DateUtility.MinDate;
         }
 
         public void StartToday()
@@ -124,10 +113,17 @@ namespace Admin.PersonModule.ViewModels
             this.Person.Start = SystemTime.UtcNow().Date;
         }
 
-        public void StartMinimum()
+        private void EntitySelected(EntitySelectedEvent obj)
         {
-            this.Person.Start = DateUtility.MinDate;
+        }
+
+        private void Save(SaveEvent saveEvent)
+        {
+            this.entityService.ExecuteAsync(
+                () => this.entityService.Create(this.Person.Model()), 
+                () => { this.Person = new PersonViewModel(this.eventAggregator); }, 
+                string.Format(Message.EntityAddedFormatString, "Person"), 
+                this.eventAggregator);
         }
     }
 }
-    

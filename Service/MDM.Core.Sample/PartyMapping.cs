@@ -9,8 +9,15 @@ namespace EnergyTrading.MDM
 
         protected override IEntity Entity
         {
-            get { return this.Party; }
-            set { this.Party = value as Party; }
+            get
+            {
+                return this.Party;
+            }
+
+            set
+            {
+                this.Party = value as Party;
+            }
         }
     }
 }

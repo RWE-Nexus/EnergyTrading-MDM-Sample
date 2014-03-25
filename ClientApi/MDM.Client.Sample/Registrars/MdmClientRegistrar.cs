@@ -26,8 +26,10 @@
         {
             foreach (var type in this.GetType().Assembly.GetTypes())
             {
-                var @interface = type.GetInterfaces()
-                    .FirstOrDefault(i => i.IsGenericType && (i.GetGenericTypeDefinition() == typeof (IMdmModelEntityService<,>)));
+                var @interface =
+                    type.GetInterfaces()
+                        .FirstOrDefault(
+                            i => i.IsGenericType && (i.GetGenericTypeDefinition() == typeof(IMdmModelEntityService<,>)));
 
                 if (@interface != null)
                 {

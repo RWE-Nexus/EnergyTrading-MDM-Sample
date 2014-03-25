@@ -19,6 +19,7 @@ namespace Admin.SourceSystemModule
     public class ModuleInit : IModule
     {
         private readonly IUnityContainer container;
+
         private readonly IApplicationMenuRegistry menuRegistry;
 
         public ModuleInit(IUnityContainer container, IApplicationMenuRegistry menuRegistry)
@@ -32,70 +33,79 @@ namespace Admin.SourceSystemModule
             this.Register();
             this.PopulateReferenceData();
 
-            this.menuRegistry.RegisterMenuItem("SourceSystem", string.Empty, typeof(SourceSystemSearchResultsView), new Uri(SourceSystemViewNames.SourceSystemAddView, UriKind.Relative), "Name", "_Name");
+            this.menuRegistry.RegisterMenuItem(
+                "SourceSystem", 
+                string.Empty, 
+                typeof(SourceSystemSearchResultsView), 
+                new Uri(SourceSystemViewNames.SourceSystemAddView, UriKind.Relative), 
+                "Name", 
+                "_Name");
             this.menuRegistry.RegisterEntitySelector("SourceSystem", typeof(SourceSystemSelectorView));
+        }
+
+        private void PopulateReferenceData()
+        {
         }
 
         private void Register()
         {
             this.container.RegisterType<IMdmEntityService<SourceSystem>, MdmEntityService<SourceSystem>>(
-                new ContainerControlledLifetimeManager(),
+                new ContainerControlledLifetimeManager(), 
                 new InjectionConstructor(Server.Name + "sourcesystem", new ResolvedParameter<IMessageRequester>()));
             this.container.RegisterType<object, SourceSystemEditView>(SourceSystemViewNames.SourceSystemEditView);
             this.container.RegisterType<object, SourceSystemAddView>(SourceSystemViewNames.SourceSystemAddView);
-            this.container.RegisterType<object, SourceSystemSearchResultsView>(SourceSystemViewNames.SourceSystemSearchResultsView);
-            this.container.RegisterType<object, SourceSystemEmbeddedSearchResultsView>(SourceSystemViewNames.SourceSystemEmbeddedSearchResultsView, new ContainerControlledLifetimeManager());
-                this.container.RegisterType<object, SourceSystemEditCloneView>(SourceSystemViewNames.SourceSystemEditCloneView);
-            this.container.RegisterType<object, SourceSystemAddCloneView>(SourceSystemViewNames.SourceSystemAddCloneView);
-                    
+            this.container.RegisterType<object, SourceSystemSearchResultsView>(
+                SourceSystemViewNames.SourceSystemSearchResultsView);
+            this.container.RegisterType<object, SourceSystemEmbeddedSearchResultsView>(
+                SourceSystemViewNames.SourceSystemEmbeddedSearchResultsView, 
+                new ContainerControlledLifetimeManager());
+            this.container.RegisterType<object, SourceSystemEditCloneView>(
+                SourceSystemViewNames.SourceSystemEditCloneView);
+            this.container.RegisterType<object, SourceSystemAddCloneView>(
+                SourceSystemViewNames.SourceSystemAddCloneView);
+
             this.container.RegisterType<SourceSystemAddViewModel>(
-                new ContainerControlledLifetimeManager(),
+                new ContainerControlledLifetimeManager(), 
                 new InjectionConstructor(
-                new ResolvedParameter<IEventAggregator>(),
-                new ResolvedParameter<IMdmService>()));
+                    new ResolvedParameter<IEventAggregator>(), 
+                    new ResolvedParameter<IMdmService>()));
 
             this.container.RegisterType<SourceSystemEditViewModel>(
-                new ContainerControlledLifetimeManager(),
+                new ContainerControlledLifetimeManager(), 
                 new InjectionConstructor(
-                new ResolvedParameter<IEventAggregator>(),
-                new ResolvedParameter<IMdmService>(),
-                new ResolvedParameter<INavigationService>(),
-                new ResolvedParameter<IMappingService>(),
-                new ResolvedParameter<IApplicationCommands>()));
+                    new ResolvedParameter<IEventAggregator>(), 
+                    new ResolvedParameter<IMdmService>(), 
+                    new ResolvedParameter<INavigationService>(), 
+                    new ResolvedParameter<IMappingService>(), 
+                    new ResolvedParameter<IApplicationCommands>()));
 
-                        this.container.RegisterType<SourceSystemAddCloneViewModel>(
-                    new ContainerControlledLifetimeManager(),
-                    new InjectionConstructor(
-                    new ResolvedParameter<IEventAggregator>(),
-                    new ResolvedParameter<IMdmService>(),
-                    new ResolvedParameter<INavigationService>()
-                                  ));
+            this.container.RegisterType<SourceSystemAddCloneViewModel>(
+                new ContainerControlledLifetimeManager(), 
+                new InjectionConstructor(
+                    new ResolvedParameter<IEventAggregator>(), 
+                    new ResolvedParameter<IMdmService>(), 
+                    new ResolvedParameter<INavigationService>()));
 
-                this.container.RegisterType<SourceSystemEditCloneViewModel>(
-                    new ContainerControlledLifetimeManager(),
-                    new InjectionConstructor(
-                    new ResolvedParameter<IEventAggregator>(),
-                    new ResolvedParameter<IMdmService>(),
-                    new ResolvedParameter<INavigationService>(),
-                    new ResolvedParameter<IMappingService>(),
-                    new ResolvedParameter<IApplicationCommands>()
-                                  ));
+            this.container.RegisterType<SourceSystemEditCloneViewModel>(
+                new ContainerControlledLifetimeManager(), 
+                new InjectionConstructor(
+                    new ResolvedParameter<IEventAggregator>(), 
+                    new ResolvedParameter<IMdmService>(), 
+                    new ResolvedParameter<INavigationService>(), 
+                    new ResolvedParameter<IMappingService>(), 
+                    new ResolvedParameter<IApplicationCommands>()));
 
-                    
             this.container.RegisterType<SourceSystemSelectorView>();
             this.container.RegisterType<SourceSystemSelectorViewModel>();
-			
-            this.container.RegisterInstance<Func<int, IMdmEntity>>("SourceSystem",
-                (entityId) =>
+
+            this.container.RegisterInstance<Func<int, IMdmEntity>>(
+                "SourceSystem", 
+                entityId =>
                     {
                         var entityService = container.Resolve<IMdmEntityService<SourceSystem>>();
                         var response = entityService.Get(entityId);
                         return response.Message;
                     });
         }
-
-        private void PopulateReferenceData()
-        {
-                }
     }
 }

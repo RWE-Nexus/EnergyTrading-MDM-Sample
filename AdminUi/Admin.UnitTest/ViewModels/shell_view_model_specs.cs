@@ -13,12 +13,10 @@ namespace Admin.UnitTest.ViewModels
     [TestClass]
     public class when_a_request_is_made_to_clear_an_error : TestBase<ShellViewModel>
     {
-        protected override void Establish_context()
+        [TestMethod]
+        public void should_clear_the_error()
         {
-            this.AddConcrete<IEventAggregator, EventAggregator>(new EventAggregator());
-            this.RegisterMock<LogWriter>();
-            base.Establish_context();
-            this.Sut.Error = "my error";
+            Assert.AreEqual(this.Sut.Error, string.Empty);
         }
 
         protected override void Because_of()
@@ -26,10 +24,12 @@ namespace Admin.UnitTest.ViewModels
             this.Sut.ClearError();
         }
 
-        [TestMethod] 
-        public void should_clear_the_error()
+        protected override void Establish_context()
         {
-            Assert.AreEqual(this.Sut.Error, String.Empty); 
+            this.AddConcrete<IEventAggregator, EventAggregator>(new EventAggregator());
+            this.RegisterMock<LogWriter>();
+            base.Establish_context();
+            this.Sut.Error = "my error";
         }
     }
 }

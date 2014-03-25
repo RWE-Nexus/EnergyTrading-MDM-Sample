@@ -34,51 +34,64 @@ namespace MDM.Loader
             switch (entityName.Trim().ToLower())
             {
                 case "broker":
-                    return Create<BrokerList>(entitiesXmlfileName, entities => new BrokerLoader(entities, candidateData));
+                    return Create<BrokerList>(
+                        entitiesXmlfileName, 
+                        entities => new BrokerLoader(entities, candidateData));
 
                 case "counterparty":
-                    return Create<CounterpartyList>(entitiesXmlfileName, entities => new CounterpartyLoader(entities, candidateData));
+                    return Create<CounterpartyList>(
+                        entitiesXmlfileName, 
+                        entities => new CounterpartyLoader(entities, candidateData));
 
                 case "exchange":
-                    return Create<ExchangeList>(entitiesXmlfileName, entities => new ExchangeLoader(entities, candidateData));
+                    return Create<ExchangeList>(
+                        entitiesXmlfileName, 
+                        entities => new ExchangeLoader(entities, candidateData));
 
                 case "legalentity":
-                    return Create<LegalEntityList>(entitiesXmlfileName, entities => new LegalEntityLoader(entities, candidateData));
+                    return Create<LegalEntityList>(
+                        entitiesXmlfileName, 
+                        entities => new LegalEntityLoader(entities, candidateData));
 
                 case "location":
-                    return Create<LocationList>(entitiesXmlfileName, entities => new LocationLoader(entities, candidateData));
+                    return Create<LocationList>(
+                        entitiesXmlfileName, 
+                        entities => new LocationLoader(entities, candidateData));
 
                 case "party":
                     return Create<PartyList>(entitiesXmlfileName, entities => new PartyLoader(entities, candidateData));
 
                 case "partyrole":
-                    return Create<PartyRoleList>(entitiesXmlfileName, entities => new PartyRoleLoader(entities, candidateData));
+                    return Create<PartyRoleList>(
+                        entitiesXmlfileName, 
+                        entities => new PartyRoleLoader(entities, candidateData));
 
                 case "person":
-                    return Create<PersonList>(entitiesXmlfileName, entitites => new PersonLoader(entitites, candidateData));
+                    return Create<PersonList>(
+                        entitiesXmlfileName, 
+                        entitites => new PersonLoader(entitites, candidateData));
 
                 case "referencedata":
                     return Create<ReferenceDataFakeList>(
-                        entitiesXmlfileName,
+                        entitiesXmlfileName, 
                         entities => new ReferenceDataLoader(new ReferenceDataBuilder().Build(entities)));
 
                 case "sourcesystem":
                     return Create<SourceSystem, SourceSystemList>(entitiesXmlfileName, candidateData);
 
                 default:
-                    throw new NotImplementedException(string.Format("Loader has not been implemented for {0} entity.", entityName));
+                    throw new NotImplementedException(
+                        string.Format("Loader has not been implemented for {0} entity.", entityName));
             }
         }
 
         private Loader Create<TEntity, TList>(string fileName, bool candidateData)
-            where TEntity : class, IMdmEntity, new()
-            where TList : class, IList<TEntity>
+            where TEntity : class, IMdmEntity, new() where TList : class, IList<TEntity>
         {
             return Create<TList>(fileName, entities => new MdmLoader<TEntity>(entities, candidateData));
         }
 
-        private Loader Create<TList>(string fileName, Func<TList, Loader> func)
-            where TList : class
+        private Loader Create<TList>(string fileName, Func<TList, Loader> func) where TList : class
         {
             try
             {
@@ -87,7 +100,10 @@ namespace MDM.Loader
             }
             catch (Exception ex)
             {
-                this.logger.ErrorFormat("Exception occurred whilst deserializing the entities xml file and creating the loader: {0}; InnerException: {1}", ex.Message, ex.InnerException);
+                this.logger.ErrorFormat(
+                    "Exception occurred whilst deserializing the entities xml file and creating the loader: {0}; InnerException: {1}", 
+                    ex.Message, 
+                    ex.InnerException);
                 return null;
             }
         }

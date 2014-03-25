@@ -2,6 +2,7 @@
 namespace Admin.PartyRoleModule.Views
 {
     using System.Windows.Controls;
+
     using Admin.PartyRoleModule.ViewModels;
 
     /// <summary>

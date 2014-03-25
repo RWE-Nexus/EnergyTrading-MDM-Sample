@@ -32,10 +32,12 @@ namespace EnergyTrading.MDM.Data.EF.Configuration
             // Database stuff
             this.container.RegisterType<IRepository, DbSetRepository>();
 
-            this.container.RegisterInstance(typeof(IList<Action<IDbSetRepository>>), new List<Action<IDbSetRepository>>());
+            this.container.RegisterInstance(
+                typeof(IList<Action<IDbSetRepository>>), 
+                new List<Action<IDbSetRepository>>());
 
             this.container.RegisterInstance(
-                typeof(IList<Action<IDao>>),
+                typeof(IList<Action<IDao>>), 
                 new List<Action<IDao>> { ContextInfoActions.SetContextUserInfo });
         }
     }

@@ -8,7 +8,10 @@
     {
         public static readonly DependencyProperty MessageTemplateProperty =
             DependencyProperty.Register(
-                "MessageTemplate", typeof(DataTemplate), typeof(InteractionDialogBase), new PropertyMetadata(null));
+                "MessageTemplate", 
+                typeof(DataTemplate), 
+                typeof(InteractionDialogBase), 
+                new PropertyMetadata(null));
 
         public event EventHandler Closed;
 

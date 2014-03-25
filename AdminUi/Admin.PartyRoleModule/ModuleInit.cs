@@ -2,27 +2,27 @@
 namespace Admin.PartyRoleModule
 {
     using System;
-    using System.Configuration;
     using System.Collections.Generic;
     using System.Linq;
 
     using Admin.PartyRoleModule.ViewModels;
     using Admin.PartyRoleModule.Views;
 
-    
     using Common.Services;
+
+    using EnergyTrading.Mdm.Client.Services;
+    using EnergyTrading.Mdm.Client.WebClient;
+    using EnergyTrading.Mdm.Contracts;
+    using EnergyTrading.MDM.Contracts.Sample;
 
     using Microsoft.Practices.Prism.Events;
     using Microsoft.Practices.Prism.Modularity;
     using Microsoft.Practices.Unity;
 
-    using EnergyTrading.Mdm.Client.Services;
-    using EnergyTrading.Mdm.Client.WebClient;
-    using EnergyTrading.MDM.Contracts.Sample; using EnergyTrading.Mdm.Contracts;
-
     public class ModuleInit : IModule
     {
         private readonly IUnityContainer container;
+
         private readonly IApplicationMenuRegistry menuRegistry;
 
         public ModuleInit(IUnityContainer container, IApplicationMenuRegistry menuRegistry)
@@ -36,59 +36,71 @@ namespace Admin.PartyRoleModule
             this.Register();
             this.PopulateReferenceData();
 
-            this.menuRegistry.RegisterMenuItem("PartyRole", string.Empty, typeof(PartyRoleSearchResultsView), new Uri(PartyRoleViewNames.PartyRoleAddView, UriKind.Relative), "Name", "_Name");
+            this.menuRegistry.RegisterMenuItem(
+                "PartyRole", 
+                string.Empty, 
+                typeof(PartyRoleSearchResultsView), 
+                new Uri(PartyRoleViewNames.PartyRoleAddView, UriKind.Relative), 
+                "Name", 
+                "_Name");
             this.menuRegistry.RegisterEntitySelector("PartyRole", typeof(PartyRoleSelectorView));
+        }
+
+        private void PopulateReferenceData()
+        {
+            ReferenceDataList message = null;
+            message =
+                this.container.Resolve<IMessageRequester>()
+                    .Request<ReferenceDataList>(Server.Name + "ReferenceData/list/PartyRoleType")
+                    .Message;
+            IList<string> partyroletype = message != null
+                                              ? message.Select(data => data.Value).OrderBy(s => s).ToList()
+                                              : new List<string>();
+
+            this.container.RegisterInstance("partyroletypes", partyroletype, new ContainerControlledLifetimeManager());
         }
 
         private void Register()
         {
             this.container.RegisterType<IMdmEntityService<PartyRole>, MdmEntityService<PartyRole>>(
-                new ContainerControlledLifetimeManager(),
+                new ContainerControlledLifetimeManager(), 
                 new InjectionConstructor(Server.Name + "partyrole", new ResolvedParameter<IMessageRequester>()));
             this.container.RegisterType<object, PartyRoleEditView>(PartyRoleViewNames.PartyRoleEditView);
             this.container.RegisterType<object, PartyRoleAddView>(PartyRoleViewNames.PartyRoleAddView);
-            this.container.RegisterType<object, PartyRoleSearchResultsView>(PartyRoleViewNames.PartyRoleSearchResultsView);
-            this.container.RegisterType<object, PartyRoleEmbeddedSearchResultsView>(PartyRoleViewNames.PartyRoleEmbeddedSearchResultsView, new ContainerControlledLifetimeManager());
-                    
+            this.container.RegisterType<object, PartyRoleSearchResultsView>(
+                PartyRoleViewNames.PartyRoleSearchResultsView);
+            this.container.RegisterType<object, PartyRoleEmbeddedSearchResultsView>(
+                PartyRoleViewNames.PartyRoleEmbeddedSearchResultsView, 
+                new ContainerControlledLifetimeManager());
+
             this.container.RegisterType<PartyRoleAddViewModel>(
-                new ContainerControlledLifetimeManager(),
+                new ContainerControlledLifetimeManager(), 
                 new InjectionConstructor(
-                new ResolvedParameter<IEventAggregator>(),
-                new ResolvedParameter<IMdmService>()
-                          ,new ResolvedParameter<IList<string>>("partyroletypes")));
+                    new ResolvedParameter<IEventAggregator>(), 
+                    new ResolvedParameter<IMdmService>(), 
+                    new ResolvedParameter<IList<string>>("partyroletypes")));
 
             this.container.RegisterType<PartyRoleEditViewModel>(
-                new ContainerControlledLifetimeManager(),
+                new ContainerControlledLifetimeManager(), 
                 new InjectionConstructor(
-                new ResolvedParameter<IEventAggregator>(),
-                new ResolvedParameter<IMdmService>(),
-                new ResolvedParameter<INavigationService>(),
-                new ResolvedParameter<IMappingService>(),
-                new ResolvedParameter<IApplicationCommands>()
-                                ,new ResolvedParameter<IList<string>>("partyroletypes")));
+                    new ResolvedParameter<IEventAggregator>(), 
+                    new ResolvedParameter<IMdmService>(), 
+                    new ResolvedParameter<INavigationService>(), 
+                    new ResolvedParameter<IMappingService>(), 
+                    new ResolvedParameter<IApplicationCommands>(), 
+                    new ResolvedParameter<IList<string>>("partyroletypes")));
 
-                    
             this.container.RegisterType<PartyRoleSelectorView>();
             this.container.RegisterType<PartyRoleSelectorViewModel>();
-			
-            this.container.RegisterInstance<Func<int, IMdmEntity>>("PartyRole",
-                (entityId) =>
+
+            this.container.RegisterInstance<Func<int, IMdmEntity>>(
+                "PartyRole", 
+                entityId =>
                     {
                         var entityService = container.Resolve<IMdmEntityService<PartyRole>>();
                         var response = entityService.Get(entityId);
                         return response.Message;
                     });
         }
-
-        private void PopulateReferenceData()
-        {
-                    ReferenceDataList message = null;
-                    message = this.container.Resolve<IMessageRequester>().Request<ReferenceDataList>(
-                    Server.Name + "ReferenceData/list/PartyRoleType").Message;
-            IList<string> partyroletype = message != null ?
-                message.Select(data => data.Value).OrderBy(s => s).ToList() : new List<string>();
-
-            this.container.RegisterInstance("partyroletypes", partyroletype, new ContainerControlledLifetimeManager());
-                  }
     }
 }

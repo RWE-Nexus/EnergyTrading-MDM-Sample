@@ -12,4 +12,3 @@ namespace EnergyTrading.MDM.Contracts.Sample
         public string Name { get; set; }
     }
 }
-

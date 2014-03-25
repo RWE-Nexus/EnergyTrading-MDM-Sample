@@ -104,8 +104,8 @@
                                         <TextBlock Text="Party" Style="{DynamicResource ReadOnlyLabel}" Grid.Row="10"  Grid.Column="0" Margin="2" />
                     <StackPanel Orientation="Horizontal" Grid.Row="10"  Grid.Column="1" >
                             <Button Button.ToolTip="{Binding LegalEntity.PartyName}" Margin="5,2,2,2" IsEnabled="{Binding LegalEntity.PartyId, Converter={StaticResource NullToBoolean}}" Style="{DynamicResource LinkButtonStyle}">
-                    <TextBlock TextTrimming="CharacterEllipsis" Text="{Binding LegalEntity.PartyName}"></TextBlock>
-                    <i:Interaction.Triggers>
+                    <TextBlock TextTrimming="CharacterEllipsis" Text="{Binding LegalEntity.PartyName}" />
+                                <i:Interaction.Triggers>
                         <i:EventTrigger EventName="Click">
                             <Triggers:CallDataMethod Method="NavigateToParty" />
                         </i:EventTrigger>
@@ -181,7 +181,7 @@
                                                     <DataGridTextColumn Width="150" Binding="{Binding MappingString}" Header="Mapping String" IsReadOnly="True">
                                                         <DataGridTextColumn.CellStyle>
                                                             <Style TargetType="DataGridCell">
-                                                                <Setter Property="ToolTip" Value="{Binding MappingString}"></Setter>
+                                                                <Setter Property="ToolTip" Value="{Binding MappingString}" />
                                                             </Style>
                                                         </DataGridTextColumn.CellStyle>
                                                     </DataGridTextColumn>

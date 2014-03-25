@@ -19,20 +19,27 @@
     public class MappingEditViewModel : NotificationObject, INavigationAware, IConfirmNavigationRequest
     {
         private readonly InteractionRequest<Confirmation> confirmationFromViewModelInteractionRequest;
-        private readonly IMappingService mappingService;
+
         private readonly IEventAggregator eventAggregator;
-        private readonly IRegionManager regionManager;
+
+        private readonly IMappingService mappingService;
+
         private readonly INavigationService navigationService;
 
-        private MappingViewModel mapping;
+        private readonly IRegionManager regionManager;
+
         private int entityId;
-        private string entityName;
+
         private string entityInstanceName;
 
+        private string entityName;
+
+        private MappingViewModel mapping;
+
         public MappingEditViewModel(
-            IEventAggregator eventAggregator,
-            IMappingService mappingService,
-            IRegionManager regionManager,
+            IEventAggregator eventAggregator, 
+            IMappingService mappingService, 
+            IRegionManager regionManager, 
             INavigationService navigationService)
         {
             this.eventAggregator = eventAggregator;
@@ -50,6 +57,14 @@
             get
             {
                 return this.confirmationFromViewModelInteractionRequest;
+            }
+        }
+
+        public string Context
+        {
+            get
+            {
+                return this.entityName + ": " + this.entityInstanceName;
             }
         }
 
@@ -72,7 +87,7 @@
             if (this.Mapping.CanSave)
             {
                 this.confirmationFromViewModelInteractionRequest.Raise(
-                    new Confirmation { Content = Message.UnsavedChanges, Title = Message.UnsavedChangeTitle },
+                    new Confirmation { Content = Message.UnsavedChanges, Title = Message.UnsavedChangeTitle }, 
                     confirmation => continuationCallback(confirmation.Confirmed));
             }
             else
@@ -106,14 +121,46 @@
             this.LoadMappingFromService(this.entityId, mappingId, this.entityName);
         }
 
+        public void StartMinimum()
+        {
+            this.Mapping.StartDate = DateUtility.MinDate;
+        }
+
         public void StartToday()
         {
             this.Mapping.StartDate = SystemTime.UtcNow().Date;
         }
 
-        public void StartMinimum()
+        private void CreateMapping(CreateEvent obj)
         {
-            this.Mapping.StartDate = DateUtility.MinDate;
+            this.regionManager.RequestNavigate(RegionNames.MainRegion, ViewNames.MappingAddView);
+        }
+
+        private string DeleteAndRecreate()
+        {
+            string error = null;
+            this.mappingService.DeleteMapping(this.entityName, this.Mapping.MappingId.Value, this.entityId);
+
+            var mappingWithIdStripped = this.Mapping.Model();
+            mappingWithIdStripped.MappingId = null;
+
+            var response = this.mappingService.CreateMapping(this.entityName, this.entityId, mappingWithIdStripped);
+
+            if (response.Code != HttpStatusCode.Created)
+            {
+                var newMapping = this.mappingService.CreateMapping(
+                    this.entityName, 
+                    this.entityId, 
+                    this.Mapping.OriginalModel());
+                var returnUriParts = newMapping.Location.Split('/');
+                this.LoadMappingFromService(
+                    this.entityId, 
+                    Convert.ToInt32(returnUriParts[returnUriParts.Length - 1]), 
+                    this.entityName);
+                error = response.Fault != null ? response.Fault.Message : "Unkown Error";
+            }
+
+            return error;
         }
 
         private void LoadMappingFromService(int pid, int mappingId, string entityName)
@@ -122,11 +169,6 @@
 
             this.Mapping = new MappingViewModel(mappingFromService, this.eventAggregator);
             this.RaisePropertyChanged(string.Empty);
-        }
-
-        private void CreateMapping(CreateEvent obj)
-        {
-            this.regionManager.RequestNavigate(RegionNames.MainRegion, ViewNames.MappingAddView);
         }
 
         private void Save(SaveEvent saveEvent)
@@ -147,9 +189,9 @@
             }
 
             var response = this.mappingService.UpdateMapping(
-                this.entityName,
-                this.Mapping.MappingId.Value,
-                this.entityId,
+                this.entityName, 
+                this.Mapping.MappingId.Value, 
+                this.entityId, 
                 new EntityWithETag<MdmId>(this.Mapping.Model(), this.Mapping.ETag));
 
             if (response.IsValid)
@@ -159,42 +201,13 @@
                 return;
             }
 
-            this.eventAggregator.Publish(new ErrorEvent(response.Fault != null ? response.Fault.Message : "Unkown Error"));
-        }
-
-        private string DeleteAndRecreate()
-        {
-            string error = null;
-            this.mappingService.DeleteMapping(this.entityName, this.Mapping.MappingId.Value, this.entityId);
-
-            var mappingWithIdStripped = this.Mapping.Model();
-            mappingWithIdStripped.MappingId = null;
-
-            var response = this.mappingService.CreateMapping(this.entityName, this.entityId, mappingWithIdStripped);
-
-            if (response.Code != HttpStatusCode.Created)
-            {
-                var newMapping = this.mappingService.CreateMapping(this.entityName, this.entityId, this.Mapping.OriginalModel());
-                var returnUriParts = newMapping.Location.Split('/');
-                this.LoadMappingFromService(
-                    this.entityId, Convert.ToInt32(returnUriParts[returnUriParts.Length - 1]), this.entityName);
-                error = response.Fault != null ? response.Fault.Message : "Unkown Error";
-            }
-
-            return error;
+            this.eventAggregator.Publish(
+                new ErrorEvent(response.Fault != null ? response.Fault.Message : "Unkown Error"));
         }
 
         private bool ShouldDeleteAndRecreate()
         {
             return this.Mapping.MappingStringChanged || this.Mapping.DefaultReverseIndChanged;
-        }
-
-        public string Context
-        {
-            get
-            {
-                return this.entityName + ": " + this.entityInstanceName;
-            }
         }
     }
 }

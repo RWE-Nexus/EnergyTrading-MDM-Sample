@@ -6,11 +6,13 @@ namespace EnergyTrading.MDM.Contracts.Rules
     using EnergyTrading.Validation;
 
     public class PartyRoleCreateMappingdNoOverlappingRule<TEntity, TMapping> : Rule<CreateMappingRequest>
-        where TMapping : class, IIdentifiable, IEntityMapping
-        where TEntity : class, IIdentifiable, IEntity
+        where TMapping : class, IIdentifiable, IEntityMapping where TEntity : class, IIdentifiable, IEntity
     {
-        private const string MessageTemplate = "Identifier '{0}' for system '{1}' already assigned to an entity for some part of the range {2:yyyy-MMM-dd} to {3:yyyy-MMM-dd}";
         private const string EntityNotFoundMessageTemplate = "No {0} exists with identifier '{1}'";
+
+        private const string MessageTemplate =
+            "Identifier '{0}' for system '{1}' already assigned to an entity for some part of the range {2:yyyy-MMM-dd} to {3:yyyy-MMM-dd}";
+
         private readonly IRepository repository;
 
         public PartyRoleCreateMappingdNoOverlappingRule(IRepository repository)
@@ -24,16 +26,25 @@ namespace EnergyTrading.MDM.Contracts.Rules
             var range = new EnergyTrading.DateRange(mapping.StartDate, mapping.EndDate);
 
             var entity = this.repository.FindOne<TEntity>(request.EntityId) as MDM.PartyRole;
-            if(entity == null)
+            if (entity == null)
             {
                 this.Message = string.Format(EntityNotFoundMessageTemplate, typeof(TEntity).Name, request.EntityId);
                 return false;
             }
 
-            var count = this.repository.FindPartyRoleOverlappingMappingCount<TMapping>(mapping.SystemName, mapping.Identifier, range, entity.PartyRoleType);
+            var count = this.repository.FindPartyRoleOverlappingMappingCount<TMapping>(
+                mapping.SystemName, 
+                mapping.Identifier, 
+                range, 
+                entity.PartyRoleType);
             if (count > 0)
             {
-                this.Message = string.Format(MessageTemplate, mapping.Identifier, mapping.SystemName, range.Start, range.Finish);
+                this.Message = string.Format(
+                    MessageTemplate, 
+                    mapping.Identifier, 
+                    mapping.SystemName, 
+                    range.Start, 
+                    range.Finish);
                 return false;
             }
 

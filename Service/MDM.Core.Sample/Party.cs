@@ -20,7 +20,8 @@ namespace EnergyTrading.MDM
             this.LatestDetails.Phone = details.Phone;
             this.LatestDetails.Role = details.Role;
             this.LatestDetails.IsInternal = details.IsInternal;
-            this.LatestDetails.Validity = this.LatestDetails.Validity.ChangeStart(details.Validity.Start).ChangeFinish(details.Validity.Finish);
+            this.LatestDetails.Validity =
+                this.LatestDetails.Validity.ChangeStart(details.Validity.Start).ChangeFinish(details.Validity.Finish);
             this.LatestDetails.Party = this;
         }
     }

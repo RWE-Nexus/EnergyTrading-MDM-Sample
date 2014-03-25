@@ -28,26 +28,39 @@ namespace Admin.BrokerModule.ViewModels
 
     public class BrokerEditViewModel : NotificationObject, IConfirmNavigationRequest
     {
-        private readonly InteractionRequest<Confirmation> confirmationFromViewModelInteractionRequest;
-        private readonly IMdmService entityService;
-        private readonly IEventAggregator eventAggregator;
-        private readonly INavigationService navigationService;
-        private readonly IMappingService mappingService;
-        private ObservableCollection<MappingViewModel> mappings;
-        private BrokerViewModel broker;
-        private MappingViewModel selectedMapping;
-        private ICommand deleteMappingCommand;
-        private ICommand updateMappingCommand;
-        private DateTime validAtString;
         private readonly IApplicationCommands applicationCommands;
+
+        private readonly InteractionRequest<Confirmation> confirmationFromViewModelInteractionRequest;
+
+        private readonly IMdmService entityService;
+
+        private readonly IEventAggregator eventAggregator;
+
+        private readonly IMappingService mappingService;
+
+        private readonly INavigationService navigationService;
+
+        private BrokerViewModel broker;
+
+        private ICommand deleteMappingCommand;
+
+        private ObservableCollection<MappingViewModel> mappings;
+
+        private MappingViewModel selectedMapping;
+
         private bool showInstrumentTypeOverrides;
+
         private bool showPartyOverrides;
+
+        private ICommand updateMappingCommand;
+
+        private DateTime validAtString;
 
         public BrokerEditViewModel(
             IEventAggregator eventAggregator, 
-            IMdmService entityService,
-            INavigationService navigationService,
-            IMappingService mappingService,
+            IMdmService entityService, 
+            INavigationService navigationService, 
+            IMappingService mappingService, 
             IApplicationCommands applicationCommands)
         {
             this.navigationService = navigationService;
@@ -57,22 +70,103 @@ namespace Admin.BrokerModule.ViewModels
             this.entityService = entityService;
             this.confirmationFromViewModelInteractionRequest = new InteractionRequest<Confirmation>();
             this.CanEdit = AuthorisationHelpers.HasEntityRights("Broker");
-            
-                    }
+        }
+
+        public BrokerViewModel Broker
+        {
+            get
+            {
+                return this.broker;
+            }
+
+            set
+            {
+                this.broker = value;
+                this.RaisePropertyChanged(() => this.Broker);
+            }
+        }
 
         public bool CanEdit { get; private set; }
-    
-                
+
+        /// <summary>
+        /// Gets the notification from view model interaction request. View binds to this property
+        /// </summary>
+        public IInteractionRequest ConfirmationFromViewModelInteractionRequest
+        {
+            get
+            {
+                return this.confirmationFromViewModelInteractionRequest;
+            }
+        }
+
         public ICommand DeleteMappingCommand
         {
             get
             {
                 if (this.deleteMappingCommand == null)
                 {
-                    this.deleteMappingCommand = new RelayCommand(param => this.DeleteMapping(param), param => CanEditOrDeleteMapping(param));
+                    this.deleteMappingCommand = new RelayCommand(
+                        param => this.DeleteMapping(param), 
+                        param => CanEditOrDeleteMapping(param));
                 }
 
                 return this.deleteMappingCommand;
+            }
+        }
+
+        public ObservableCollection<MappingViewModel> Mappings
+        {
+            get
+            {
+                return this.mappings;
+            }
+
+            set
+            {
+                this.mappings = value;
+                this.RaisePropertyChanged(() => this.Mappings);
+            }
+        }
+
+        public MappingViewModel SelectedMapping
+        {
+            get
+            {
+                return this.selectedMapping;
+            }
+
+            set
+            {
+                this.selectedMapping = value;
+                this.RaisePropertyChanged(() => this.SelectedMapping);
+            }
+        }
+
+        public bool ShowInstrumentTypeOverrides
+        {
+            get
+            {
+                return this.showInstrumentTypeOverrides;
+            }
+
+            set
+            {
+                this.showInstrumentTypeOverrides = value;
+                this.RaisePropertyChanged(() => this.ShowInstrumentTypeOverrides);
+            }
+        }
+
+        public bool ShowPartyOverrides
+        {
+            get
+            {
+                return this.showPartyOverrides;
+            }
+
+            set
+            {
+                this.showPartyOverrides = value;
+                this.RaisePropertyChanged(() => this.ShowPartyOverrides);
             }
         }
 
@@ -82,11 +176,170 @@ namespace Admin.BrokerModule.ViewModels
             {
                 if (this.updateMappingCommand == null)
                 {
-                    this.updateMappingCommand = new RelayCommand(param => this.UpdateMapping(param), param => CanEditOrDeleteMapping(param));
+                    this.updateMappingCommand = new RelayCommand(
+                        param => this.UpdateMapping(param), 
+                        param => CanEditOrDeleteMapping(param));
                 }
 
                 return this.updateMappingCommand;
             }
+        }
+
+        public void ConfirmNavigationRequest(NavigationContext navigationContext, Action<bool> continuationCallback)
+        {
+            if (this.Broker.CanSave)
+            {
+                this.eventAggregator.Publish(new DialogOpenEvent(true));
+                this.confirmationFromViewModelInteractionRequest.Raise(
+                    new Confirmation { Content = Message.UnsavedChanges, Title = Message.UnsavedChangeTitle }, 
+                    confirmation =>
+                        {
+                            continuationCallback(confirmation.Confirmed);
+                            this.eventAggregator.Publish(new DialogOpenEvent(false));
+                        });
+            }
+            else
+            {
+                continuationCallback(true);
+            }
+        }
+
+        public void DeleteParty()
+        {
+            this.Broker.PartyId = null;
+            this.Broker.PartyName = string.Empty;
+        }
+
+        public bool IsNavigationTarget(NavigationContext navigationContext)
+        {
+            return true;
+        }
+
+        public void NavigateToDetail(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                this.NavigateToDetailScreen();
+            }
+        }
+
+        public void NavigateToDetailDoubleClick()
+        {
+            this.NavigateToDetailScreen();
+        }
+
+        public void NavigateToParty()
+        {
+            this.navigationService.NavigateMain(new EntityEditUri("Party", this.Broker.PartyId, this.Broker.Start));
+        }
+
+        public void OnNavigatedFrom(NavigationContext navigationContext)
+        {
+            this.eventAggregator.Unsubscribe<SaveEvent>(this.Save);
+            this.eventAggregator.Unsubscribe<CreateEvent>(this.CreateMapping);
+            this.eventAggregator.Unsubscribe<EntitySelectedEvent>(this.EntitySelected);
+            this.eventAggregator.Unsubscribe<MappingUpdatedEvent>(this.MappingUpdated);
+            this.eventAggregator.Unsubscribe<MappingDeleteConfirmedEvent>(this.MappingDeleteConfirmed);
+
+            this.ShowInstrumentTypeOverrides = false;
+            this.applicationCommands.CloseView(
+                "InstrumentTypeOverrideEmbeddedSearchResultsView", 
+                "Broker-InstrumentTypeOverrideSearchResultsRegion");
+
+            this.ShowPartyOverrides = false;
+            this.applicationCommands.CloseView(
+                "PartyOverrideEmbeddedSearchResultsView", 
+                "Broker-PartyOverrideSearchResultsRegion");
+        }
+
+        public void OnNavigatedTo(NavigationContext navigationContext)
+        {
+            this.eventAggregator.Subscribe<SaveEvent>(this.Save);
+            this.eventAggregator.Subscribe<CreateEvent>(this.CreateMapping);
+            this.eventAggregator.Subscribe<MappingUpdatedEvent>(this.MappingUpdated);
+            this.eventAggregator.Subscribe<MappingDeleteConfirmedEvent>(this.MappingDeleteConfirmed);
+            this.eventAggregator.Subscribe<EntitySelectedEvent>(this.EntitySelected);
+            int idParam = int.Parse(navigationContext.Parameters[NavigationParameters.EntityId]);
+            DateTime validAtStringParam = DateTime.Parse(navigationContext.Parameters[NavigationParameters.ValidAtDate]);
+
+            if (this.Broker == null || this.validAtString != validAtStringParam || this.Broker.Id != idParam)
+            {
+                this.ShowInstrumentTypeOverrides = false;
+                this.applicationCommands.CloseView(
+                    "InstrumentTypeOverrideEmbeddedSearchResultsView", 
+                    "Broker-InstrumentTypeOverrideSearchResultsRegion");
+
+                this.ShowPartyOverrides = false;
+                this.applicationCommands.CloseView(
+                    "PartyOverrideEmbeddedSearchResultsView", 
+                    "Broker-PartyOverrideSearchResultsRegion");
+            }
+
+            this.validAtString = validAtStringParam;
+            this.LoadBrokerFromService(idParam, validAtString);
+
+            this.applicationCommands.OpenView(
+                "InstrumentTypeOverrideEmbeddedSearchResultsView", 
+                "Broker-InstrumentTypeOverrideSearchResultsRegion", 
+                idParam, 
+                validAtStringParam, 
+                "Broker");
+
+            this.applicationCommands.OpenView(
+                "PartyOverrideEmbeddedSearchResultsView", 
+                "Broker-PartyOverrideSearchResultsRegion", 
+                idParam, 
+                validAtStringParam, 
+                "Broker");
+
+            this.eventAggregator.Publish(new CanCreateNewChangeEvent(CanAddMappings()));
+        }
+
+        public void SelectParty()
+        {
+            this.eventAggregator.Publish(new EntitySelectEvent("Party", "Party"));
+        }
+
+        public void Sorting()
+        {
+            this.SelectedMapping = null;
+        }
+
+        public void StartMinimum()
+        {
+            this.Broker.Start = DateUtility.MinDate;
+        }
+
+        public void StartToday()
+        {
+            this.Broker.Start = SystemTime.UtcNow().Date;
+        }
+
+        private static MdmId NewMapping(EntityWithETag<MdmId> entityWithETag, MappingUpdatedEvent updatedEvent)
+        {
+            return new MdmId
+                       {
+                           DefaultReverseInd = updatedEvent.IsDefault, 
+                           IsMdmId = false, 
+                           SourceSystemOriginated = updatedEvent.IsSourceSystemOriginated, 
+                           StartDate = updatedEvent.StartDate, 
+                           Identifier = updatedEvent.NewValue, 
+                           EndDate = entityWithETag.Object.EndDate, 
+                           SystemName = entityWithETag.Object.SystemName, 
+                       };
+        }
+
+        private bool CanAddMappings()
+        {
+            foreach (var system in mappingService.GetSourceSystemNames())
+            {
+                if (AuthorisationHelpers.HasMappingRights("Broker", system))
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         private bool CanEditOrDeleteMapping(object mapping)
@@ -111,6 +364,11 @@ namespace Admin.BrokerModule.ViewModels
             return AuthorisationHelpers.HasMappingRights("Broker", system);
         }
 
+        private void CreateMapping(CreateEvent obj)
+        {
+            this.navigationService.NavigateMain(new MappingAddUri(this.Broker.Id.Value, "Broker", this.Broker.Name));
+        }
+
         private void DeleteMapping(object mapping)
         {
             var mappingViewModel = mapping as MappingViewModel;
@@ -124,8 +382,184 @@ namespace Admin.BrokerModule.ViewModels
                 return;
             }
 
-            this.eventAggregator.Publish(new ConfirmMappingDeleteEvent(mappingViewModel.MappingId.Value,
-                mappingViewModel.MappingString, mappingViewModel.SystemName));
+            this.eventAggregator.Publish(
+                new ConfirmMappingDeleteEvent(
+                    mappingViewModel.MappingId.Value, 
+                    mappingViewModel.MappingString, 
+                    mappingViewModel.SystemName));
+        }
+
+        private void EntitySelected(EntitySelectedEvent obj)
+        {
+            switch (obj.EntityKey)
+            {
+                case "Party":
+                    this.Broker.PartyId = obj.Id;
+                    this.Broker.PartyName = obj.EntityValue;
+                    break;
+            }
+        }
+
+        private void LoadBrokerFromService(int brokerId, DateTime validAt, bool publishChangeNotification = false)
+        {
+            this.entityService.ExecuteAsync(
+                () => this.entityService.Get<Broker>(brokerId, validAt), 
+                response =>
+                    {
+                        this.Broker = new BrokerViewModel(
+                            new EntityWithETag<Broker>(response.Message, response.Tag), 
+                            this.eventAggregator);
+
+                        this.Mappings =
+                            new ObservableCollection<MappingViewModel>(
+                                response.Message.Identifiers.Select(
+                                    nexusId =>
+                                    new MappingViewModel(new EntityWithETag<MdmId>(nexusId, null), this.eventAggregator)));
+
+                        this.RaisePropertyChanged(string.Empty);
+                    }, 
+                this.eventAggregator);
+        }
+
+        private void MappingDeleteConfirmed(MappingDeleteConfirmedEvent obj)
+        {
+            if (obj.Cancelled)
+            {
+                return;
+            }
+
+            var response = this.mappingService.DeleteMapping("Broker", obj.MappingId, this.Broker.Id.Value);
+
+            if (response.IsValid)
+            {
+                this.LoadBrokerFromService(this.broker.Id.Value, validAtString, true);
+                this.eventAggregator.Publish(new StatusEvent(Message.MappingDeleted));
+                return;
+            }
+
+            this.eventAggregator.Publish(
+                new ErrorEvent(response.Fault != null ? response.Fault.Message : "Unknown Error"));
+        }
+
+        private void MappingUpdated(MappingUpdatedEvent updatedEvent)
+        {
+            if (updatedEvent.Cancelled)
+            {
+                return;
+            }
+
+            EntityWithETag<MdmId> entityWithETag;
+            if (!TryGetMapping("Broker", updatedEvent, out entityWithETag))
+            {
+                return;
+            }
+
+            if (entityWithETag.Object.EndDate <= updatedEvent.StartDate)
+            {
+                var message = string.Format(
+                    "The start date of the new mapping must be before {0}", 
+                    entityWithETag.Object.EndDate);
+                this.eventAggregator.Publish(new ErrorEvent(message));
+                return;
+            }
+
+            var newMapping = NewMapping(entityWithETag, updatedEvent);
+
+            if (!TryCreateMapping("Broker", newMapping, updatedEvent))
+            {
+                return;
+            }
+
+            if (!TryGetMapping("Broker", updatedEvent, out entityWithETag))
+            {
+                return;
+            }
+
+            entityWithETag.Object.EndDate = updatedEvent.StartDate.AddSeconds(-1);
+
+            if (!TryUpdateMapping("Broker", entityWithETag, updatedEvent))
+            {
+                return;
+            }
+
+            this.LoadBrokerFromService(updatedEvent.EntityId, updatedEvent.StartDate, true);
+            this.eventAggregator.Publish(new StatusEvent(Message.MappingUpdated));
+        }
+
+        private void NavigateToDetailScreen()
+        {
+            if (this.SelectedMapping != null && CanEditOrDeleteMapping(this.SelectedMapping))
+            {
+                if (!this.SelectedMapping.IsMdmId)
+                {
+                    this.navigationService.NavigateMain(
+                        new MappingEditUri(
+                            this.Broker.Id.Value, 
+                            "Broker", 
+                            Convert.ToInt32(this.SelectedMapping.MappingId), 
+                            this.Broker.Name));
+                    return;
+                }
+
+                this.eventAggregator.Publish(new StatusEvent("MdmSystemData ID cannot be edited"));
+            }
+        }
+
+        private void Save(SaveEvent saveEvent)
+        {
+            this.entityService.ExecuteAsync(
+                () => this.entityService.Update(this.Broker.Id.Value, this.Broker.Model(), this.Broker.ETag), 
+                () => this.LoadBrokerFromService(this.Broker.Id.Value, this.Broker.Start, true), 
+                string.Format(Message.EntityUpdatedFormatString, "Broker"), 
+                this.eventAggregator);
+        }
+
+        private bool TryCreateMapping(string entityName, MdmId newMapping, MappingUpdatedEvent updatedEvent)
+        {
+            var response = mappingService.CreateMapping(entityName, updatedEvent.EntityId, newMapping);
+            if (!response.IsValid)
+            {
+                this.eventAggregator.Publish(
+                    new ErrorEvent(response.Fault != null ? response.Fault.Message : "Unknown Error"));
+                return false;
+            }
+
+            return true;
+        }
+
+        private bool TryGetMapping(
+            string entityName, 
+            MappingUpdatedEvent updatedEvent, 
+            out EntityWithETag<MdmId> mapping)
+        {
+            mapping = mappingService.GetMapping(entityName, updatedEvent.EntityId, updatedEvent.MappingId);
+            if (mapping.Object == null)
+            {
+                this.eventAggregator.Publish(new ErrorEvent("Unable to retrieve original mapping"));
+                return false;
+            }
+
+            return true;
+        }
+
+        private bool TryUpdateMapping(
+            string entityName, 
+            EntityWithETag<MdmId> entityWithETag, 
+            MappingUpdatedEvent updatedEvent)
+        {
+            var response = mappingService.UpdateMapping(
+                entityName, 
+                updatedEvent.MappingId, 
+                updatedEvent.EntityId, 
+                entityWithETag);
+            if (!response.IsValid)
+            {
+                this.eventAggregator.Publish(
+                    new ErrorEvent(response.Fault != null ? response.Fault.Message : "Unknown Error"));
+                return false;
+            }
+
+            return true;
         }
 
         private void UpdateMapping(object mapping)
@@ -139,388 +573,17 @@ namespace Admin.BrokerModule.ViewModels
             if (mappingViewModel.MappingId == null)
             {
                 return;
-            } 
-            
+            }
+
             if (mappingViewModel != null)
             {
-                this.eventAggregator.Publish(new MappingUpdateEvent(this.Broker.Id.Value, mappingViewModel.MappingId.Value, mappingViewModel.MappingString, "Broker"));
-            }
-        }
-
-        private bool CanAddMappings()
-        {
-            foreach (var system in mappingService.GetSourceSystemNames())
-            {
-                if (AuthorisationHelpers.HasMappingRights("Broker", system))
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
-        
-        /// <summary>
-        /// Gets the notification from view model interaction request. View binds to this property
-        /// </summary>
-        public IInteractionRequest ConfirmationFromViewModelInteractionRequest
-        {
-            get
-            {
-                return this.confirmationFromViewModelInteractionRequest;
-            }
-        }
-
-        public ObservableCollection<MappingViewModel> Mappings
-        {
-            get
-            {
-                return this.mappings;
-            }
-
-            set
-            {
-                this.mappings = value;
-                this.RaisePropertyChanged(() => this.Mappings);
-            }
-        }
-
-        public BrokerViewModel Broker
-        {
-            get
-            {
-                return this.broker;
-            }
-
-            set
-            {
-                this.broker = value;
-                this.RaisePropertyChanged(() => this.Broker);
-            }
-        }
-
-        public MappingViewModel SelectedMapping
-        {
-            get
-            {
-                return this.selectedMapping;
-            }
-
-            set
-            {
-                this.selectedMapping = value;
-                this.RaisePropertyChanged(() => this.SelectedMapping);
-            }
-        }
-
-        public void NavigateToDetail(object sender, KeyEventArgs e)
-        {
-            if (e.Key == Key.Enter)
-            {
-                this.NavigateToDetailScreen();
-            }
-        }
-
-        public void NavigateToDetailDoubleClick()
-        {
-            this.NavigateToDetailScreen();
-        }
-
-        private void NavigateToDetailScreen()
-        {
-            if (this.SelectedMapping != null && CanEditOrDeleteMapping(this.SelectedMapping))
-            {
-                if (!this.SelectedMapping.IsMdmId)
-                {
-                    this.navigationService.NavigateMain(
-                        new MappingEditUri(
-                            this.Broker.Id.Value, "Broker", Convert.ToInt32(this.SelectedMapping.MappingId), this.Broker.Name));
-                    return;
-                }
-
-                this.eventAggregator.Publish(new StatusEvent("MdmSystemData ID cannot be edited"));
-            }
-        }
-
-        public void Sorting()
-        {
-            this.SelectedMapping = null;
-        }
-
-        public void ConfirmNavigationRequest(NavigationContext navigationContext, Action<bool> continuationCallback)
-        {
-            if (this.Broker.CanSave)
-            {
-                this.eventAggregator.Publish(new DialogOpenEvent(true));
-                this.confirmationFromViewModelInteractionRequest.Raise(
-                    new Confirmation { Content = Message.UnsavedChanges, Title = Message.UnsavedChangeTitle },
-                    confirmation =>
-                        {
-                            continuationCallback(confirmation.Confirmed);
-                            this.eventAggregator.Publish(new DialogOpenEvent(false));
-                        });
-            }
-            else
-            {
-                continuationCallback(true);
-            }
-        }
-
-        public bool IsNavigationTarget(NavigationContext navigationContext)
-        {
-            return true;
-        }
-
-        public void OnNavigatedFrom(NavigationContext navigationContext)
-        {
-            this.eventAggregator.Unsubscribe<SaveEvent>(this.Save);
-            this.eventAggregator.Unsubscribe<CreateEvent>(this.CreateMapping);
-            this.eventAggregator.Unsubscribe<EntitySelectedEvent>(this.EntitySelected);
-            this.eventAggregator.Unsubscribe<MappingUpdatedEvent>(this.MappingUpdated);
-            this.eventAggregator.Unsubscribe<MappingDeleteConfirmedEvent>(this.MappingDeleteConfirmed);
-                    
-                    this.ShowInstrumentTypeOverrides = false;
-            this.applicationCommands.CloseView("InstrumentTypeOverrideEmbeddedSearchResultsView", "Broker-InstrumentTypeOverrideSearchResultsRegion");
-        
-                    this.ShowPartyOverrides = false;
-            this.applicationCommands.CloseView("PartyOverrideEmbeddedSearchResultsView", "Broker-PartyOverrideSearchResultsRegion");
-        
-                }
-
-        public void OnNavigatedTo(NavigationContext navigationContext)
-        {
-            this.eventAggregator.Subscribe<SaveEvent>(this.Save);
-            this.eventAggregator.Subscribe<CreateEvent>(this.CreateMapping);
-            this.eventAggregator.Subscribe<MappingUpdatedEvent>(this.MappingUpdated);
-            this.eventAggregator.Subscribe<MappingDeleteConfirmedEvent>(this.MappingDeleteConfirmed);
-            this.eventAggregator.Subscribe<EntitySelectedEvent>(this.EntitySelected);
-            int idParam = int.Parse(navigationContext.Parameters[NavigationParameters.EntityId]);
-            DateTime validAtStringParam = DateTime.Parse(navigationContext.Parameters[NavigationParameters.ValidAtDate]);
-
-            if (this.Broker == null || this.validAtString != validAtStringParam ||
-                this.Broker.Id != idParam)
-            {
-                    this.ShowInstrumentTypeOverrides = false;
-            this.applicationCommands.CloseView("InstrumentTypeOverrideEmbeddedSearchResultsView", "Broker-InstrumentTypeOverrideSearchResultsRegion");
-        
-                    this.ShowPartyOverrides = false;
-            this.applicationCommands.CloseView("PartyOverrideEmbeddedSearchResultsView", "Broker-PartyOverrideSearchResultsRegion");
-        
-                    }
-
-            this.validAtString = validAtStringParam;
-            this.LoadBrokerFromService(idParam, validAtString);
-
-                    this.applicationCommands.OpenView("InstrumentTypeOverrideEmbeddedSearchResultsView", "Broker-InstrumentTypeOverrideSearchResultsRegion", idParam, validAtStringParam, "Broker");
-        
-                    this.applicationCommands.OpenView("PartyOverrideEmbeddedSearchResultsView", "Broker-PartyOverrideSearchResultsRegion", idParam, validAtStringParam, "Broker");
-        
-                    this.eventAggregator.Publish(new CanCreateNewChangeEvent(CanAddMappings()));
-        }
-
-                public bool ShowInstrumentTypeOverrides
-        {
-            get
-            {
-                return this.showInstrumentTypeOverrides;
-            }
-    
-            set
-            {
-                this.showInstrumentTypeOverrides = value;
-                this.RaisePropertyChanged(() => this.ShowInstrumentTypeOverrides);
-            }
-        }
-                public bool ShowPartyOverrides
-        {
-            get
-            {
-                return this.showPartyOverrides;
-            }
-    
-            set
-            {
-                this.showPartyOverrides = value;
-                this.RaisePropertyChanged(() => this.ShowPartyOverrides);
-            }
-        }
-        
-        
-
-        private void EntitySelected(EntitySelectedEvent obj)
-        {
-                            switch (obj.EntityKey)
-                {
-                                                case "Party":
-                                this.Broker.PartyId = obj.Id;
-                                this.Broker.PartyName = obj.EntityValue;
-                                break;
-
-                                    }
-                        }
-
-        	
-        public void NavigateToParty()
-        {
-            this.navigationService.NavigateMain(new EntityEditUri("Party", this.Broker.PartyId, this.Broker.Start));
-        }
-
-        public void SelectParty()
-        {
-            this.eventAggregator.Publish(new EntitySelectEvent("Party", "Party"));
-        }
-        
-        public void DeleteParty()
-        {
-            this.Broker.PartyId = null;
-            this.Broker.PartyName = string.Empty;
-        }
-
-        private void MappingUpdated(MappingUpdatedEvent updatedEvent)
-        {
-            if (updatedEvent.Cancelled)
-                return;
-
-            EntityWithETag<MdmId> entityWithETag;
-            if (!TryGetMapping("Broker", updatedEvent, out entityWithETag))
-                return;
-
-            if (entityWithETag.Object.EndDate <= updatedEvent.StartDate)
-            {
-                var message = string.Format("The start date of the new mapping must be before {0}", entityWithETag.Object.EndDate);
-                this.eventAggregator.Publish(new ErrorEvent(message));
-                return;
-            }
-
-            var newMapping = NewMapping(entityWithETag, updatedEvent);
-
-            if (!TryCreateMapping("Broker", newMapping, updatedEvent)) 
-                return;
-
-            if (!TryGetMapping("Broker", updatedEvent, out entityWithETag))
-                return;
-
-            entityWithETag.Object.EndDate = updatedEvent.StartDate.AddSeconds(-1);
-
-            if (!TryUpdateMapping("Broker", entityWithETag, updatedEvent)) 
-                return;
-
-            this.LoadBrokerFromService(updatedEvent.EntityId, updatedEvent.StartDate, true);
-            this.eventAggregator.Publish(new StatusEvent(Message.MappingUpdated));
-        }
-
-        private void MappingDeleteConfirmed(MappingDeleteConfirmedEvent obj)
-        {
-            if (obj.Cancelled)
-                return;
-
-            var response = this.mappingService.DeleteMapping(
-                "Broker", 
-                obj.MappingId, 
-                this.Broker.Id.Value);
-
-            if (response.IsValid)
-            {
-                this.LoadBrokerFromService(this.broker.Id.Value, validAtString, true);
-                this.eventAggregator.Publish(new StatusEvent(Message.MappingDeleted));
-                return;
-            }
-
-            this.eventAggregator.Publish(
-                new ErrorEvent(response.Fault != null ? response.Fault.Message : "Unknown Error"));
-        }
-
-        private bool TryGetMapping(string entityName, MappingUpdatedEvent updatedEvent, out EntityWithETag<MdmId> mapping)
-        {
-            mapping = mappingService.GetMapping(entityName, updatedEvent.EntityId, updatedEvent.MappingId);
-            if (mapping.Object == null)
-            {
                 this.eventAggregator.Publish(
-                    new ErrorEvent("Unable to retrieve original mapping"));
-                return false;
+                    new MappingUpdateEvent(
+                        this.Broker.Id.Value, 
+                        mappingViewModel.MappingId.Value, 
+                        mappingViewModel.MappingString, 
+                        "Broker"));
             }
-            return true;
-        }
-
-        private static MdmId NewMapping(EntityWithETag<MdmId> entityWithETag, MappingUpdatedEvent updatedEvent)
-        {
-            return new MdmId
-                {
-                    DefaultReverseInd = updatedEvent.IsDefault,
-                    IsMdmId = false,
-                    SourceSystemOriginated = updatedEvent.IsSourceSystemOriginated,
-                    StartDate = updatedEvent.StartDate,
-                    Identifier = updatedEvent.NewValue,
-                    EndDate = entityWithETag.Object.EndDate,
-                    SystemName = entityWithETag.Object.SystemName,
-                };
-        }
-        
-        private bool TryUpdateMapping(string entityName, EntityWithETag<MdmId> entityWithETag, MappingUpdatedEvent updatedEvent)
-        {
-            var response = mappingService.UpdateMapping(entityName, updatedEvent.MappingId, updatedEvent.EntityId, entityWithETag);
-            if (!response.IsValid)
-            {
-                this.eventAggregator.Publish(
-                    new ErrorEvent(response.Fault != null ? response.Fault.Message : "Unknown Error"));
-                return false;
-            }
-            return true;
-        }
-
-        private bool TryCreateMapping(string entityName, MdmId newMapping, MappingUpdatedEvent updatedEvent)
-        {
-            var response = mappingService.CreateMapping(entityName, updatedEvent.EntityId, newMapping);
-            if (!response.IsValid)
-            {
-                this.eventAggregator.Publish(
-                    new ErrorEvent(response.Fault != null ? response.Fault.Message : "Unknown Error"));
-                return false;
-            }
-            return true;
-        }
-
-        private void CreateMapping(CreateEvent obj)
-        {
-            this.navigationService.NavigateMain(new MappingAddUri(this.Broker.Id.Value, "Broker", this.Broker.Name));
-        }
-
-        private void LoadBrokerFromService(int brokerId, DateTime validAt, bool publishChangeNotification = false)
-        {
-            this.entityService.ExecuteAsync(
-                () => this.entityService.Get<Broker>(brokerId, validAt), 
-                (response) =>
-                    {
-                this.Broker = new BrokerViewModel(new EntityWithETag<Broker>(response.Message, response.Tag), this.eventAggregator);
-
-                        this.Mappings =
-                            new ObservableCollection<MappingViewModel>(
-                                response.Message.Identifiers.Select(
-                                    nexusId =>
-                                    new MappingViewModel(
-                                        new EntityWithETag<MdmId>(nexusId, null), this.eventAggregator)));
-
-                        this.RaisePropertyChanged(string.Empty);
-                    }, 
-                this.eventAggregator);
-        }
-
-        private void Save(SaveEvent saveEvent)
-        {
-   this.entityService.ExecuteAsync(
-                () => this.entityService.Update(this.Broker.Id.Value, this.Broker.Model(), this.Broker.ETag), 
-                () => this.LoadBrokerFromService(this.Broker.Id.Value, this.Broker.Start, true), 
-                string.Format(Message.EntityUpdatedFormatString, "Broker"),
-                this.eventAggregator);
-        }
-
-        public void StartToday()
-        {
-            this.Broker.Start = SystemTime.UtcNow().Date;
-        }
-
-        public void StartMinimum()
-        {
-            this.Broker.Start = DateUtility.MinDate;
         }
     }
 }

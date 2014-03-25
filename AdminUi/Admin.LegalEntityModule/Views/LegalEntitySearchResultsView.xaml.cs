@@ -2,6 +2,7 @@
 namespace Admin.LegalEntityModule.Views
 {
     using System.Windows.Controls;
+
     using Admin.LegalEntityModule.ViewModels;
 
     /// <summary>

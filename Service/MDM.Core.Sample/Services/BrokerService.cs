@@ -5,20 +5,16 @@ namespace EnergyTrading.MDM.Services
 
     using EnergyTrading.Data;
     using EnergyTrading.Mapping;
-    using EnergyTrading.MDM.Extensions;
     using EnergyTrading.Search;
     using EnergyTrading.Validation;
-
-    using Broker = EnergyTrading.MDM.Broker;
-    using BrokerDetails = EnergyTrading.MDM.BrokerDetails;
 
     public class BrokerService :
         MdmService<Contracts.Sample.Broker, Broker, PartyRoleMapping, BrokerDetails, Contracts.Sample.BrokerDetails>
     {
         public BrokerService(
-            IValidatorEngine validatorFactory,
-            IMappingEngine mappingEngine,
-            IRepository repository,
+            IValidatorEngine validatorFactory, 
+            IMappingEngine mappingEngine, 
+            IRepository repository, 
             ISearchCache searchCache)
             : base(validatorFactory, mappingEngine, repository, searchCache)
         {

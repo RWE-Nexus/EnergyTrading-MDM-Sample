@@ -23,9 +23,9 @@
             this.Update(request, entity);
         }
 
-        protected abstract T Find(SyncRequest<T> request);
-
         protected abstract void Create(SyncRequest<T> request);
+
+        protected abstract T Find(SyncRequest<T> request);
 
         protected abstract void Update(SyncRequest<T> request, T entity);
     }

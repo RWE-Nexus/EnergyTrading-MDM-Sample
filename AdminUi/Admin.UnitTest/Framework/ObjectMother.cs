@@ -2,7 +2,9 @@ namespace Admin.UnitTest.Framework
 {
     using System;
     using System.Collections.Generic;
-    using EnergyTrading.MDM.Contracts.Sample; using EnergyTrading.Mdm.Contracts;
+
+    using EnergyTrading.Mdm.Contracts;
+    using EnergyTrading.MDM.Contracts.Sample;
 
     public static class ObjectMother
     {
@@ -19,10 +21,17 @@ namespace Admin.UnitTest.Framework
             {
                 case "Party":
                     return new Party
-                        {
-                            Details = new PartyDetails { Name = G(), FaxNumber = G(), Role = G(), TelephoneNumber = G() }, 
-                            Identifiers = CreateMdmIdList()
-                        };
+                               {
+                                   Details =
+                                       new PartyDetails
+                                           {
+                                               Name = G(), 
+                                               FaxNumber = G(), 
+                                               Role = G(), 
+                                               TelephoneNumber = G()
+                                           }, 
+                                   Identifiers = CreateMdmIdList()
+                               };
 
                 default:
                     throw new NotImplementedException("No OM for " + name);
@@ -37,21 +46,24 @@ namespace Admin.UnitTest.Framework
         public static MdmId CreateMapping(int id)
         {
             return new MdmId
-                {
-                    MappingId = id,
-                    Identifier = "string", 
-                    IsMdmId = false, 
-                    StartDate = DateTime.MinValue, 
-                    EndDate = DateTime.MaxValue
-                };
+                       {
+                           MappingId = id, 
+                           Identifier = "string", 
+                           IsMdmId = false, 
+                           StartDate = DateTime.MinValue, 
+                           EndDate = DateTime.MaxValue
+                       };
         }
 
         public static MdmId CreateMdmId()
         {
             return new MdmId
-                {
-                   Identifier = "1", IsMdmId = true, StartDate = DateTime.MinValue, EndDate = DateTime.MaxValue 
-                };
+                       {
+                           Identifier = "1", 
+                           IsMdmId = true, 
+                           StartDate = DateTime.MinValue, 
+                           EndDate = DateTime.MaxValue
+                       };
         }
 
         private static MdmIdList CreateMdmIdList()

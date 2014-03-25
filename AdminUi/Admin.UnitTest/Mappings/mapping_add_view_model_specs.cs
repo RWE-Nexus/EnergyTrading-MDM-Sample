@@ -7,6 +7,7 @@ namespace Admin.UnitTest.ViewModels
 
     using Common.Services;
     using Common.UI.ViewModels;
+
     using Microsoft.Practices.Prism.Events;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -15,21 +16,10 @@ namespace Admin.UnitTest.ViewModels
     {
         private IList<string> response;
 
-        protected override void Establish_context()
-        {
-            this.response = new List<string> { "Endur", "ADC" };
-        }
-
-        protected override void Because_of()
-        {
-            this.RegisterMock<IMappingService>().Setup(x => x.GetSourceSystemNames()).Returns(this.response);
-            this.Sut = new MappingAddViewModel(this.RegisterMock<IEventAggregator>().Object, this.Mock<IMappingService>().Object, this.RegisterMock<INavigationService>().Object);
-        }
-
         [TestMethod]
-        public void should_populate_with_the_source_systems_from_the_mapping_service()
+        public void should_add_an_empty_source_system_to_the_list()
         {
-            this.Mock<IMappingService>().Verify(x => x.GetSourceSystemNames());
+            Assert.AreEqual(1, this.Sut.SourceSystems.Where(x => x == string.Empty).Count());
         }
 
         [TestMethod]
@@ -39,9 +29,23 @@ namespace Admin.UnitTest.ViewModels
         }
 
         [TestMethod]
-        public void should_add_an_empty_source_system_to_the_list()
+        public void should_populate_with_the_source_systems_from_the_mapping_service()
         {
-            Assert.AreEqual(1, this.Sut.SourceSystems.Where(x => x == string.Empty).Count()); 
+            this.Mock<IMappingService>().Verify(x => x.GetSourceSystemNames());
+        }
+
+        protected override void Because_of()
+        {
+            this.RegisterMock<IMappingService>().Setup(x => x.GetSourceSystemNames()).Returns(this.response);
+            this.Sut = new MappingAddViewModel(
+                this.RegisterMock<IEventAggregator>().Object, 
+                this.Mock<IMappingService>().Object, 
+                this.RegisterMock<INavigationService>().Object);
+        }
+
+        protected override void Establish_context()
+        {
+            this.response = new List<string> { "Endur", "ADC" };
         }
     }
 }

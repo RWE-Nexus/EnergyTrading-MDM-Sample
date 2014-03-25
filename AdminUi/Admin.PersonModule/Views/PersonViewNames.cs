@@ -3,10 +3,12 @@ namespace Admin.PersonModule.Views
 {
     public static class PersonViewNames
     {
-        public static string PersonEditView = "PersonEditView";
         public static string PersonAddView = "PersonAddView";
-        public static string PersonSearchResultsView = "Person";
+
+        public static string PersonEditView = "PersonEditView";
+
         public static string PersonEmbeddedSearchResultsView = "PersonEmbeddedSearchResultsView";
-        }
+
+        public static string PersonSearchResultsView = "Person";
+    }
 }
-    

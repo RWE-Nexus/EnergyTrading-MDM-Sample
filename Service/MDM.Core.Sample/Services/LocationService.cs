@@ -2,17 +2,23 @@ namespace EnergyTrading.MDM.Services
 {
     using System.Collections.Generic;
 
-    using EnergyTrading.MDM.Contracts.Sample;
-    using EnergyTrading.Search;
     using EnergyTrading.Data;
     using EnergyTrading.Mapping;
+    using EnergyTrading.MDM.Contracts.Sample;
+    using EnergyTrading.Search;
     using EnergyTrading.Validation;
 
     using Location = EnergyTrading.MDM.Location;
 
-    public class LocationService : MdmService<Contracts.Sample.Location, Location, LocationMapping, Location, LocationDetails>
+    public class LocationService :
+        MdmService<Contracts.Sample.Location, Location, LocationMapping, Location, LocationDetails>
     {
-        public LocationService(IValidatorEngine validatorFactory, IMappingEngine mappingEngine, IRepository repository, ISearchCache searchCache) : base(validatorFactory, mappingEngine, repository, searchCache)
+        public LocationService(
+            IValidatorEngine validatorFactory, 
+            IMappingEngine mappingEngine, 
+            IRepository repository, 
+            ISearchCache searchCache)
+            : base(validatorFactory, mappingEngine, repository, searchCache)
         {
         }
 

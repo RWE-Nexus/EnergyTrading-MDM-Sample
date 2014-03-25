@@ -14,9 +14,9 @@ namespace Common.Extensions
             }
 
             return
-                entity.Identifiers.Where(id => id.IsMdmId).Select(
-                    nexusId => nexusId.Identifier == null ? null : new int?(int.Parse(nexusId.Identifier))).
-                    FirstOrDefault();
+                entity.Identifiers.Where(id => id.IsMdmId)
+                    .Select(nexusId => nexusId.Identifier == null ? null : new int?(int.Parse(nexusId.Identifier)))
+                    .FirstOrDefault();
         }
     }
 }

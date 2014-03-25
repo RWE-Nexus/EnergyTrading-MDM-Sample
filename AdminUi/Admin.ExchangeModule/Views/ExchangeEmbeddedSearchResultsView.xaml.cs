@@ -2,6 +2,7 @@
 namespace Admin.ExchangeModule.Views
 {
     using System.Windows.Controls;
+
     using Admin.ExchangeModule.ViewModels;
 
     /// <summary>
@@ -9,7 +10,8 @@ namespace Admin.ExchangeModule.Views
     /// </summary>
     public partial class ExchangeEmbeddedSearchResultsView : UserControl
     {
-        public ExchangeEmbeddedSearchResultsView(ExchangeEmbeddedSearchResultsViewModel exchangeEmbeddedSearchResultsViewModel)
+        public ExchangeEmbeddedSearchResultsView(
+            ExchangeEmbeddedSearchResultsViewModel exchangeEmbeddedSearchResultsViewModel)
         {
             this.DataContext = exchangeEmbeddedSearchResultsViewModel;
             this.InitializeComponent();

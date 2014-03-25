@@ -2,17 +2,26 @@ namespace Admin.ReferenceDataModule.ViewModels
 {
     using System;
     using System.Linq.Expressions;
+
     using Common.Events;
     using Common.Extensions;
+
+    using EnergyTrading.Mdm.Contracts;
+
     using Microsoft.Practices.Prism.Events;
     using Microsoft.Practices.Prism.ViewModel;
-    using EnergyTrading.MDM.Contracts.Sample; using EnergyTrading.Mdm.Contracts;
 
     public class ReferenceDataViewModel : NotificationObject
     {
         private readonly IEventAggregator eventAggregator;
+
         private readonly ReferenceData referenceData;
+
         private bool canSave;
+
+        private string referenceKey;
+
+        private string values;
 
         public ReferenceDataViewModel(IEventAggregator eventAggregator)
         {
@@ -28,22 +37,6 @@ namespace Admin.ReferenceDataModule.ViewModels
             this.Values = value;
         }
 
-        private System.String referenceKey;
-
-        public System.String ReferenceKey 
-        { 
-            get { return this.referenceKey; }
-            set { this.ChangeProperty(() => this.ReferenceKey, ref this.referenceKey, value); }
-        }
-
-        private System.String values;
-
-        public System.String Values 
-        { 
-            get { return this.values; }
-            set { this.ChangeProperty(() => this.Values, ref this.values, value); }
-        }
-            
         public bool CanSave
         {
             get
@@ -58,13 +51,35 @@ namespace Admin.ReferenceDataModule.ViewModels
             }
         }
 
+        public string ReferenceKey
+        {
+            get
+            {
+                return this.referenceKey;
+            }
+
+            set
+            {
+                this.ChangeProperty(() => this.ReferenceKey, ref this.referenceKey, value);
+            }
+        }
+
+        public string Values
+        {
+            get
+            {
+                return this.values;
+            }
+
+            set
+            {
+                this.ChangeProperty(() => this.Values, ref this.values, value);
+            }
+        }
+
         public ReferenceData Model()
         {
-            return new ReferenceData
-            {
-                ReferenceKey = this.ReferenceKey,
-                Value = this.Values
-            };
+            return new ReferenceData { ReferenceKey = this.ReferenceKey, Value = this.Values };
         }
 
         private void ChangeProperty<T>(Expression<Func<T>> property, ref T variable, T newValue)
@@ -77,11 +92,7 @@ namespace Admin.ReferenceDataModule.ViewModels
 
         private bool HasChanges()
         {
-            return
-                !(
-                    this.referenceData.ReferenceKey == this.ReferenceKey 
-                    && this.referenceData.Value == this.Values 
-                );
+            return !(this.referenceData.ReferenceKey == this.ReferenceKey && this.referenceData.Value == this.Values);
         }
     }
 }

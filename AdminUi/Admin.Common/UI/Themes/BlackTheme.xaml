@@ -1169,9 +1169,8 @@
 		<Setter Property="FontSize" Value="17"/>
 		<Setter Property="Foreground" Value="{DynamicResource DetailsPaneHeaderBrush}"/>
 	</Style>
-	<Style x:Key="TextBoxReadonly" BasedOn="{StaticResource GenericTextBox}" TargetType="{x:Type TextBlock}">     
-	</Style>
-	<Style x:Key="TextAreaReadonly" BasedOn="{StaticResource GenericTextBox}" TargetType="{x:Type TextBlock}">       
+	<Style x:Key="TextBoxReadonly" BasedOn="{StaticResource GenericTextBox}" TargetType="{x:Type TextBlock}" />
+    <Style x:Key="TextAreaReadonly" BasedOn="{StaticResource GenericTextBox}" TargetType="{x:Type TextBlock}">       
 		<Setter Property="Margin" Value="5,0,0,0"/>  
 	</Style>
 	<Style x:Key="TextBoxContainer" TargetType="{x:Type Grid}">     
@@ -2743,10 +2742,8 @@
     	<Setter Property="Template">
     		<Setter.Value>
     			<ControlTemplate TargetType="{x:Type Separator}">
-    				<Canvas SnapsToDevicePixels="true" HorizontalAlignment="Center" Margin="4,2,4,2" Width="1" Background="#66FFFFFF">
-    					
-    				</Canvas>
-    			</ControlTemplate>
+    				<Canvas SnapsToDevicePixels="true" HorizontalAlignment="Center" Margin="4,2,4,2" Width="1" Background="#66FFFFFF" />
+			    </ControlTemplate>
     		</Setter.Value>
     	</Setter>
     </Style>
@@ -2826,11 +2823,11 @@
     </Style>
     
     <Style x:Key="GridNoTab" TargetType="{x:Type DataGridCell}">
-        <Setter Property="KeyboardNavigation.IsTabStop" Value="False"></Setter>
+        <Setter Property="KeyboardNavigation.IsTabStop" Value="False" />
     </Style>
 
     <Style x:Key="GridTab" TargetType="{x:Type DataGridCell}">
-        <Setter Property="KeyboardNavigation.IsTabStop" Value="False"></Setter>
+        <Setter Property="KeyboardNavigation.IsTabStop" Value="False" />
     </Style>
 
 </ResourceDictionary>

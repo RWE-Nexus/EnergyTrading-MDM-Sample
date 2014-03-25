@@ -2,19 +2,17 @@
 {
     using System.Data.Entity.ModelConfiguration;
 
-    
-
-    class LegalEntityDetailsConfiguration : EntityTypeConfiguration<LegalEntityDetails>
+    internal class LegalEntityDetailsConfiguration : EntityTypeConfiguration<LegalEntityDetails>
     {
         public LegalEntityDetailsConfiguration()
         {
             this.Map<LegalEntityDetails>(
                 y =>
-                {
-                    y.MapInheritedProperties();
-                    y.Requires("PartyRoleDetailsClass").HasValue("LegalEntityDetails").IsRequired();
-                    y.ToTable("PartyRoleDetails");
-                });
+                    {
+                        y.MapInheritedProperties();
+                        y.Requires("PartyRoleDetailsClass").HasValue("LegalEntityDetails").IsRequired();
+                        y.ToTable("PartyRoleDetails");
+                    });
 
             this.Property(x => x.RegisteredName).HasColumnName("LegalEntityRegisteredName");
             this.Property(x => x.RegistrationNumber).HasColumnName("LegalEntityRegistrationNumber");

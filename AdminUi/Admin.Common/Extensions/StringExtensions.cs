@@ -33,7 +33,10 @@ namespace Common.Extensions
 
         public static string SplitByCamelCase(this string stringToSplit)
         {
-            var result = Regex.Replace(stringToSplit, @"(?<a>(?<!^)((?:[A-Z][a-z])|(?:(?<!^[A-Z]+)[A-Z0-9]+(?:(?=[A-Z][a-z])|$))|(?:[0-9]+)))", @" ${a}");
+            var result = Regex.Replace(
+                stringToSplit, 
+                @"(?<a>(?<!^)((?:[A-Z][a-z])|(?:(?<!^[A-Z]+)[A-Z0-9]+(?:(?=[A-Z][a-z])|$))|(?:[0-9]+)))", 
+                @" ${a}");
             return result;
         }
     }

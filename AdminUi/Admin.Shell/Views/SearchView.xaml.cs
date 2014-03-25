@@ -1,6 +1,7 @@
 ﻿namespace Shell.Views
 {
     using System.Windows.Controls;
+
     using Shell.ViewModels;
 
     /// <summary>

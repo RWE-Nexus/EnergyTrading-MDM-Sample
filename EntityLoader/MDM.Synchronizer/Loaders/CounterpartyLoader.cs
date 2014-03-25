@@ -1,7 +1,8 @@
 ﻿namespace MDM.Sync.Loaders
 {
     using System.Collections.Generic;
-    using OpenNexus.MDM.Contracts; using EnergyTrading.Mdm.Contracts;
+
+    using OpenNexus.MDM.Contracts;
 
     public class CounterpartyLoader : MdmLoader<Counterparty>
     {
@@ -13,11 +14,11 @@
         protected override Counterparty CreateCopyWithoutMappings(Counterparty entity)
         {
             return new Counterparty
-            {
-                Party = entity.Party,
-                Details = entity.Details,
-                MdmSystemData = entity.MdmSystemData
-            };
+                       {
+                           Party = entity.Party, 
+                           Details = entity.Details, 
+                           MdmSystemData = entity.MdmSystemData
+                       };
         }
-   }
+    }
 }

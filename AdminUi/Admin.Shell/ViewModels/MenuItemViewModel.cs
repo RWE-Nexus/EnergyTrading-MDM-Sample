@@ -14,33 +14,61 @@ namespace Shell.ViewModels
     {
         private readonly IEventAggregator eventAggregator;
 
-        private string description;
-        private string name;
-        private DelegateCommand openCommand;
         private DelegateCommand addEntityCommand;
 
-        private Type searchResultsViewType;
-        private Uri addEntityUri;
-        private string searchKey;
         private string baseEntityName;
+
+        private string description;
+
+        private string name;
+
+        private DelegateCommand openCommand;
+
+        private string searchKey;
+
         private string searchLabel;
 
-        public MenuItemViewModel(IApplicationCommands commands, INavigationService navigationService, IEventAggregator eventAggregator)
+        private Type searchResultsViewType;
+
+        public MenuItemViewModel(
+            IApplicationCommands commands, 
+            INavigationService navigationService, 
+            IEventAggregator eventAggregator)
         {
             this.eventAggregator = eventAggregator;
-            this.OpenCommand = new DelegateCommand(() => commands.OpenView(this.SearchResultsViewType, this.name, RegionNames.MainSearchResultsRegion));
+            this.OpenCommand =
+                new DelegateCommand(
+                    () => commands.OpenView(this.SearchResultsViewType, this.name, RegionNames.MainSearchResultsRegion));
             this.AddEntityCommand = new DelegateCommand(() => navigationService.NavigateMain(this.AddEntityUri));
         }
 
-        public Uri AddEntityUri
+        public DelegateCommand AddEntityCommand
         {
             get
             {
-                return this.addEntityUri;
+                return this.addEntityCommand;
             }
+
             set
             {
-                this.addEntityUri = value;
+                this.addEntityCommand = value;
+                this.RaisePropertyChanged(() => this.AddEntityCommand);
+            }
+        }
+
+        public Uri AddEntityUri { get; set; }
+
+        public string BaseEntityName
+        {
+            get
+            {
+                return this.baseEntityName;
+            }
+
+            set
+            {
+                this.baseEntityName = value;
+                this.RaisePropertyChanged(() => this.BaseEntityName);
             }
         }
 
@@ -72,14 +100,6 @@ namespace Shell.ViewModels
             }
         }
 
-        public string SplitName
-        {
-            get
-            {
-                return name.SplitByCamelCase();
-            }
-        }
-
         public DelegateCommand OpenCommand
         {
             get
@@ -91,34 +111,6 @@ namespace Shell.ViewModels
             {
                 this.openCommand = value;
                 this.RaisePropertyChanged(() => this.OpenCommand);
-            }
-        }
-
-        public DelegateCommand AddEntityCommand
-        {
-            get
-            {
-                return this.addEntityCommand;
-            }
-
-            set
-            {
-                this.addEntityCommand = value;
-                this.RaisePropertyChanged(() => this.AddEntityCommand);
-            }
-        }
-
-        public Type SearchResultsViewType
-        {
-            get
-            {
-                return this.searchResultsViewType;
-            }
-
-            set
-            {
-                this.searchResultsViewType = value;
-                this.RaisePropertyChanged(() => this.SearchResultsViewType);
             }
         }
 
@@ -138,7 +130,10 @@ namespace Shell.ViewModels
 
         public string SearchLabel
         {
-            get { return this.searchLabel; }
+            get
+            {
+                return this.searchLabel;
+            }
 
             set
             {
@@ -147,17 +142,26 @@ namespace Shell.ViewModels
             }
         }
 
-        public string BaseEntityName
+        public Type SearchResultsViewType
         {
             get
             {
-                return this.baseEntityName;
+                return this.searchResultsViewType;
             }
+
             set
             {
-                this.baseEntityName = value;
-                this.RaisePropertyChanged(() => this.BaseEntityName);
+                this.searchResultsViewType = value;
+                this.RaisePropertyChanged(() => this.SearchResultsViewType);
             }
-        }       
+        }
+
+        public string SplitName
+        {
+            get
+            {
+                return name.SplitByCamelCase();
+            }
+        }
     }
 }
