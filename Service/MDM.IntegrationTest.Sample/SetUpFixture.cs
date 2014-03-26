@@ -90,19 +90,4 @@
             }
         }
     }
-
-    [TestFixture]
-    public class MyFixture : IntegrationTestBase
-    {
-        [Test]
-        public void ShouldZapTheDb()
-        {
-            // given
-            
-            // when
-
-            // then
-            Assert.That(true, Is.EqualTo(true));
-        }
-    }
 }
