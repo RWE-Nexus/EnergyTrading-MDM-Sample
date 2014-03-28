@@ -222,14 +222,6 @@
     </ItemGroup>
     <Copy SourceFiles="@(OriginalWebConfig)" DestinationFiles="@(TempWebConfig)" />
     <TransformXml Condition="$(BuildServer) == 'false'" ContinueOnError="true" Source="@(TempWebConfig)" Transform="Web.$(Username).config" Destination="@(OriginalWebConfig)" StackTrace="true" />
-    <TransformXml Condition="$(BuildServer) == 'true'" ContinueOnError="true" Source="@(TempWebConfig)" Transform="Web.DEV_ClientTest.transform.config" Destination="Web.DEV_ClientTest.config" StackTrace="true" />
-    <TransformXml Condition="$(BuildServer) == 'true'" ContinueOnError="true" Source="@(TempWebConfig)" Transform="Web.DEV.transform.config" Destination="Web.DEV.config" StackTrace="true" />
-    <TransformXml Condition="$(BuildServer) == 'true'" ContinueOnError="true" Source="@(TempWebConfig)" Transform="Web.DEV2.transform.config" Destination="Web.DEV2.config" StackTrace="true" />
-    <TransformXml Condition="$(BuildServer) == 'true'" ContinueOnError="true" Source="@(TempWebConfig)" Transform="Web.SIT.transform.config" Destination="Web.SIT.config" StackTrace="true" />
-    <TransformXml Condition="$(BuildServer) == 'true'" ContinueOnError="true" Source="@(TempWebConfig)" Transform="Web.UAT.transform.config" Destination="Web.UAT.config" StackTrace="true" />
-    <TransformXml Condition="$(BuildServer) == 'true'" ContinueOnError="true" Source="@(TempWebConfig)" Transform="Web.Staging.transform.config" Destination="Web.Staging.config" StackTrace="true" />
-    <TransformXml Condition="$(BuildServer) == 'true'" ContinueOnError="true" Source="@(TempWebConfig)" Transform="Web.Prod.transform.config" Destination="Web.Prod.config" StackTrace="true" />
-    <TransformXml Condition="$(BuildServer) == 'true'" ContinueOnError="true" Source="@(TempWebConfig)" Transform="Web.PROD_RC_SETUP.transform.config" Destination="Web.PROD_RC_SETUP.config" StackTrace="true" />
   </Target>
   <ProjectExtensions>
     <VisualStudio>
