@@ -52,13 +52,13 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\EnergyTrading.Unity.2.8.1.28\lib\net40\EnergyTrading.Unity.dll</HintPath>
     </Reference>
-    <Reference Include="MDM.Core, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="MDM.Core, Version=3.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\EnergyTrading.MDM.Core.3.2.1.2\lib\net40\MDM.Core.dll</HintPath>
+      <HintPath>..\..\packages\EnergyTrading.MDM.Core.3.2.1.3\lib\net40\MDM.Core.dll</HintPath>
     </Reference>
-    <Reference Include="MDM.ServiceHost.Unity, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="MDM.ServiceHost.Unity, Version=3.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\EnergyTrading.MDM.ServiceHost.Unity.3.2.1.2\lib\net40\MDM.ServiceHost.Unity.dll</HintPath>
+      <HintPath>..\..\packages\EnergyTrading.MDM.ServiceHost.Unity.3.2.1.3\lib\net40\MDM.ServiceHost.Unity.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.ApplicationServer.Caching.Client">
       <HintPath>..\..\packages\ServerAppFabric.Client.1.1.2106\lib\Microsoft.ApplicationServer.Caching.Client.dll</HintPath>

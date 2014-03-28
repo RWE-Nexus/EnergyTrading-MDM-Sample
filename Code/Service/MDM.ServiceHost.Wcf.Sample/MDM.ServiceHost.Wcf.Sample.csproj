@@ -77,21 +77,21 @@
     <Reference Include="EntityFramework, Version=4.1.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\..\packages\EntityFramework.4.1.10715.0\lib\EntityFramework.dll</HintPath>
     </Reference>
-    <Reference Include="MDM.Core, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="MDM.Core, Version=3.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\EnergyTrading.MDM.Core.3.2.1.2\lib\net40\MDM.Core.dll</HintPath>
+      <HintPath>..\..\packages\EnergyTrading.MDM.Core.3.2.1.3\lib\net40\MDM.Core.dll</HintPath>
     </Reference>
     <Reference Include="MDM.Data.EF, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\EnergyTrading.MDM.Data.EF.2.2.0.22\lib\net40\MDM.Data.EF.dll</HintPath>
     </Reference>
-    <Reference Include="MDM.ServiceHost.Unity, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="MDM.ServiceHost.Unity, Version=3.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\EnergyTrading.MDM.ServiceHost.Unity.3.2.1.2\lib\net40\MDM.ServiceHost.Unity.dll</HintPath>
+      <HintPath>..\..\packages\EnergyTrading.MDM.ServiceHost.Unity.3.2.1.3\lib\net40\MDM.ServiceHost.Unity.dll</HintPath>
     </Reference>
-    <Reference Include="MDM.ServiceHost.Wcf, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="MDM.ServiceHost.Wcf, Version=3.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\EnergyTrading.MDM.ServiceHost.Wcf.3.2.1.2\lib\net40\MDM.ServiceHost.Wcf.dll</HintPath>
+      <HintPath>..\..\packages\EnergyTrading.MDM.ServiceHost.Wcf.3.2.1.3\lib\net40\MDM.ServiceHost.Wcf.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.ApplicationServer.Caching.Client, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -103,7 +103,11 @@
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.Http">
-      <HintPath>..\..\Libs\Rest\Microsoft.Http.dll</HintPath>
+      <HintPath>..\..\packages\EnergyTrading.MDM.ServiceHost.Wcf.3.2.1.3\lib\net40\Microsoft.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Http.Extensions, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\EnergyTrading.MDM.ServiceHost.Wcf.3.2.1.3\lib\net40\Microsoft.Http.Extensions.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Practices.EnterpriseLibrary.Common, Version=5.0.505.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\packages\EnterpriseLibrary.Common.5.0.505.0\lib\NET35\Microsoft.Practices.EnterpriseLibrary.Common.dll</HintPath>
