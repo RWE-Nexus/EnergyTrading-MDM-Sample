@@ -1,0 +1,174 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{2B2E3CFE-42FE-407F-A2AE-77E138F04E8A}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>EnergyTrading.MDM</RootNamespace>
+    <AssemblyName>MDM.Core.Sample</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EnergyTrading.Contracts, Version=28.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\EnergyTrading.Contracts.2.8.1.28\lib\net35\EnergyTrading.Contracts.dll</HintPath>
+    </Reference>
+    <Reference Include="EnergyTrading.Core, Version=28.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\EnergyTrading.Core.2.8.1.28\lib\net40\EnergyTrading.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="EnergyTrading.MDM.Contracts, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\EnergyTrading.MDM.Contracts.3.2.1.1\lib\net35\EnergyTrading.MDM.Contracts.dll</HintPath>
+    </Reference>
+    <Reference Include="MDM.Core, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\EnergyTrading.MDM.Core.3.2.1.2\lib\net40\MDM.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.ServiceLocation">
+      <HintPath>..\..\packages\CommonServiceLocator.1.0\lib\NET35\Microsoft.Practices.ServiceLocation.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Broker.cs" />
+    <Compile Include="BrokerDetails.cs" />
+    <Compile Include="Contracts\Mappers\BrokerDetailsMapper.cs" />
+    <Compile Include="Contracts\Mappers\BrokerMapper.cs" />
+    <Compile Include="Contracts\Mappers\CounterpartyDetailsMapper.cs" />
+    <Compile Include="Contracts\Mappers\CounterpartyMapper.cs" />
+    <Compile Include="Contracts\Mappers\ExchangeDetailsMapper.cs" />
+    <Compile Include="Contracts\Mappers\ExchangeMapper.cs" />
+    <Compile Include="Contracts\Mappers\LegalEntityDetailsMapper.cs" />
+    <Compile Include="Contracts\Mappers\LegalEntityMapper.cs" />
+    <Compile Include="Contracts\Mappers\LocationDetailsMapper.cs" />
+    <Compile Include="Contracts\Mappers\LocationMapper.cs" />
+    <Compile Include="Contracts\Mappers\PartyDetailsMapper.cs" />
+    <Compile Include="Contracts\Mappers\PartyMapper.cs" />
+    <Compile Include="Contracts\Mappers\PartyRoleDetailsMapper.cs" />
+    <Compile Include="Contracts\Mappers\PartyRoleMapper.cs" />
+    <Compile Include="Contracts\Mappers\PersonDetailsMapper.cs" />
+    <Compile Include="Contracts\Mappers\PersonMapper.cs" />
+    <Compile Include="Contracts\Rules\PartyRoleAmendMappingNoOverlappingRule.cs" />
+    <Compile Include="Contracts\Rules\PartyRoleCreateMappingdNoOverlappingRule.cs" />
+    <Compile Include="Contracts\Validators\BrokerValidator.cs" />
+    <Compile Include="Contracts\Validators\CounterpartyValidator.cs" />
+    <Compile Include="Contracts\Validators\ExchangeValidator.cs" />
+    <Compile Include="Contracts\Validators\LegalEntityValidator.cs" />
+    <Compile Include="Contracts\Validators\LocationValidator.cs" />
+    <Compile Include="Contracts\Validators\PartyRoleNexusIdValidator.cs" />
+    <Compile Include="Contracts\Validators\PartyRoleValidator.cs" />
+    <Compile Include="Contracts\Validators\PartyValidator.cs" />
+    <Compile Include="Contracts\Validators\PersonValidator.cs" />
+    <Compile Include="Data\RepositoryExtensions.cs" />
+    <Compile Include="LegalEntityDetails.cs" />
+    <Compile Include="Counterparty.cs" />
+    <Compile Include="CounterpartyDetails.cs" />
+    <Compile Include="Data\Search\PartySearchCommand.cs" />
+    <Compile Include="Exchange.cs" />
+    <Compile Include="ExchangeDetails.cs" />
+    <Compile Include="LegalEntity.cs" />
+    <Compile Include="Location.cs" />
+    <Compile Include="Location.gen.cs" />
+    <Compile Include="LocationMapping.cs" />
+    <Compile Include="Mappers\BrokerMapper.cs" />
+    <Compile Include="Mappers\LegalEntityDetailsMapper.cs" />
+    <Compile Include="Mappers\LegalEntityMapper.cs" />
+    <Compile Include="Mappers\CounterpartyMapper.cs" />
+    <Compile Include="Mappers\ExchangeMapper.cs" />
+    <Compile Include="Mappers\LocationMapper.cs" />
+    <Compile Include="Mappers\BrokerDetailsMapper.cs" />
+    <Compile Include="Mappers\CounterpartyDetailsMapper.cs" />
+    <Compile Include="Mappers\ExchangeDetailsMapper.cs" />
+    <Compile Include="Mappers\LocationDetailsMapper.cs" />
+    <Compile Include="Mappers\LocationMappingMapper.cs" />
+    <Compile Include="Mappers\PartyDetailsMapper.cs" />
+    <Compile Include="Mappers\PartyLinksMapper.cs" />
+    <Compile Include="Mappers\PartyMapper.cs" />
+    <Compile Include="Mappers\PartyMappingMapper.cs" />
+    <Compile Include="Mappers\PartyRoleDetailsMapper.cs" />
+    <Compile Include="Mappers\PartyRoleMapper.cs" />
+    <Compile Include="Mappers\PartyRoleMappingMapper.cs" />
+    <Compile Include="Mappers\PersonDetailsMapper.cs" />
+    <Compile Include="Mappers\PersonMapper.cs" />
+    <Compile Include="Mappers\PersonMappingMapper.cs" />
+    <Compile Include="Messages\Validators\PartyRoleAmendMappingRequestValidator.cs" />
+    <Compile Include="Messages\Validators\PartyRoleCreateMappingRequestValidator.cs" />
+    <Compile Include="NexusName.cs" />
+    <Compile Include="Party.cs" />
+    <Compile Include="Party.gen.cs" />
+    <Compile Include="PartyDetails.cs" />
+    <Compile Include="PartyMapping.cs" />
+    <Compile Include="PartyRole.cs" />
+    <Compile Include="PartyRoleDetails.cs" />
+    <Compile Include="PartyRoleMapping.cs" />
+    <Compile Include="Person.gen.cs" />
+    <Compile Include="Person.cs" />
+    <Compile Include="PersonDetails.cs" />
+    <Compile Include="PersonMapping.cs" />
+    <Compile Include="Services\BrokerService.cs" />
+    <Compile Include="Services\CounterpartyService.cs" />
+    <Compile Include="Services\ExchangeService.cs" />
+    <Compile Include="Services\LegalEntityService.cs" />
+    <Compile Include="Services\LocationService.cs" />
+    <Compile Include="Services\PartyRoleService.cs" />
+    <Compile Include="Services\PartyService.cs" />
+    <Compile Include="Services\PersonService.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\EntityContracts\EnergyTrading.MDM.Contracts.Sample\EnergyTrading.MDM.Contracts.Sample.csproj">
+      <Project>{c8a98274-aba5-47c5-9c91-b049360a7f0f}</Project>
+      <Name>EnergyTrading.MDM.Contracts.Sample</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
+  <!-- <Import Project="..\..\.nuget\nuget.targets" /> -->
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

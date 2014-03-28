@@ -1,0 +1,1053 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{B50EA215-DE0F-4837-B240-1B3E7BE65732}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>EnergyTrading.MDM.Test</RootNamespace>
+    <AssemblyName>MDM.IntegrationTest.Sample</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EnergyTrading.Caching.AppFabric, Version=28.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\EnergyTrading.Caching.AppFabric.2.8.1.28\lib\net40\EnergyTrading.Caching.AppFabric.dll</HintPath>
+    </Reference>
+    <Reference Include="EnergyTrading.Contracts, Version=28.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\EnergyTrading.Contracts.2.8.1.28\lib\net35\EnergyTrading.Contracts.dll</HintPath>
+    </Reference>
+    <Reference Include="EnergyTrading.Core, Version=28.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\EnergyTrading.Core.2.8.1.28\lib\net40\EnergyTrading.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="EnergyTrading.EntityFramework, Version=28.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\EnergyTrading.EntityFramework.2.8.1.28\lib\net40\EnergyTrading.EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EnergyTrading.MDM.Contracts, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\EnergyTrading.MDM.Contracts.3.2.1.1\lib\net35\EnergyTrading.MDM.Contracts.dll</HintPath>
+    </Reference>
+    <Reference Include="EnergyTrading.Test, Version=12.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\EnergyTrading.Test.2.8.0.12\lib\net40\EnergyTrading.Test.dll</HintPath>
+    </Reference>
+    <Reference Include="EnergyTrading.Unity, Version=28.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\EnergyTrading.Unity.2.8.1.28\lib\net40\EnergyTrading.Unity.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework, Version=4.1.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EntityFramework.4.1.10715.0\lib\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="MDM.Core, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\EnergyTrading.MDM.Core.3.2.1.2\lib\net40\MDM.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="MDM.Data.EF, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\EnergyTrading.MDM.Data.EF.2.2.0.22\lib\net40\MDM.Data.EF.dll</HintPath>
+    </Reference>
+    <Reference Include="MDM.ServiceHost.Unity, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\EnergyTrading.MDM.ServiceHost.Unity.3.2.1.2\lib\net40\MDM.ServiceHost.Unity.dll</HintPath>
+    </Reference>
+    <Reference Include="MDM.ServiceHost.Wcf, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\EnergyTrading.MDM.ServiceHost.Wcf.3.2.1.2\lib\net40\MDM.ServiceHost.Wcf.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ApplicationServer.Caching.Client, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\ServerAppFabric.Client.1.1.2106\lib\Microsoft.ApplicationServer.Caching.Client.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ApplicationServer.Caching.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\ServerAppFabric.Client.1.1.2106\lib\Microsoft.ApplicationServer.Caching.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Http, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Libs\Rest\Microsoft.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Http.Extensions, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Libs\Rest\Microsoft.Http.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\CommonServiceLocator.1.0\lib\NET35\Microsoft.Practices.ServiceLocation.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity">
+      <HintPath>..\..\packages\Unity.2.1.505.2\lib\NET35\Microsoft.Practices.Unity.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity.Configuration">
+      <HintPath>..\..\packages\Unity.2.1.505.2\lib\NET35\Microsoft.Practices.Unity.Configuration.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity.Interception, Version=2.1.505.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Unity.Interception.2.1.505.2\lib\NET35\Microsoft.Practices.Unity.Interception.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity.Interception.Configuration">
+      <HintPath>..\..\packages\Unity.Interception.2.1.505.2\lib\NET35\Microsoft.Practices.Unity.Interception.Configuration.dll</HintPath>
+    </Reference>
+    <Reference Include="Moq">
+      <HintPath>..\..\packages\Moq.4.2.1312.1622\lib\net40\Moq.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\..\packages\Newtonsoft.Json.5.0.8\lib\net40\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="nunit.framework">
+      <HintPath>..\..\packages\NUnit.2.6.3\lib\nunit.framework.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Net.Http, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.Net.Http.2.0.20710.0\lib\net40\System.Net.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.Formatting, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.AspNet.WebApi.Client.4.0.20710.0\lib\net40\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.Net.Http.2.0.20710.0\lib\net40\System.Net.Http.WebRequest.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.ServiceModel.Web" />
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="XmlDiffPatch">
+      <HintPath>..\..\packages\XMLDiffPatch.1.0.8.28\lib\net\XmlDiffPatch.dll</HintPath>
+    </Reference>
+    <Reference Include="XmlDiffPatch.View">
+      <HintPath>..\..\packages\XMLDiffPatch.1.0.8.28\lib\net\XmlDiffPatch.View.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\MDM.UnitTest.Sample\ObjectMother.cs">
+      <Link>ObjectMother.cs</Link>
+    </Compile>
+    <Compile Include="Broker\BrokerData.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Broker\BrokerDataChecker.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Broker\create_entity_instance\successful.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Broker\create_entity_instance\xml_data_invalid.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Broker\create_mapping\conflict.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Broker\create_mapping\successful.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Broker\create_mapping\xml_data_invalid.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Broker\crossmap\destination_system_mapping_unkown.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Broker\crossmap\source_system_mapping_unkown.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Broker\crossmap\successful.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Broker\delete_mapping\success.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Broker\get_entities\successful.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Broker\get_entity\entity_not_found.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Broker\get_entity\successful.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Broker\get_mapping_for_entity\mapping_not_found.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Broker\get_mapping_for_entity\successful.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Broker\map\mapping_string_unkown.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Broker\map\successful.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Broker\search\invalid_search.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Broker\search\no_results_search.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Broker\search\success_search.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Broker\search\success_search_results.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Broker\search\success_search_results_by_mapping.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Broker\search\success_search_results_paged.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Broker\update_entity_instance\entity_not_found.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Broker\update_entity_instance\success.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Broker\update_entity_instance\version_conflict.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Broker\update_entity_instance\xml_data_invalid.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Broker\update_mapping\entity_not_found.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Broker\update_mapping\success.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Broker\update_mapping\version_conflict.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Broker\update_mapping\xml_data_invalid.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Counterparty\CounterpartyData.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Counterparty\CounterpartyDataChecker.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Counterparty\create_entity_instance\successful.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Counterparty\create_entity_instance\xml_data_invalid.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Counterparty\create_mapping\conflict.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Counterparty\create_mapping\successful.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Counterparty\create_mapping\xml_data_invalid.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Counterparty\crossmap\destination_system_mapping_unkown.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Counterparty\crossmap\source_system_mapping_unkown.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Counterparty\crossmap\successful.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Counterparty\delete_mapping\success.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Counterparty\get_entities\successful.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Counterparty\get_entity\entity_not_found.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Counterparty\get_entity\successful.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Counterparty\get_mapping_for_entity\mapping_not_found.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Counterparty\get_mapping_for_entity\successful.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Counterparty\map\mapping_string_unkown.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Counterparty\map\successful.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Counterparty\search\invalid_search.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Counterparty\search\no_results_search.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Counterparty\search\success_search.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Counterparty\search\success_search_results.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Counterparty\search\success_search_results_by_mapping.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Counterparty\search\success_search_results_paged.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Counterparty\update_entity_instance\entity_not_found.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Counterparty\update_entity_instance\success.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Counterparty\update_entity_instance\version_conflict.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Counterparty\update_entity_instance\xml_data_invalid.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Counterparty\update_mapping\entity_not_found.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Counterparty\update_mapping\success.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Counterparty\update_mapping\version_conflict.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Counterparty\update_mapping\xml_data_invalid.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Exchange\create_entity_instance\successful.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Exchange\create_entity_instance\xml_data_invalid.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Exchange\create_mapping\conflict.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Exchange\create_mapping\successful.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Exchange\create_mapping\xml_data_invalid.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Exchange\crossmap\destination_system_mapping_unkown.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Exchange\crossmap\source_system_mapping_unkown.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Exchange\crossmap\successful.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Exchange\delete_mapping\success.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Exchange\ExchangeData.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Exchange\ExchangeDataChecker.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Exchange\get_entities\successful.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Exchange\get_entity\entity_not_found.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Exchange\get_entity\successful.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Exchange\get_mapping_for_entity\mapping_not_found.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Exchange\get_mapping_for_entity\successful.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Exchange\map\mapping_string_unkown.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Exchange\map\successful.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Exchange\search\invalid_search.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Exchange\search\no_results_search.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Exchange\search\success_search.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Exchange\search\success_search_results.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Exchange\search\success_search_results_by_mapping.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Exchange\search\success_search_results_paged.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Exchange\update_entity_instance\entity_not_found.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Exchange\update_entity_instance\success.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Exchange\update_entity_instance\version_conflict.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Exchange\update_entity_instance\xml_data_invalid.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Exchange\update_mapping\entity_not_found.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Exchange\update_mapping\success.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Exchange\update_mapping\version_conflict.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Exchange\update_mapping\xml_data_invalid.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LegalEntity\create_entity_instance\successful.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LegalEntity\create_entity_instance\xml_data_invalid.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LegalEntity\create_mapping\conflict.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LegalEntity\create_mapping\successful.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LegalEntity\create_mapping\xml_data_invalid.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LegalEntity\crossmap\destination_system_mapping_unkown.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LegalEntity\crossmap\source_system_mapping_unkown.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LegalEntity\crossmap\successful.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LegalEntity\delete_mapping\success.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LegalEntity\get_entities\successful.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LegalEntity\get_entity\entity_not_found.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LegalEntity\get_entity\successful.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LegalEntity\get_mapping_for_entity\mapping_not_found.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LegalEntity\get_mapping_for_entity\successful.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LegalEntity\LegalEntityData.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LegalEntity\LegalEntityDataChecker.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LegalEntity\map\mapping_string_unkown.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LegalEntity\map\successful.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LegalEntity\search\invalid_search.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LegalEntity\search\no_results_search.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LegalEntity\search\success_search.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LegalEntity\search\success_search_results.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LegalEntity\search\success_search_results_by_mapping.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LegalEntity\search\success_search_results_paged.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LegalEntity\update_entity_instance\entity_not_found.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LegalEntity\update_entity_instance\success.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LegalEntity\update_entity_instance\version_conflict.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LegalEntity\update_entity_instance\xml_data_invalid.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LegalEntity\update_mapping\entity_not_found.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LegalEntity\update_mapping\success.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LegalEntity\update_mapping\version_conflict.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LegalEntity\update_mapping\xml_data_invalid.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Location\bug_fix\unique_key_constraint_returned_in_fault.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Location\create_entity_instance\successful.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Location\create_entity_instance\xml_data_invalid.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Location\create_mapping\conflict.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Location\create_mapping\successful.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Location\create_mapping\xml_data_invalid.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Location\crossmap\destination_system_mapping_unkown.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Location\crossmap\fails_with_no_default_and_multiple_mappings.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Location\crossmap\source_system_mapping_unkown.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Location\crossmap\successful.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Location\delete_mapping\success.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Location\get_entities\successful.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Location\get_entity\entity_not_found.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Location\get_entity\successful.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Location\get_mapping_for_entity\mapping_not_found.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Location\get_mapping_for_entity\successful.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Location\LocationComparer.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Location\LocationData.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Location\LocationData.gen.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Location\LocationDataChecker.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Location\map\mapping_string_unkown.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Location\map\source_system_unkown.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Location\map\successful.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Location\search\invalid_search.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Location\search\no_results_search.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Location\search\success_search.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Location\search\success_search_results.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Location\search\success_search_results_by_mapping.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Location\search\success_search_results_paged.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Location\update_entity_instance\entity_not_found.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Location\update_entity_instance\success.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Location\update_entity_instance\version_conflict.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Location\update_entity_instance\xml_data_invalid.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Location\update_mapping\entity_not_found.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Location\update_mapping\success.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Location\update_mapping\version_conflict.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Location\update_mapping\xml_data_invalid.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="HttpResponseExtensions.cs" />
+    <Compile Include="IntegrationTestBase.cs" />
+    <Compile Include="GlobalMock.cs" />
+    <Compile Include="ObjectScript.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Party\atom_links\successful.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Party\bug_fix\create_party_then_update_latest_detail.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Party\create_entity_instance\successful.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Party\create_entity_instance\xml_data_invalid.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Party\create_mapping\conflict.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Party\create_mapping\successful.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Party\create_mapping\xml_data_invalid.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Party\crossmap\destination_system_mapping_unkown.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Party\crossmap\source_system_mapping_unkown.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Party\crossmap\successful.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Party\delete_mapping\success.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Party\get_entities\successful.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Party\get_entity\entity_not_found.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Party\get_entity\successful.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Party\get_mapping_for_entity\mapping_not_found.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Party\get_mapping_for_entity\successful.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Party\map\mapping_string_unkown.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Party\map\successful.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Party\PartyComparer.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Party\PartyData.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Party\PartyData.gen.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Party\PartyDataChecker.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Party\search\invalid_search.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Party\search\no_results_search.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Party\search\success_search.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Party\search\success_search_results.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Party\search\success_search_results_by_mapping.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Party\update_entity_instance\entity_not_found.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Party\update_entity_instance\success.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Party\update_entity_instance\version_conflict.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Party\update_entity_instance\xml_data_invalid.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Party\update_mapping\entity_not_found.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Party\update_mapping\success.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Party\update_mapping\version_conflict.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Party\update_mapping\xml_data_invalid.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Person\bug_fix\create_invalid_person_list_function_ignores.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Person\bug_fix\create_person_then_update_latest_detail.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Person\bug_fix\update_mapping_etag_doesnt_fail.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Person\create_entity_instance\successful.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Person\create_entity_instance\xml_data_invalid.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Person\create_mapping\conflict.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Person\create_mapping\successful.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Person\create_mapping\xml_data_invalid.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Person\crossmap\destination_system_mapping_unkown.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Person\crossmap\source_system_mapping_unkown.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Person\crossmap\successful.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Person\delete_mapping\success.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Person\get_entities\successful.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Person\get_entity\entity_not_found.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Person\get_entity\successful.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Person\get_mapping_for_entity\mapping_not_found.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Person\get_mapping_for_entity\successful.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Person\map\mapping_string_unkown.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Person\map\successful.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Person\PersonComparer.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Person\PersonData.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Person\PersonData.gen.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Person\PersonDataChecker.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Person\search\invalid_search.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Person\search\no_results_search.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Person\search\success_search.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Person\search\success_search_results.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Person\search\success_search_results_by_mapping.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Person\search\success_search_results_paged.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Person\update_entity_instance\entity_not_found.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Person\update_entity_instance\success.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Person\update_entity_instance\version_conflict.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Person\update_entity_instance\xml_data_invalid.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Person\update_mapping\entity_not_found.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Person\update_mapping\success.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Person\update_mapping\version_conflict.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Person\update_mapping\xml_data_invalid.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="SetUpFixture.cs" />
+    <Compile Include="SourceSystem\create_entity_instance\successful.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SourceSystem\create_entity_instance\xml_data_invalid.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SourceSystem\create_mapping\conflict.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SourceSystem\create_mapping\successful.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SourceSystem\create_mapping\xml_data_invalid.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SourceSystem\crossmap\destination_system_mapping_unkown.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SourceSystem\crossmap\source_system_mapping_unkown.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SourceSystem\crossmap\successful.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SourceSystem\delete_mapping\success.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SourceSystem\get_entities\successful.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SourceSystem\get_entity\entity_not_found.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SourceSystem\get_entity\successful.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SourceSystem\get_mapping_for_entity\mapping_not_found.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SourceSystem\get_mapping_for_entity\successful.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SourceSystem\map\mapping_string_unkown.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SourceSystem\map\source_system_unkown.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SourceSystem\map\successful.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SourceSystem\search\invalid_search.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SourceSystem\search\no_results_search.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SourceSystem\search\success_search.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SourceSystem\search\success_search_results.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SourceSystem\search\success_search_results_by_mapping.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SourceSystem\search\success_search_results_paged.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SourceSystem\SourceSystemComparer.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SourceSystem\SourceSystemData.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SourceSystem\SourceSystemData.gen.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SourceSystem\SourceSystemDataChecker.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SourceSystem\update_entity_instance\entity_not_found.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SourceSystem\update_entity_instance\success.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SourceSystem\update_entity_instance\version_conflict.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SourceSystem\update_entity_instance\xml_data_invalid.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SourceSystem\update_mapping\entity_not_found.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SourceSystem\update_mapping\success.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SourceSystem\update_mapping\version_conflict.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SourceSystem\update_mapping\xml_data_invalid.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Zapper.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\EntityContracts\EnergyTrading.MDM.Contracts.Sample\EnergyTrading.MDM.Contracts.Sample.csproj">
+      <Project>{c8a98274-aba5-47c5-9c91-b049360a7f0f}</Project>
+      <Name>EnergyTrading.MDM.Contracts.Sample</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MDM.Data.EF.Sample\MDM.Data.EF.Sample.csproj">
+      <Project>{762ad6d7-6f76-436e-97ab-f533a72717e8}</Project>
+      <Name>MDM.Data.EF.Sample</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MDM.ServiceHost.Wcf.Sample\MDM.ServiceHost.Wcf.Sample.csproj">
+      <Project>{E24C551C-13F8-4B9C-87FA-C29550180401}</Project>
+      <Name>MDM.ServiceHost.Wcf.Sample</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MDM.Core.Sample\MDM.Core.Sample.csproj">
+      <Project>{2b2e3cfe-42fe-407f-a2ae-77e138f04e8a}</Project>
+      <Name>MDM.Core.Sample</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="Settings.StyleCop" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <UsingTask TaskName="TransformXml" AssemblyFile="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v11.0\Web\Microsoft.Web.Publishing.Tasks.dll" />
+  <Target Name="AfterCompile">
+    <PropertyGroup Condition="$(Username) != 'SYSTEM'">
+      <BuildServer>false</BuildServer>
+    </PropertyGroup>
+    <PropertyGroup Condition="$(Username) == 'SYSTEM' Or $(Username) == 'SRV_CCNETUSER' Or $(Username) == 'SRV_RWEST_TC_BUILD'">
+      <BuildServer>true</BuildServer>
+    </PropertyGroup>
+    <Message Text="Configuration is $(Configuration)" />
+    <Message Text="UserName is $(Username)" />
+    <Message Text="On BuildServer is $(BuildServer)" />
+    <ItemGroup>
+      <OriginalWebConfig Include="App.config" />
+      <TempWebConfig Include="TempApp.config" />
+    </ItemGroup>
+    <Copy SourceFiles="@(OriginalWebConfig)" DestinationFiles="@(TempWebConfig)" />
+    <!--<TransformXml Condition="$(BuildServer) == 'false'" ContinueOnError="true" Source="@(TempWebConfig)" Transform="App.$(Username).config" Destination="@(OriginalWebConfig)" StackTrace="true" />-->
+  </Target>
+  <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

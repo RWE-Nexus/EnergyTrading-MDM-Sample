@@ -1,0 +1,379 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{7E7251A7-8482-4C0D-82E8-C4325CE2A9C5}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>EnergyTrading.MDM.Test</RootNamespace>
+    <AssemblyName>MDM.UnitTest.Sample</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EnergyTrading.Caching.AppFabric, Version=28.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\EnergyTrading.Caching.AppFabric.2.8.1.28\lib\net40\EnergyTrading.Caching.AppFabric.dll</HintPath>
+    </Reference>
+    <Reference Include="EnergyTrading.Contracts, Version=28.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\EnergyTrading.Contracts.2.8.1.28\lib\net35\EnergyTrading.Contracts.dll</HintPath>
+    </Reference>
+    <Reference Include="EnergyTrading.Core, Version=28.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\EnergyTrading.Core.2.8.1.28\lib\net40\EnergyTrading.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="EnergyTrading.EntityFramework, Version=28.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\EnergyTrading.EntityFramework.2.8.1.28\lib\net40\EnergyTrading.EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EnergyTrading.MDM.Contracts, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\EnergyTrading.MDM.Contracts.3.2.1.1\lib\net35\EnergyTrading.MDM.Contracts.dll</HintPath>
+    </Reference>
+    <Reference Include="EnergyTrading.Test, Version=12.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\EnergyTrading.Test.2.8.0.12\lib\net40\EnergyTrading.Test.dll</HintPath>
+    </Reference>
+    <Reference Include="EnergyTrading.Unity, Version=28.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\EnergyTrading.Unity.2.8.1.28\lib\net40\EnergyTrading.Unity.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework, Version=4.1.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EntityFramework.4.1.10715.0\lib\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="MDM.Core, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\EnergyTrading.MDM.Core.3.2.1.2\lib\net40\MDM.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="MDM.Data.EF, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\EnergyTrading.MDM.Data.EF.2.2.0.22\lib\net40\MDM.Data.EF.dll</HintPath>
+    </Reference>
+    <Reference Include="MDM.ServiceHost.Unity, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\EnergyTrading.MDM.ServiceHost.Unity.3.2.1.2\lib\net40\MDM.ServiceHost.Unity.dll</HintPath>
+    </Reference>
+    <Reference Include="MDM.ServiceHost.Wcf, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\EnergyTrading.MDM.ServiceHost.Wcf.3.2.1.2\lib\net40\MDM.ServiceHost.Wcf.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ApplicationServer.Caching.Client, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\ServerAppFabric.Client.1.1.2106\lib\Microsoft.ApplicationServer.Caching.Client.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ApplicationServer.Caching.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\ServerAppFabric.Client.1.1.2106\lib\Microsoft.ApplicationServer.Caching.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.ServiceLocation">
+      <HintPath>..\..\packages\CommonServiceLocator.1.0\lib\NET35\Microsoft.Practices.ServiceLocation.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity, Version=2.1.505.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Unity.2.1.505.2\lib\NET35\Microsoft.Practices.Unity.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity.Configuration, Version=2.1.505.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Unity.2.1.505.2\lib\NET35\Microsoft.Practices.Unity.Configuration.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity.Interception, Version=2.1.505.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Unity.Interception.2.1.505.2\lib\NET35\Microsoft.Practices.Unity.Interception.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity.Interception.Configuration">
+      <HintPath>..\..\packages\Unity.Interception.2.1.505.2\lib\NET35\Microsoft.Practices.Unity.Interception.Configuration.dll</HintPath>
+    </Reference>
+    <Reference Include="Moq">
+      <HintPath>..\..\packages\Moq.4.2.1312.1622\lib\net40\Moq.dll</HintPath>
+    </Reference>
+    <Reference Include="nunit.framework">
+      <HintPath>..\..\packages\NUnit.2.6.3\lib\nunit.framework.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.ServiceModel.Web" />
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="XmlDiffPatch">
+      <HintPath>..\..\packages\XMLDiffPatch.1.0.8.28\lib\net\XmlDiffPatch.dll</HintPath>
+    </Reference>
+    <Reference Include="XmlDiffPatch.View">
+      <HintPath>..\..\packages\XMLDiffPatch.1.0.8.28\lib\net\XmlDiffPatch.View.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CheckerFactory.cs" />
+    <Compile Include="Checkers\Contracts\BrokerChecker.cs" />
+    <Compile Include="Checkers\Contracts\BrokerDetailsChecker.cs" />
+    <Compile Include="Checkers\Contracts\CounterpartyChecker.cs" />
+    <Compile Include="Checkers\Contracts\CounterpartyDetailsChecker.cs" />
+    <Compile Include="Checkers\Contracts\DateRangeChecker.cs" />
+    <Compile Include="Checkers\Contracts\ExchangeChecker.cs" />
+    <Compile Include="Checkers\Contracts\ExchangeDetailsChecker.cs" />
+    <Compile Include="Checkers\Contracts\HeaderChecker.cs" />
+    <Compile Include="Checkers\Contracts\LegalEntityChecker.cs" />
+    <Compile Include="Checkers\Contracts\LegalEntityDetailsChecker.cs" />
+    <Compile Include="Checkers\Contracts\NexusIdChecker.cs" />
+    <Compile Include="Checkers\Contracts\PartyDetailsChecker.cs" />
+    <Compile Include="Checkers\Contracts\PartyRoleChecker.cs" />
+    <Compile Include="Checkers\Contracts\PartyRoleDetailsChecker.cs" />
+    <Compile Include="Checkers\Contracts\PersonDetailsChecker.cs" />
+    <Compile Include="Checkers\Contracts\SystemDataChecker.cs" />
+    <Compile Include="Checkers\Mapping\BrokerChecker.cs" />
+    <Compile Include="Checkers\Mapping\CheckerExtensions.cs" />
+    <Compile Include="Checkers\Mapping\CounterpartyChecker.cs" />
+    <Compile Include="Checkers\Mapping\DateRangeChecker.cs" />
+    <Compile Include="Checkers\Mapping\EntityMappingChecker.cs" />
+    <Compile Include="Checkers\Mapping\ExchangeChecker.cs" />
+    <Compile Include="Checkers\Mapping\LegalEntityChecker.cs" />
+    <Compile Include="Checkers\Mapping\LocationChecker.cs" />
+    <Compile Include="Checkers\Mapping\LocationMappingChecker.cs" />
+    <Compile Include="Checkers\Mapping\PartyChecker.cs" />
+    <Compile Include="Checkers\Mapping\PartyDetailsChecker.cs" />
+    <Compile Include="Checkers\Mapping\PartyMappingChecker.cs" />
+    <Compile Include="Checkers\Mapping\PartyRoleChecker.cs" />
+    <Compile Include="Checkers\Mapping\PartyRoleDetailsChecker.cs" />
+    <Compile Include="Checkers\Mapping\PartyRoleMappingChecker.cs" />
+    <Compile Include="Checkers\Mapping\PersonChecker.cs" />
+    <Compile Include="Checkers\Mapping\PersonDetailsChecker.cs" />
+    <Compile Include="Checkers\Mapping\PersonMappingChecker.cs" />
+    <Compile Include="Checkers\Mapping\ReferenceDataChecker.cs" />
+    <Compile Include="Checkers\Mapping\SourceSystemChecker.cs" />
+    <Compile Include="Checkers\Mapping\SourceSystemMappingChecker.cs" />
+    <Compile Include="Contracts\Mappers\LegalEntityDetailsMapperFixture.cs" />
+    <Compile Include="Contracts\Mappers\LegalEntityMapperFixture.cs" />
+    <Compile Include="Contracts\Validators\LegalEntityValidatorFixture.cs" />
+    <Compile Include="Data\EF\LegalEntityRepositoryFixture.cs" />
+    <Compile Include="Extensions\SearchExtensionsFixture.cs" />
+    <Compile Include="Mappers\LegalEntityDetailsMapperFixture.cs" />
+    <Compile Include="Messages\MessageFactoryTests.cs" />
+    <Compile Include="Configuration\EntityConfigurationFixture.cs" />
+    <Compile Include="Configuration\PersonConfigurationFixture.cs" />
+    <Compile Include="ContractObjectMother.cs" />
+    <Compile Include="Contracts\Mappers\BrokerDetailsMapperFixture.cs" />
+    <Compile Include="Contracts\Mappers\BrokerMapperFixture.cs" />
+    <Compile Include="Contracts\Mappers\CounterpartyMapperFixture.cs" />
+    <Compile Include="Contracts\Mappers\CounterpartyDetailsMapperFixture.cs" />
+    <Compile Include="Contracts\Mappers\ExchangeDetailsMapperFixture.cs" />
+    <Compile Include="Contracts\Mappers\ExchangeMapperFixture.cs" />
+    <Compile Include="Contracts\Mappers\PartyRoleDetailsMapperFixture.cs" />
+    <Compile Include="Contracts\Mappers\PartyRoleMapperFixture.cs" />
+    <Compile Include="Contracts\Mappers\LocationDetailsMapperFixture.cs" />
+    <Compile Include="Contracts\Mappers\LocationMapperFixture.cs" />
+    <Compile Include="Contracts\Mappers\MappingMapperFixture.cs" />
+    <Compile Include="Contracts\Mappers\PartyDetailsMapperFixture.cs" />
+    <Compile Include="Contracts\Mappers\PartyMapperFixture.cs" />
+    <Compile Include="Contracts\Mappers\PartyMappingMapperFixture.cs" />
+    <Compile Include="Contracts\Mappers\PersonDetailsMapperFixture.cs" />
+    <Compile Include="Contracts\Mappers\PersonMapperFixture.cs" />
+    <Compile Include="Contracts\Mappers\SourceSystemDetailsMapperFixture.cs" />
+    <Compile Include="Contracts\Mappers\SourceSystemMapperFixture.cs" />
+    <Compile Include="Contracts\Rules\AmendMappingNoOverlappingRuleFixture.cs" />
+    <Compile Include="Contracts\Rules\PartyRoleAmendMappingNoOverlappingRuleFixture.cs" />
+    <Compile Include="Contracts\Rules\PartyRoleCreateMappingdNoOverlappingRuleFixture.cs" />
+    <Compile Include="Contracts\Validators\BrokerValidatorFixture.cs" />
+    <Compile Include="Contracts\Validators\BrokerValidatiorFixture.partial.cs" />
+    <Compile Include="Contracts\Validators\PartyRoleValidatorFixture.partial.cs" />
+    <Compile Include="Contracts\Validators\ExchangeValidatorFixture.partial.cs" />
+    <Compile Include="Contracts\Validators\CounterpartyValidatorFixture.partial.cs" />
+    <Compile Include="Contracts\Validators\CounterpartyValidatorFixture.cs" />
+    <Compile Include="Contracts\Validators\ExchangeValidatorFixture.cs" />
+    <Compile Include="Contracts\Validators\LocationValidatorFixture.cs" />
+    <Compile Include="Contracts\Validators\PartyRoleValidatorFixture.cs" />
+    <Compile Include="Contracts\Validators\PartyValidatorFixture.cs" />
+    <Compile Include="Contracts\Validators\PersonValidatorFixture.cs" />
+    <Compile Include="Contracts\Validators\SourceSystemValidatorFixture.cs" />
+    <Compile Include="Contracts\Validators\StubValidatorRepository.cs" />
+    <Compile Include="Data\EF\BrokerRepositoryFixture.cs" />
+    <Compile Include="Data\EF\CounterpartyRepositoryFixture.cs" />
+    <Compile Include="Data\EF\DbSetRepositoryFixture.cs" />
+    <Compile Include="Data\EF\ExchangeRepositoryFixture.cs" />
+    <Compile Include="Data\EF\LocationMappingRepositoryFixture.cs" />
+    <Compile Include="Data\EF\LocationRepositoryFixture.cs" />
+    <Compile Include="Data\EF\PartyDetailsRepositoryFixture.cs" />
+    <Compile Include="Data\EF\PartyMappingRepositoryFixture.cs" />
+    <Compile Include="Data\EF\PartyRepositoryFixture.cs" />
+    <Compile Include="Data\EF\PartyRoleMappingRepositoryFixture.cs" />
+    <Compile Include="Data\EF\PartyRoleRepositoryFixture.cs" />
+    <Compile Include="Data\EF\ReferenceDataRepositoryFixture.cs" />
+    <Compile Include="Data\EF\SourceSystemMappingRepositoryFixture.cs" />
+    <Compile Include="Data\EF\SourceSystemRepositoryFixture.cs" />
+    <Compile Include="Extensions\MappingRequestExtensionsFixture.cs" />
+    <Compile Include="Extensions\DateRangeExtensionsFixture.cs" />
+    <Compile Include="Extensions\MappingResponseExtensionsFixture.cs" />
+    <Compile Include="Feeds\FeedFactoryFixture.cs" />
+    <Compile Include="Fixture.cs" />
+    <Compile Include="Data\EF\PersonDetailsRepositoryFixture.cs" />
+    <Compile Include="Data\EF\PersonMappingRepositoryFixture.cs" />
+    <Compile Include="Data\EF\PersonRepositoryFixture.cs" />
+    <Compile Include="Data\EF\Zapper.cs" />
+    <Compile Include="Data\EntityOverlapsFixture.cs" />
+    <Compile Include="Data\EntityValidAtFixture.cs" />
+    <Compile Include="EntityMappingFixture.cs" />
+    <Compile Include="Mappers\BrokerDetailsMapperFixture.cs" />
+    <Compile Include="Mappers\BrokerMapperFixture.cs" />
+    <Compile Include="Mappers\ExchangeMapperFixture.cs" />
+    <Compile Include="Mappers\CounterpartyMapperFixture.cs" />
+    <Compile Include="Mappers\CounterpartyDetailsMapperFixture.cs" />
+    <Compile Include="Mappers\ExchangeDetailsMapperFixture.cs" />
+    <Compile Include="Mappers\LocationDetailsMapperFixture.cs" />
+    <Compile Include="Mappers\PartyRoleDetailsMapperFixture.cs" />
+    <Compile Include="Mappers\PartyRoleMapperFixture.cs" />
+    <Compile Include="Mappers\SourceSystemDetailsMapperFixture.cs" />
+    <Compile Include="Mapping\EntityMappingSpecs.cs" />
+    <Compile Include="Search\SearchServiceNonTemporalSearchFixture.cs" />
+    <Compile Include="Search\SearchCommandEntitySearchFixture.cs" />
+    <Compile Include="Search\SearchCommandMappingSearchFixture.cs" />
+    <Compile Include="Search\SearchServiceFixture.cs" />
+    <Compile Include="Services\BrokerCreateFixture.cs" />
+    <Compile Include="Services\BrokerCrossMapFixture.cs" />
+    <Compile Include="Services\BrokerUpdateFixture.cs" />
+    <Compile Include="Services\CounterpartyCreateFixture.cs" />
+    <Compile Include="Services\CounterpartyCrossMapFixture.cs" />
+    <Compile Include="Services\CounterpartyUpdateFixture.cs" />
+    <Compile Include="Services\ExchangeCreateFixture.cs" />
+    <Compile Include="Services\ExchangeUpdateFixture.cs" />
+    <Compile Include="Services\LegalEntityCreateFixture.cs" />
+    <Compile Include="Services\LegalEntityCrossMapFixture.cs" />
+    <Compile Include="Services\LegalEntityUpdateFixture.cs" />
+    <Compile Include="Services\LocationCreateFixture.cs" />
+    <Compile Include="Services\LocationCreateMappingFixture.cs" />
+    <Compile Include="Services\LocationCrossMapFixture.cs" />
+    <Compile Include="Services\LocationMapFixture.cs" />
+    <Compile Include="Services\LocationUpdateFixture.cs" />
+    <Compile Include="Services\LocationUpdateMappingFixture.cs" />
+    <Compile Include="Services\MdmServiceFixture.cs" />
+    <Compile Include="Services\PartyRoleCreateFixture.cs" />
+    <Compile Include="Services\PartyRoleCreateMappingFixture.cs" />
+    <Compile Include="Services\PartyRoleCrossMapFixture.cs" />
+    <Compile Include="Services\PartyRoleMapFixture.cs" />
+    <Compile Include="Services\PartyRoleUpdateFixture.cs" />
+    <Compile Include="Services\PartyRoleUpdateMappingFixture.cs" />
+    <Compile Include="Services\SourceSystemCreateFixture.cs" />
+    <Compile Include="Mappers\PartyDetailsMapperFixture.cs" />
+    <Compile Include="Mappers\PartyMappingMapperFixture.cs" />
+    <Compile Include="Mappers\PersonDetailsMapperFixture.cs" />
+    <Compile Include="Mappers\PersonMappingMapperFixture.cs" />
+    <Compile Include="ObjectMother.cs" />
+    <Compile Include="PartyDetailsFixture.cs" />
+    <Compile Include="PartyFixture.cs" />
+    <Compile Include="PartyMappingFixture.cs" />
+    <Compile Include="PersonDetailsFixture.cs" />
+    <Compile Include="PersonFixture.cs" />
+    <Compile Include="PersonMappingFixture.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\PartyCreateFixture.cs" />
+    <Compile Include="Services\PartyCreateMappingFixture.cs" />
+    <Compile Include="Services\PartyCreateSearchFixture.cs" />
+    <Compile Include="Services\PartyCrossMapFixture.cs" />
+    <Compile Include="Services\PartyGetSearchResultsFixture.cs" />
+    <Compile Include="Services\PartyMapFixture.cs" />
+    <Compile Include="Services\PartyRequestFixture.cs" />
+    <Compile Include="Services\PartyUpdateFixture.cs" />
+    <Compile Include="Services\PartyUpdateMappingFixture.cs" />
+    <Compile Include="Services\PersonUpdateFixture.cs" />
+    <Compile Include="Services\PersonUpdateMappingFixture.cs" />
+    <Compile Include="Services\PersonCreateFixture.cs" />
+    <Compile Include="Services\PersonCreateMappingFixture.cs" />
+    <Compile Include="Services\PersonCrossMapFixture.cs" />
+    <Compile Include="Services\PersonMapFixture.cs" />
+    <Compile Include="Services\PersonRequestFixture.cs" />
+    <Compile Include="Services\SourceSystemCreateMappingFixture.cs" />
+    <Compile Include="Services\SourceSystemCrossMapFixture.cs" />
+    <Compile Include="Services\SourceSystemMapFixture.cs" />
+    <Compile Include="Services\SourceSystemUpdateFixture.cs" />
+    <Compile Include="Services\SourceSystemUpdateMappingFixture.cs" />
+    <Compile Include="VersionHelperExtensions.cs" />
+    <Compile Include="Web\ContractRequestFixture.cs" />
+    <Compile Include="Web\PartyRequestFixture.cs" />
+    <Compile Include="Web\PersonRequestFixture.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\EntityContracts\EnergyTrading.MDM.Contracts.Sample\EnergyTrading.MDM.Contracts.Sample.csproj">
+      <Project>{c8a98274-aba5-47c5-9c91-b049360a7f0f}</Project>
+      <Name>EnergyTrading.MDM.Contracts.Sample</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MDM.Data.EF.Sample\MDM.Data.EF.Sample.csproj">
+      <Project>{762ad6d7-6f76-436e-97ab-f533a72717e8}</Project>
+      <Name>MDM.Data.EF.Sample</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MDM.ServiceHost.Wcf.Sample\MDM.ServiceHost.Wcf.Sample.csproj">
+      <Project>{E24C551C-13F8-4B9C-87FA-C29550180401}</Project>
+      <Name>MDM.ServiceHost.Wcf.Sample</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MDM.Core.Sample\MDM.Core.Sample.csproj">
+      <Project>{2b2e3cfe-42fe-407f-a2ae-77e138f04e8a}</Project>
+      <Name>MDM.Core.Sample</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MDM.ServiceHost.Unity.Sample\MDM.ServiceHost.Unity.Sample.csproj">
+      <Project>{d4094f55-5509-4c70-ab68-ccdc54cc87ed}</Project>
+      <Name>MDM.ServiceHost.Unity.Sample</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
+  <UsingTask TaskName="TransformXml" AssemblyFile="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v11.0\Web\Microsoft.Web.Publishing.Tasks.dll" />
+  <Target Name="AfterCompile">
+    <PropertyGroup Condition="$(Username) != 'SYSTEM'">
+      <BuildServer>false</BuildServer>
+    </PropertyGroup>
+    <PropertyGroup Condition="$(Username) == 'SYSTEM' Or $(Username) == 'SRV_CCNETUSER' Or $(Username) == 'SRV_RWEST_TC_BUILD'">
+      <BuildServer>true</BuildServer>
+    </PropertyGroup>
+    <Message Text="Configuration is $(Configuration)" />
+    <Message Text="UserName is $(Username)" />
+    <Message Text="On BuildServer is $(BuildServer)" />
+    <ItemGroup>
+      <OriginalWebConfig Include="App.config" />
+      <TempWebConfig Include="TempApp.config" />
+    </ItemGroup>
+    <Copy SourceFiles="@(OriginalWebConfig)" DestinationFiles="@(TempWebConfig)" />
+    <!--<TransformXml Condition="$(BuildServer) == 'false'" ContinueOnError="true" Source="@(TempWebConfig)" Transform="App.$(Username).config" Destination="@(OriginalWebConfig)" StackTrace="true" />-->
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
