@@ -11,7 +11,7 @@
     using EnergyTrading.MDM.Data.Search;
     using EnergyTrading.Test;
 
-    [TestFixture]
+    [TestFixture, Category("Integration")]
     public class when_a_request_is_made_for_all_entities_that_contain_a_specific_mapping_string_and_the_string_is_empty :
         SpecBase<SearchCommand<Party, PartyDetails, PartyMapping>>
     {

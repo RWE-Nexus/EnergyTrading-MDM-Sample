@@ -12,7 +12,7 @@ namespace EnergyTrading.MDM.Test.Search
     using EnergyTrading.MDM.Test.Data.EF;
     using EnergyTrading.Test;
 
-    [TestFixture]
+    [TestFixture, Category("Integration")]
     public class when_a_request_is_made_for_all_entities :
         SpecBase<SearchCommand<Party, PartyDetails, PartyMapping>>
     {
