@@ -57,7 +57,7 @@
         }
     }
 
-    [TestFixture]
+    [TestFixture, Category("Integration")]
     public class when_a_request_is_made_for_all_entities_that_contain_a_specific_mapping_string :
         SpecBase<SearchCommand<Party, PartyDetails, PartyMapping>>
     {
@@ -109,7 +109,7 @@
         }
     }
 
-    [TestFixture]
+    [TestFixture, Category("Integration")]
     public class when_a_request_is_made_for_all_entities_that_contain_a_specific_mapping_string_with_max_results_specified :
         SpecBase<SearchCommand<Party, PartyDetails, PartyMapping>>
     {

@@ -60,7 +60,7 @@ namespace EnergyTrading.MDM.Test.Search
         }
     }
 
-    [TestFixture]
+    [TestFixture, Category("Integration")]
     public class when_a_request_is_made_for_all_entities_with_max_results_specified :
         SpecBase<SearchCommand<Party, PartyDetails, PartyMapping>>
     {
