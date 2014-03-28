@@ -110,8 +110,9 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="VIBlend.WPF.Editors">
-      <HintPath>..\..\Libs\UI\VIBlend.WPF.Editors.dll</HintPath>
+    <Reference Include="VIBlend.WPF.Editors, Version=3.0.0.0, Culture=neutral, PublicKeyToken=5f568d4f9cd901f1, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Libs\UI\VIBlend.WPF.Editors.dll</HintPath>
     </Reference>
     <Reference Include="WindowsBase" />
   </ItemGroup>
