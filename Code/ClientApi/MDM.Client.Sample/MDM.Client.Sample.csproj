@@ -60,12 +60,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\EnergyTrading.Unity.2.8.1.28\lib\net40\EnergyTrading.Unity.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Http, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\..\Libs\Rest\Microsoft.Http.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Http.Extensions, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\..\Libs\Rest\Microsoft.Http.Extensions.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\packages\CommonServiceLocator.1.0\lib\NET35\Microsoft.Practices.ServiceLocation.dll</HintPath>
     </Reference>
