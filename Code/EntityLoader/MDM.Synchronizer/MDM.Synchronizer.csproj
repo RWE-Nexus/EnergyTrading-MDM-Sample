@@ -57,8 +57,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\EnergyTrading.Unity.2.8.1.28\lib\net40\EnergyTrading.Unity.dll</HintPath>
     </Reference>
-    <Reference Include="LumenWorks.Framework.IO">
-      <HintPath>..\..\Libs\CsvReader\LumenWorks.Framework.IO.dll</HintPath>
+    <Reference Include="LumenWorks.Framework.IO, Version=3.7.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Libs\CsvReader\LumenWorks.Framework.IO.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Http">
       <HintPath>..\..\packages\MDM.Client.2.1.30588.330\lib\net40\Microsoft.Http.dll</HintPath>
