@@ -156,8 +156,9 @@
     </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="VIBlend.WPF.Editors">
-      <HintPath>..\..\Libs\UI\VIBlend.WPF.Editors.dll</HintPath>
+    <Reference Include="VIBlend.WPF.Editors, Version=3.0.0.0, Culture=neutral, PublicKeyToken=5f568d4f9cd901f1, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Libs\UI\VIBlend.WPF.Editors.dll</HintPath>
     </Reference>
     <Reference Include="WindowsBase" />
   </ItemGroup>
@@ -317,6 +318,9 @@
       <Project>{c8a98274-aba5-47c5-9c91-b049360a7f0f}</Project>
       <Name>EnergyTrading.MDM.Contracts.Sample</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
